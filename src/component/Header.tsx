@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Header: React.FC = () => {
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+function Header() {
   return (
     <header>
       <nav>
@@ -34,6 +35,6 @@ const Header: React.FC = () => {
       </nav>
     </header>
   );
-};
+}
 
 export default Header;

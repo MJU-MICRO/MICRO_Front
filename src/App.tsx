@@ -12,7 +12,8 @@ import Home from "./screen/Home";
 import ReceiveMessage from "./screen/ReceiveMessage";
 import Header from "./component/Header";
 
-const App: React.FC = () => {
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+function App() {
   return (
     <Router>
       <Header />
@@ -30,6 +31,6 @@ const App: React.FC = () => {
       </Routes>
     </Router>
   );
-};
+}
 
 export default App;

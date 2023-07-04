@@ -1,7 +1,8 @@
 import React from "react";
 
-const StudentCouncilList: React.FC = () => {
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+function StudentCouncilList() {
   return <div>학생회 리스트 페이지</div>;
-};
+}
 
 export default StudentCouncilList;

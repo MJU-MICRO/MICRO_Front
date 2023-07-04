@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const AuthenticatedHeader: React.FC = () => {
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+function AuthenticatedHeader() {
   return (
     <header>
       <nav>
@@ -37,6 +38,6 @@ const AuthenticatedHeader: React.FC = () => {
       </nav>
     </header>
   );
-};
+}
 
 export default AuthenticatedHeader;
