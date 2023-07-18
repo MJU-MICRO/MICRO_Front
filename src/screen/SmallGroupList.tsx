@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function SmallGroupList() {
