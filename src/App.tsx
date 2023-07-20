@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import SiteIntroduction from './screen/SiteIntroduction';
-import ClubMajorAcademyList from './screen/ClubMajorAcademyList';
+import OrganizationListPage from './screen/OrganizationListBoard/OrganizationListPage';
 import StudentCouncilList from './screen/StudentCouncilList';
 import CommunityList from './screen/SmallGroupList';
 import CompetitionList from './screen/CompetitionList';
@@ -20,7 +20,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/site-introduction' element={<SiteIntroduction />} />
-        <Route path='/club-majorAcademy' element={<ClubMajorAcademyList />} />
+        <Route path='/club-majorAcademy' element={<OrganizationListPage />} />
         <Route path='/student-councils' element={<StudentCouncilList />} />
         <Route path='/communities' element={<CommunityList />} />
         <Route path='/competitions' element={<CompetitionList />} />
