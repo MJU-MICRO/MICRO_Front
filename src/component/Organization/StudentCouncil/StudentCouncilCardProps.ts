@@ -3,6 +3,7 @@ export interface StudentCouncilCardProps {
   name: string;
   classification: string;
   campus: string;
+  college: string;
   major: string;
   status: boolean;
   imageUrl: string;

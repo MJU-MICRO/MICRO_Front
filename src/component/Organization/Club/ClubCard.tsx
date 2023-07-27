@@ -6,8 +6,12 @@ import {
   CardInfo,
   Status,
   Details,
-  InterestTag
+  InterestTag,
+  Wrapper,
+  UpWrapper,
+  BorderLine
 } from '../CardStyles';
+import img from '../../../assets/img.svg';
 
 const ClubCard = ({
   id,
@@ -22,22 +26,24 @@ const ClubCard = ({
 }: ClubCardProps) => {
   return (
     <CardContainer>
-      <LogoImage src={imageUrl} alt='로고 이미지' />
-      <CardInfo>
-        <h3>{name}</h3>
-        <p>{classification}</p>
-        <p>{campus}</p>
-        <div>
+      <UpWrapper>
+        <LogoImage src={img} alt='로고 이미지' />
+        <CardInfo>
+          <Wrapper>
+            <h3>{name}</h3>
+            {status && <Status>모집중</Status>}
+          </Wrapper>
+          <p>
+            {campus} · {classification}
+          </p>
           {interest.map((tag, index) => (
             <InterestTag key={index}>{tag}</InterestTag>
           ))}
-        </div>
-        {status && <Status>모집중</Status>}
-      </CardInfo>
+        </CardInfo>
+      </UpWrapper>
+      <BorderLine></BorderLine>
       <Details>
-        <hr />
         <p>{introduction}</p>
-        {/* 세부 정보를 표시하는 JSX 작성 */}
       </Details>
     </CardContainer>
   );

@@ -5,14 +5,20 @@ import {
   LogoImage,
   CardInfo,
   Status,
-  Details
+  Details,
+  InterestTag,
+  Wrapper,
+  UpWrapper,
+  BorderLine
 } from '../CardStyles';
+import img from '../../../assets/img.svg';
 
 function StudentCouncilCard({
   id,
   name,
   classification,
   campus,
+  college,
   major,
   status,
   imageUrl,
@@ -20,15 +26,21 @@ function StudentCouncilCard({
 }: StudentCouncilCardProps) {
   return (
     <CardContainer>
-      <LogoImage src={imageUrl} alt='로고 이미지' />
-      <CardInfo>
-        <h3>{name}</h3>
-        <p>{classification}</p>
-        <p>{campus}</p>
-        <Status>{status}</Status>
-      </CardInfo>
+      <UpWrapper>
+        <LogoImage src={img} alt='로고 이미지' />
+        <CardInfo>
+          <Wrapper>
+            <h3>{name}</h3>
+            {status && <Status>모집중</Status>}
+          </Wrapper>
+          <p>
+            {campus} · {classification}
+          </p>
+          <InterestTag>{college}</InterestTag>
+        </CardInfo>
+      </UpWrapper>
+      <BorderLine></BorderLine>
       <Details>
-        <hr />
         <p>{introduction}</p>
       </Details>
     </CardContainer>
