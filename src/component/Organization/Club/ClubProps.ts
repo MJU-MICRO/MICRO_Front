@@ -3,7 +3,8 @@ export interface ClubProps {
   name: string;
   establishedYear: string;
   numberOfMember: string;
-  content: string;
+  activityTitle: string[];
+  activityContent: string[];
   classification: string;
   campus: string;
   relationMajor: string;

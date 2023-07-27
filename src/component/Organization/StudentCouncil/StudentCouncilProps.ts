@@ -8,4 +8,6 @@ export interface StudentCouncilProps {
   major: string;
   imageUrl: string;
   introduction: string;
+  activityTitle: string[];
+  activityContent: string[];
 }
