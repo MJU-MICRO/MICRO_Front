@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Textarea from './Textarea';
 // import axios from 'axios';
@@ -29,12 +29,20 @@ const StyledFieldset = styled.fieldset`
   border: none;
 `;
 
-const TextareaContainer: React.FC = () => {
-  const [application, setApplication] = useState({
-    motivation: '',
-    favoriteFruit: ''
-  });
+interface Application {
+  motivation: string;
+  favoriteFruit: string;
+}
 
+interface TextareaContainerProps {
+  application: Application;
+  setApplication: React.Dispatch<React.SetStateAction<Application>>;
+}
+
+const TextareaContainer: React.FC<TextareaContainerProps> = ({
+  application,
+  setApplication
+}) => {
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = event.target;
     setApplication((prevApplication) => ({

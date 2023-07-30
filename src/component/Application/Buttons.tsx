@@ -1,6 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const Wrapper = styled.div`
+  width: 50%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 2rem;
+`;
+
 const StyledBtn = styled.button`
   width: 6.5rem;
   height: 2.4375rem;
@@ -49,12 +59,17 @@ const ApplyBtn = styled(StyledBtn)`
   }
 `;
 
-const Buttons: React.FC = (props) => {
+interface ButtonsProps {
+  save: () => void;
+  submit: () => void;
+}
+
+const Buttons: React.FC<ButtonsProps> = ({ save, submit }) => {
   return (
-    <>
-      <SaveBtn>임시저장</SaveBtn>
-      <ApplyBtn>지원하기</ApplyBtn>
-    </>
+    <Wrapper>
+      <SaveBtn onClick={save}>임시저장</SaveBtn>
+      <ApplyBtn onClick={submit}>지원하기</ApplyBtn>
+    </Wrapper>
   );
 };
 
