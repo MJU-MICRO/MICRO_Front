@@ -1,34 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 // import axios from 'axios';
-
-const Wrapper = styled.div`
-  width: 41.188rem;
-  height: 12rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  margin-top: 1.3rem;
-`;
-
-const Title = styled.h1`
-  font-size: 1.5rem;
-  font-weight: 500;
-  line-height: normal;
-  color: #000000;
-  opacity: 100%;
-  padding-bottom: 1rem;
-`;
-
-const Content = styled.p`
-  font-size: 0.875rem;
-  font-weight: 300;
-  line-height: normal;
-  color: #000000;
-  opacity: 100%;
-  padding-bottom: 0.3rem;
-`;
+import { NoticeContainer, NoticeTitle, NoticeText } from './ApplicationStyles';
 
 const Notice: React.FC = () => {
   // const [group, setGroup] = useState([]);
@@ -40,15 +12,15 @@ const Notice: React.FC = () => {
   // }, []);
 
   return (
-    <Wrapper>
+    <NoticeContainer>
       {/* <Title>{group.groupName} 지원하기</Title> */}
-      <Title>과일 러버 지원하기</Title>
-      <Content>지원하기 전 아래의 유의사항을 확인해주세요.</Content>
+      <NoticeTitle>과일 러버 지원하기</NoticeTitle>
+      <NoticeText>지원하기 전 아래의 유의사항을 확인해주세요.</NoticeText>
       <br />
-      <Content>놀명 뭐하니?는 어쩌구 저쩌구 책임 어쩌구 주의사항</Content>
-      <Content>놀명 뭐하니?는 어쩌구 저쩌구 책임 어쩌구 주의사항</Content>
-      <Content>놀명 뭐하니?는 어쩌구 저쩌구 책임 어쩌구 주의사항</Content>
-    </Wrapper>
+      <NoticeText>놀명 뭐하니?는 어쩌구 저쩌구 책임 어쩌구 주의사항</NoticeText>
+      <NoticeText>놀명 뭐하니?는 어쩌구 저쩌구 책임 어쩌구 주의사항</NoticeText>
+      <NoticeText>놀명 뭐하니?는 어쩌구 저쩌구 책임 어쩌구 주의사항</NoticeText>
+    </NoticeContainer>
   );
 };
 

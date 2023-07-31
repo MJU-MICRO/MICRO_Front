@@ -1,58 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 // import axios from 'axios';
 import BasicInfo from './BasicInfo';
 import TextareaContainer from './TextareaContainer';
 import Buttons from './Buttons';
-
-const Wrapper = styled.div`
-  position: relative;
-  width: 41.1875rem;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  border-radius: 0.938rem;
-  background-color: #ffffff;
-  margin-bottom: 3rem;
-`;
-
-const StyledTitle = styled.div`
-  width: 38rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #000000;
-  opacity: 100%;
-  margin-top: 2.3rem;
-`;
-
-const StyledText = styled.div`
-  width: 38rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  color: rgba(0, 0, 0, 0.8);
-  font-size: 0.875rem;
-  font-style: normal;
-  font-weight: 300;
-  margin-top: 0.5rem;
-`;
+import { BoardContainer, BoardTitle, BoardText } from './ApplicationStyles';
 
 const Board: React.FC = () => {
   const [user, setUser] = useState({
     name: '김명지',
     studentId: '60230000',
     major: '응용소프트웨어학과',
-    field: '복숭아🍑',
+    field: '사과',
     phone: '01012341234',
     grade: '1'
   });
+
+  const [fieldOptions, setFieldOptions] = useState<string[]>([
+    '사과🍎',
+    '수박🍉',
+    '포도🍇',
+    '딸기🍓'
+  ]);
 
   const [application, setApplication] = useState({
     motivation: '',
@@ -71,19 +39,26 @@ const Board: React.FC = () => {
   //     });
   // }, []);
 
+  // useEffect(() => {
+  //   axios
+  //     .get('/api/fields')
+  //     .then((response) => {
+  //       setFieldOptions(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error('에러 발생:', error);
+  //     });
+  // }, []);
+
   const save = () => {
-    console.log('임시저장');
-    console.log(application);
-  };
-
-  const submit = () => {
-    // const dataToSend = {
-    //   user: user,
-    //   application: application
+    // 임시저장
+    // const dataToSave = {
+    // user: user,
+    // application: application,
+    // fieldOptions: fieldOptions,
     // };
-
     // axios
-    //   .post('', dataToSend)
+    //   .post('', dataToSave)
     //   .then((response) => {
     //     console.log('서버 응답:', response.data);
     //   })
@@ -91,23 +66,65 @@ const Board: React.FC = () => {
     //     console.error('에러 발생:', error);
     //   });
 
-    console.log('지원하기');
-    console.log(application);
+    // 테스트
+    console.log('임시저장 버튼 클릭!');
+    console.log('지원동기: ' + application.motivation);
+    console.log('좋아하는 과일: ' + application.favoriteFruit);
+    console.log('이름: ' + user.name);
+    console.log('학번: ' + user.studentId);
+    console.log('전공: ' + user.major);
+    console.log('지원 분야: ' + user.field);
+    console.log('전화번호: ' + user.phone);
+    console.log('학년: ' + user.grade);
+  };
+
+  const submit = () => {
+    // 지원하기
+    // const dataToSubmit = {
+    //   user: user,
+    //   application: application,
+    //   fieldOptions: fieldOptions
+    // };
+
+    // axios
+    //   .post('', dataToSubmit)
+    //   .then((response) => {
+    //     console.log('서버 응답:', response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.error('에러 발생:', error);
+    //   });
+
+    // 테스트
+    console.log('지원하기 버튼 클릭!');
+    console.log('지원동기: ' + application.motivation);
+    console.log('좋아하는 과일: ' + application.favoriteFruit);
+    console.log('이름: ' + user.name);
+    console.log('학번: ' + user.studentId);
+    console.log('전공: ' + user.major);
+    console.log('지원 분야: ' + user.field);
+    console.log('전화번호: ' + user.phone);
+    console.log('학년: ' + user.grade);
   };
 
   return (
-    <Wrapper>
-      <StyledTitle>기본 등록 정보</StyledTitle>
-      <StyledText>
+    <BoardContainer>
+      <BoardTitle>기본 등록 정보</BoardTitle>
+      <BoardText>
         해당 정보는 지원서 작성 완료 시 자동으로 전달됩니다.
-      </StyledText>
-      <BasicInfo user={user} setUser={setUser} />
+      </BoardText>
+      <BasicInfo
+        user={user}
+        setUser={setUser}
+        fieldOptions={fieldOptions}
+        setFieldOptions={setFieldOptions}
+      />
       <TextareaContainer
         application={application}
         setApplication={setApplication}
       />
       <Buttons save={save} submit={submit} />
-    </Wrapper>
+    </BoardContainer>
   );
 };
 
