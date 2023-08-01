@@ -7,6 +7,9 @@ import OrganizationList from './screen/Organization/OrgaizationList';
 import SignUp from './screen/SignUp';
 import ClubDetail from './screen/Organization/ClubDetail';
 import StudentCouncilDetail from './screen/Organization/StudentCouncilDetail';
+import CreateOrganizationFirst from './screen/Organization/CreateOrganizationFirst';
+import CreateRecruitment from './screen/Recruitment/CreateRecruitment';
+import CreateOrganizationSecond from './screen/Organization/CreateOrganizationSecond';
 
 function App() {
   return (
@@ -16,6 +19,15 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/recruitmentList' element={<RecruitmentList />} />
         <Route path='/organizationList' element={<OrganizationList />} />
+        <Route
+          path='/CreateOrganizationFirst'
+          element={<CreateOrganizationFirst />}
+        />
+        <Route
+          path='/CreateOrganizationSecond'
+          element={<CreateOrganizationSecond />}
+        />
+        <Route path='/createRecruitment' element={<CreateRecruitment />} />
         <Route path='/club/:id' element={<ClubDetail />} />
         <Route path='/studentCouncil/:id' element={<StudentCouncilDetail />} />
         <Route path='/signUp' element={<SignUp />} />
