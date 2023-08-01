@@ -160,10 +160,12 @@ const OrganizationList = () => {
         </Introduction>
         <CardList>
           <CreateOrganization>
-            <img src={plus_Icon} className='plus_Icon' alt='plus' />
-            <div>우리 단체 등록하기</div>
-            <p>단체 페이지를 생성하여</p>
-            <p> 놀명뭐하니 학우들과 소통해보세요!</p>
+            <Link to={'/CreateOrganizationFirst'}>
+              <img src={plus_Icon} className='plus_Icon' alt='plus' />
+              <div>우리 단체 등록하기</div>
+              <p>단체 페이지를 생성하여</p>
+              <p> 놀명뭐하니 학우들과 소통해보세요!</p>
+            </Link>
           </CreateOrganization>
           {filteredClubData.map((club) => (
             <CardContainer key={club.id}>
