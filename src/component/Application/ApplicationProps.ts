@@ -34,6 +34,10 @@ export interface BasicInfoProps {
   setApplication: React.Dispatch<React.SetStateAction<Application>>;
   supportField: string;
   setSupportField: React.Dispatch<React.SetStateAction<string>>;
+  isAttending: boolean;
+  setIsAttending: React.Dispatch<React.SetStateAction<boolean>>;
+  isSubmit: boolean;
+  setIsSubmit: React.Dispatch<React.SetStateAction<boolean>>;
   recruitment: {
     applicationField: string[];
     questions: string[];

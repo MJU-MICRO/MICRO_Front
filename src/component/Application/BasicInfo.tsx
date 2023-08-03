@@ -18,12 +18,16 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
   setApplication,
   supportField,
   setSupportField,
-  recruitment
+  recruitment,
+  isAttending,
+  setIsAttending,
+  isSubmit,
+  setIsSubmit
 }) => {
   const changeFieldHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedField = event.target.value;
+    const newField = event.target.value;
     const fieldUpdatedApplication = { ...application };
-    fieldUpdatedApplication.supportField = selectedField;
+    fieldUpdatedApplication.supportField = newField;
     setApplication(fieldUpdatedApplication);
   };
 
@@ -32,6 +36,24 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
     const gradeUpdatedApplication = { ...application };
     gradeUpdatedApplication.grade = newGrade;
     setApplication(gradeUpdatedApplication);
+  };
+
+  const changeIsAttendingHandler = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const newIsAttending = event.target.value === 'true';
+    const updatedApplication = { ...application };
+    updatedApplication.isAttending = newIsAttending;
+    setApplication(updatedApplication);
+  };
+
+  const changeIsSubmittingHander = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const newIsSubmitting = event.target.value === 'true';
+    const updatedApplication = { ...application };
+    updatedApplication.isSubmit = newIsSubmitting;
+    setApplication(updatedApplication);
   };
 
   return (
@@ -74,6 +96,15 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
           <BasicInfoLabel htmlFor='phone'>
             <BasicInfoText>전화번호</BasicInfoText>
             <BasicInput name='phone' type='text' defaultValue={user.phone} />
+          </BasicInfoLabel>
+          <BasicInfoLabel htmlFor='isAttending'>
+            <BasicInfoText>재학유무</BasicInfoText>
+            <BasicInfoSelect
+              name='isAttending'
+              onChange={changeIsAttendingHandler}>
+              <option value='true'>재학중</option>
+              <option value='false'>휴학중</option>
+            </BasicInfoSelect>
           </BasicInfoLabel>
           <BasicInfoLabel htmlFor='grade'>
             <BasicInfoText>학년</BasicInfoText>

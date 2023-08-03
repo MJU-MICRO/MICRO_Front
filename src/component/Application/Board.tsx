@@ -63,6 +63,8 @@ const Board: React.FC = () => {
   });
 
   const [supportField, setSupportField] = useState<string>('사과🍎');
+  const [isAttending, setIsAttending] = useState<boolean>(true);
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
   // useEffect(() => {
   // application테이블에서 받기
@@ -104,6 +106,7 @@ const Board: React.FC = () => {
     console.log('전공: ' + user.major);
     console.log('지원 분야: ' + application.supportField);
     console.log('전화번호: ' + user.phone);
+    console.log('재학유뮤: ' + application.isAttending);
     console.log('학년: ' + application.grade);
   };
 
@@ -132,6 +135,7 @@ const Board: React.FC = () => {
     console.log('전공: ' + user.major);
     console.log('지원 분야: ' + application.supportField);
     console.log('전화번호: ' + user.phone);
+    console.log('재학유뮤: ' + application.isAttending);
     console.log('학년: ' + application.grade);
   };
 
@@ -148,9 +152,12 @@ const Board: React.FC = () => {
         setApplication={setApplication}
         supportField={supportField}
         setSupportField={setSupportField}
+        isAttending={isAttending}
+        setIsAttending={setIsAttending}
+        isSubmit={isSubmit}
+        setIsSubmit={setIsSubmit}
         recruitment={recruitment}
       />
-
       <TextareaContainer
         questions={questions}
         setQuestions={setQuestions}
