@@ -16,13 +16,14 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
   setUser,
   application,
   setApplication,
-  fieldOptions,
-  setFieldOptions
+  supportField,
+  setSupportField,
+  recruitment
 }) => {
   const changeFieldHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newField = event.target.value;
+    const selectedField = event.target.value;
     const fieldUpdatedApplication = { ...application };
-    fieldUpdatedApplication.supportField = newField;
+    fieldUpdatedApplication.supportField = selectedField;
     setApplication(fieldUpdatedApplication);
   };
 
@@ -56,14 +57,16 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
           <BasicInfoLabel htmlFor='field'>
             <BasicInfoText>지원 분야</BasicInfoText>
             <BasicInfoSelect
-              name='field'
-              value={application.supportField}
+              id='supportField'
+              value={supportField}
               onChange={changeFieldHandler}>
-              {fieldOptions.map((option: string) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
+              {recruitment.applicationField.map(
+                (field: string, index: number) => (
+                  <option key={index} value={field}>
+                    {field}
+                  </option>
+                )
+              )}
             </BasicInfoSelect>
           </BasicInfoLabel>
         </InputContainer>

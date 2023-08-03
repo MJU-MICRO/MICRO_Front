@@ -28,7 +28,8 @@ const Board: React.FC = () => {
   // }, []);
 
   const [recruitment, setRecruitment] = useState({
-    applicationField: ['사과🍎', '수박🍉', '포도🍇', '딸기🍓'],
+    // 테스트 값
+    applicationField: ['사과🍎', '수박🍉', '포도🍇', '딸기🍓', '복숭아🍑'],
     questions: [
       '1. 지원동기를 작성해주세요.',
       '2. 좋아하는 과일을 말씀해주세요'
@@ -53,8 +54,6 @@ const Board: React.FC = () => {
     setQuestions([...recruitment.questions]);
   }, []);
 
-  const [fieldOptions, setFieldOptions] = useState<string[]>([]);
-
   const [application, setApplication] = useState<Application>({
     answer: [],
     supportField: '사과🍎',
@@ -62,6 +61,8 @@ const Board: React.FC = () => {
     isAttending: true,
     isSubmit: false
   });
+
+  const [supportField, setSupportField] = useState<string>('사과🍎');
 
   // useEffect(() => {
   // application테이블에서 받기
@@ -145,9 +146,11 @@ const Board: React.FC = () => {
         setUser={setUser}
         application={application}
         setApplication={setApplication}
-        fieldOptions={fieldOptions}
-        setFieldOptions={setFieldOptions}
+        supportField={supportField}
+        setSupportField={setSupportField}
+        recruitment={recruitment}
       />
+
       <TextareaContainer
         questions={questions}
         setQuestions={setQuestions}

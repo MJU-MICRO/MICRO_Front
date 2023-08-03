@@ -30,10 +30,14 @@ export interface FieldOption {
 export interface BasicInfoProps {
   user: User;
   setUser: React.Dispatch<React.SetStateAction<User>>;
-  fieldOptions: string[];
-  setFieldOptions: React.Dispatch<React.SetStateAction<string[]>>;
   application: Application;
   setApplication: React.Dispatch<React.SetStateAction<Application>>;
+  supportField: string;
+  setSupportField: React.Dispatch<React.SetStateAction<string>>;
+  recruitment: {
+    applicationField: string[];
+    questions: string[];
+  };
 }
 
 export interface ButtonsProps {
