@@ -2,11 +2,27 @@ export interface User {
   name: string;
   studentId: string;
   major: string;
-  field: string;
   phone: string;
-  grade: string;
 }
 
+export interface Application {
+  answer: string[];
+  supportField: string;
+  grade: string;
+  isAttending: boolean;
+  isSubmit: boolean;
+}
+
+export interface TextareaProps {
+  value: string;
+  onChange: React.ChangeEventHandler<HTMLTextAreaElement>;
+}
+export interface TextareaContainerProps {
+  questions: string[];
+  setQuestions: React.Dispatch<React.SetStateAction<string[]>>;
+  answer: string[];
+  setAnswer: React.Dispatch<React.SetStateAction<string[]>>;
+}
 export interface FieldOption {
   fieldOptions: string[];
 }
@@ -16,20 +32,6 @@ export interface BasicInfoProps {
   setUser: React.Dispatch<React.SetStateAction<User>>;
   fieldOptions: string[];
   setFieldOptions: React.Dispatch<React.SetStateAction<string[]>>;
-}
-
-export interface TextareaProps {
-  name: string;
-  value: string;
-  onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-}
-
-export interface Application {
-  motivation: string;
-  favoriteFruit: string;
-}
-
-export interface TextareaContainerProps {
   application: Application;
   setApplication: React.Dispatch<React.SetStateAction<Application>>;
 }

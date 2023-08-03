@@ -14,21 +14,23 @@ import { BasicInfoProps } from './ApplicationProps';
 const BasicInfo: React.FC<BasicInfoProps> = ({
   user,
   setUser,
+  application,
+  setApplication,
   fieldOptions,
   setFieldOptions
 }) => {
   const changeFieldHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newField = event.target.value;
-    const fieldUpdatedUser = { ...user };
-    fieldUpdatedUser.field = newField;
-    setUser(fieldUpdatedUser);
+    const fieldUpdatedApplication = { ...application };
+    fieldUpdatedApplication.supportField = newField;
+    setApplication(fieldUpdatedApplication);
   };
 
   const changeGradeHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newGrade = event.target.value;
-    const gradeUpdatedUser = { ...user };
-    gradeUpdatedUser.grade = newGrade;
-    setUser(gradeUpdatedUser);
+    const gradeUpdatedApplication = { ...application };
+    gradeUpdatedApplication.grade = newGrade;
+    setApplication(gradeUpdatedApplication);
   };
 
   return (
@@ -37,25 +39,25 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
         <InputContainer>
           <BasicInfoLabel htmlFor='name'>
             <BasicInfoText>이름</BasicInfoText>
-            <BasicInput id='name' type='text' defaultValue={user.name} />
+            <BasicInput name='name' type='text' defaultValue={user.name} />
           </BasicInfoLabel>
           <BasicInfoLabel htmlFor='studentId'>
             <BasicInfoText>학번</BasicInfoText>
             <BasicInput
-              id='studentId'
+              name='studentId'
               type='text'
               defaultValue={user.studentId}
             />
           </BasicInfoLabel>
           <BasicInfoLabel htmlFor='major'>
             <BasicInfoText>학과</BasicInfoText>
-            <BasicInput id='major' type='text' defaultValue={user.major} />
+            <BasicInput name='major' type='text' defaultValue={user.major} />
           </BasicInfoLabel>
           <BasicInfoLabel htmlFor='field'>
             <BasicInfoText>지원 분야</BasicInfoText>
             <BasicInfoSelect
-              id='field'
-              value={user.field}
+              name='field'
+              value={application.supportField}
               onChange={changeFieldHandler}>
               {fieldOptions.map((option: string) => (
                 <option key={option} value={option}>
@@ -68,11 +70,11 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
         <RightInputContainer>
           <BasicInfoLabel htmlFor='phone'>
             <BasicInfoText>전화번호</BasicInfoText>
-            <BasicInput id='phone' type='text' defaultValue={user.phone} />
+            <BasicInput name='phone' type='text' defaultValue={user.phone} />
           </BasicInfoLabel>
           <BasicInfoLabel htmlFor='grade'>
             <BasicInfoText>학년</BasicInfoText>
-            <BasicInfoSelect id='grade' onChange={changeGradeHandler}>
+            <BasicInfoSelect name='grade' onChange={changeGradeHandler}>
               <option value='1'>1학년</option>
               <option value='2'>2학년</option>
               <option value='3'>3학년</option>

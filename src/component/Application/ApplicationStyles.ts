@@ -157,7 +157,7 @@ export const NoticeContainer = styled.div`
 
 export const NoticeTitle = styled.h1`
   font-size: 1.5rem;
-  font-weight: 500;
+  font-weight: bolder;
   line-height: normal;
   color: #000000;
   opacity: 100%;
@@ -166,7 +166,7 @@ export const NoticeTitle = styled.h1`
 
 export const NoticeText = styled.p`
   font-size: 0.875rem;
-  font-weight: 300;
+  font-weight: light;
   line-height: normal;
   color: #000000;
   opacity: 100%;
