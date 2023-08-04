@@ -108,12 +108,13 @@ export const BasicInfoText = styled.div`
 `;
 
 export const BasicInput = styled.input`
-  width: 16rem;
+  width: 14.5rem;
   height: 2.0625rem;
   flex-shrink: 0;
   border-radius: 0.625rem;
   border: 1px solid #dbdbdf;
   background: #fff;
+  padding-left: 0.6rem;
 
   color: #000;
   leading-trim: both;
@@ -126,13 +127,14 @@ export const BasicInput = styled.input`
 `;
 
 export const BasicInfoSelect = styled.select`
-  width: 16rem;
+  width: 15.5rem;
   height: 2.3rem;
   flex-shrink: 0;
   border-radius: 0.625rem;
   border: 1px solid #dbdbdf;
   background: #fff;
   cursor: pointer;
+  padding-left: 0.5rem;
 
   color: #000;
   leading-trim: both;
