@@ -23,9 +23,6 @@ export interface TextareaContainerProps {
   answer: string[];
   setAnswer: React.Dispatch<React.SetStateAction<string[]>>;
 }
-export interface FieldOption {
-  fieldOptions: string[];
-}
 
 export interface BasicInfoProps {
   user: User;

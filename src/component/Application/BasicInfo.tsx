@@ -26,6 +26,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
 }) => {
   const changeFieldHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newField = event.target.value;
+    setSupportField(newField);
     const fieldUpdatedApplication = { ...application };
     fieldUpdatedApplication.supportField = newField;
     setApplication(fieldUpdatedApplication);
@@ -44,15 +45,6 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
     const newIsAttending = event.target.value === 'true';
     const updatedApplication = { ...application };
     updatedApplication.isAttending = newIsAttending;
-    setApplication(updatedApplication);
-  };
-
-  const changeIsSubmittingHander = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const newIsSubmitting = event.target.value === 'true';
-    const updatedApplication = { ...application };
-    updatedApplication.isSubmit = newIsSubmitting;
     setApplication(updatedApplication);
   };
 

@@ -28,7 +28,6 @@ const Board: React.FC = () => {
   // }, []);
 
   const [recruitment, setRecruitment] = useState({
-    // 테스트 값
     applicationField: ['사과🍎', '수박🍉', '포도🍇', '딸기🍓', '복숭아🍑'],
     questions: [
       '1. 지원동기를 작성해주세요.',
@@ -62,10 +61,6 @@ const Board: React.FC = () => {
     isSubmit: false
   });
 
-  const [supportField, setSupportField] = useState<string>('사과🍎');
-  const [isAttending, setIsAttending] = useState<boolean>(true);
-  const [isSubmit, setIsSubmit] = useState<boolean>(false);
-
   // useEffect(() => {
   // application테이블에서 받기
   //   axios
@@ -80,14 +75,17 @@ const Board: React.FC = () => {
   // }, []);
 
   const [answer, setAnswer] = useState<string[]>([]);
+  const [supportField, setSupportField] = useState<string>('사과🍎');
+  const [isAttending, setIsAttending] = useState<boolean>(true);
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
   const save = () => {
-    // 임시저장
+    const updatedApplication = { ...application };
+    updatedApplication.isSubmit = false;
+    setApplication(updatedApplication);
+
     // const dataToSave = {
-    //   user: user,
     //   application: application,
-    //   answer: answer,
-    //   fieldOptions: fieldOptions
     // };
     // axios
     //   .post('/api/Application', dataToSave)
@@ -97,46 +95,24 @@ const Board: React.FC = () => {
     //   .catch((error) => {
     //     console.error('에러 발생:', error);
     //   });
-    // 테스트
-    console.log('임시저장 버튼 클릭!');
-    console.log('지원동기: ' + answer[0]);
-    console.log('좋아하는 과일: ' + answer[1]);
-    console.log('이름: ' + user.name);
-    console.log('학번: ' + user.studentId);
-    console.log('전공: ' + user.major);
-    console.log('지원 분야: ' + application.supportField);
-    console.log('전화번호: ' + user.phone);
-    console.log('재학유뮤: ' + application.isAttending);
-    console.log('학년: ' + application.grade);
   };
 
   const submit = () => {
-    // 지원하기
+    const updatedApplication = { ...application };
+    updatedApplication.isSubmit = true;
+    setApplication(updatedApplication);
+
     // const dataToSubmit = {
-    //   user: user,
     //   application: application,
-    //   answer: answer,
-    //   fieldOptions: fieldOptions
     // };
     // axios
     //   .post('/api/Application', dataToSubmit)
-    //   .then((response) => {
+    //   .then((response) =>
     //     console.log('서버 응답:', response.data);
     //   })
     //   .catch((error) => {
     //     console.error('에러 발생:', error);
     //   });
-    // 테스트
-    console.log('지원하기 버튼 클릭!');
-    console.log('지원동기: ' + answer[0]);
-    console.log('좋아하는 과일: ' + answer[1]);
-    console.log('이름: ' + user.name);
-    console.log('학번: ' + user.studentId);
-    console.log('전공: ' + user.major);
-    console.log('지원 분야: ' + application.supportField);
-    console.log('전화번호: ' + user.phone);
-    console.log('재학유뮤: ' + application.isAttending);
-    console.log('학년: ' + application.grade);
   };
 
   return (
