@@ -7,7 +7,8 @@ import {
   BasicInfoLabel,
   BasicInfoText,
   BasicInput,
-  BasicInfoSelect
+  BasicInfoSelect,
+  BasicInfoAsterisk
 } from './ApplicationStyles';
 import { BasicInfoProps } from './ApplicationProps';
 
@@ -53,11 +54,17 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
       <BasicInfoForm>
         <InputContainer>
           <BasicInfoLabel htmlFor='name'>
-            <BasicInfoText>이름</BasicInfoText>
+            <BasicInfoText>
+              이름
+              <BasicInfoAsterisk>*</BasicInfoAsterisk>
+            </BasicInfoText>
             <BasicInput name='name' type='text' defaultValue={user.name} />
           </BasicInfoLabel>
           <BasicInfoLabel htmlFor='studentId'>
-            <BasicInfoText>학번</BasicInfoText>
+            <BasicInfoText>
+              학번
+              <BasicInfoAsterisk>*</BasicInfoAsterisk>
+            </BasicInfoText>
             <BasicInput
               name='studentId'
               type='text'
@@ -65,7 +72,10 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
             />
           </BasicInfoLabel>
           <BasicInfoLabel htmlFor='major'>
-            <BasicInfoText>학과</BasicInfoText>
+            <BasicInfoText>
+              학과
+              <BasicInfoAsterisk>*</BasicInfoAsterisk>
+            </BasicInfoText>
             <BasicInput name='major' type='text' defaultValue={user.major} />
           </BasicInfoLabel>
           <BasicInfoLabel htmlFor='field'>
@@ -86,11 +96,17 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
         </InputContainer>
         <RightInputContainer>
           <BasicInfoLabel htmlFor='phone'>
-            <BasicInfoText>전화번호</BasicInfoText>
+            <BasicInfoText>
+              전화번호
+              <BasicInfoAsterisk>*</BasicInfoAsterisk>
+            </BasicInfoText>
             <BasicInput name='phone' type='text' defaultValue={user.phone} />
           </BasicInfoLabel>
           <BasicInfoLabel htmlFor='isAttending'>
-            <BasicInfoText>재학유무</BasicInfoText>
+            <BasicInfoText>
+              재학유무
+              <BasicInfoAsterisk>*</BasicInfoAsterisk>
+            </BasicInfoText>
             <BasicInfoSelect
               name='isAttending'
               onChange={changeIsAttendingHandler}>
@@ -99,7 +115,10 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
             </BasicInfoSelect>
           </BasicInfoLabel>
           <BasicInfoLabel htmlFor='grade'>
-            <BasicInfoText>학년</BasicInfoText>
+            <BasicInfoText>
+              학년
+              <BasicInfoAsterisk>*</BasicInfoAsterisk>
+            </BasicInfoText>
             <BasicInfoSelect name='grade' onChange={changeGradeHandler}>
               <option value='1'>1학년</option>
               <option value='2'>2학년</option>

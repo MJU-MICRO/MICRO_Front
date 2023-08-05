@@ -107,6 +107,10 @@ export const BasicInfoText = styled.div`
   padding-bottom: 0.5rem;
 `;
 
+export const BasicInfoAsterisk = styled.span`
+  color: red;
+`;
+
 export const BasicInput = styled.input`
   width: 14.5rem;
   height: 2.0625rem;
