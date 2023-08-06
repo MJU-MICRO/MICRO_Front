@@ -1,8 +1,8 @@
-import Application from 'component/Application/Application';
+import CreateRecruitmentFirst from './CreateRecruitmentFirst';
 
 const RecruitmentList = () => {
   // return <div>모집 공고</div>;
-  return <Application />;
+  return <CreateRecruitmentFirst />;
 };
 
 export default RecruitmentList;
