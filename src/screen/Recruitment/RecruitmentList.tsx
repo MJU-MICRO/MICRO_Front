@@ -1,4 +1,4 @@
-import Application from 'component/Application/Application';
+import Application from 'screen/Application/Application';
 
 const RecruitmentList = () => {
   // return <div>모집 공고</div>;

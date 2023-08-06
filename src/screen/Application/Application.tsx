@@ -1,7 +1,7 @@
 import Header from 'component/Header';
-import Notice from './Notice';
-import Board from './Board';
-import { ApplicationContainer } from './ApplicationStyles';
+import Notice from 'component/Application/Notice';
+import Board from 'component/Application/Board';
+import { ApplicationContainer } from 'component/Application/ApplicationStyles';
 
 function Application() {
   return (
