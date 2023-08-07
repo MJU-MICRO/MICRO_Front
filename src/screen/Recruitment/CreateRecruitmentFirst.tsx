@@ -6,6 +6,8 @@ import level_two from '../../assets/level-two.svg';
 import arrow from '../../assets/arrow.svg';
 import { Link } from 'react-router-dom';
 
+import { RecruitmentContainer } from '../../component/CreateRecruitment/CreateRecruitmentStyles';
+
 const CreateRecruitmentFirst: React.FC = () => {
   return (
     <BackGround>
@@ -24,7 +26,17 @@ const CreateRecruitmentFirst: React.FC = () => {
           </p>
         </NoticeText>
       </Introduction>
-      <Board></Board>
+      <Board>
+        <RecruitmentContainer>
+          <div>
+            <span>단체 기본 정보</span>
+            <br />
+          </div>
+          <div>
+            <span>모집 공고 등록 시 표시되는 단체 정보입니다.</span>
+          </div>
+        </RecruitmentContainer>
+      </Board>
       <Level>
         <img src={level_one} />
         <img src={level_two} />
@@ -44,6 +56,10 @@ const CreateRecruitmentFirst: React.FC = () => {
 export default CreateRecruitmentFirst;
 
 const Board = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
   border-radius: 13px;
   background: #fff;
   padding: 20px;
