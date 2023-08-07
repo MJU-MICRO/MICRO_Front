@@ -8,32 +8,31 @@ import {
 import { TextareaContainerProps } from './ApplicationProps';
 
 const TextareaContainer: React.FC<TextareaContainerProps> = ({
-  application,
-  setApplication
+  questions,
+  setQuestions,
+  answer,
+  setAnswer
 }) => {
-  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = event.target;
-    setApplication((prevApplication) => ({
-      ...prevApplication,
-      [name]: value
-    }));
+  const handleChange = (index: number, value: string) => {
+    const newAnswer = [...answer];
+    newAnswer[index] = value;
+    setAnswer(newAnswer);
   };
 
   return (
     <TextareaWrapper>
       <TextareaFieldset>
-        <TextareaText>1. 지원 동기를 작성해주세요</TextareaText>
-        <Textarea
-          name='motivation'
-          value={application.motivation}
-          onChange={handleChange}
-        />
-        <TextareaText>2. 좋아하는 과일을 말씀해주세요.</TextareaText>
-        <Textarea
-          name='favoriteFruit'
-          value={application.favoriteFruit}
-          onChange={handleChange}
-        />
+        {questions.map((question: string, index: number) => (
+          <div key={index}>
+            <TextareaText>{question}</TextareaText>
+            <Textarea
+              value={answer[index]}
+              onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
+                handleChange(index, event.target.value)
+              }
+            />
+          </div>
+        ))}
       </TextareaFieldset>
     </TextareaWrapper>
   );
