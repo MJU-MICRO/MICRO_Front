@@ -13,7 +13,8 @@ const CreateRecruitmentFirst: React.FC = () => {
     <BackGround>
       <Introduction>
         <NoticeTitle>모집 공고 등록하기</NoticeTitle>
-        <SubTitle>모집 공고 등록 가이드를 참고해 단체를 등록해보세요</SubTitle>
+        <SubtitleBlue>모집 공고 등록 가이드</SubtitleBlue>
+        <SubTitle>를 참고해 단체를 등록해보세요</SubTitle>
         <NoticeText>
           <img src={check_box} />
           <p>명지대학교에 등록된 모든 동아리 · 학회 · 학생 단체의 모집 공고</p>
@@ -30,10 +31,10 @@ const CreateRecruitmentFirst: React.FC = () => {
         <RecruitmentContainer>
           <div>
             <span>단체 기본 정보</span>
-            <br />
           </div>
           <div>
-            <span>모집 공고 등록 시 표시되는 단체 정보입니다.</span>
+            <span>모집 공고 등록 가이드</span>
+            <span>를 참고해 단체를 등록해보세요.</span>
           </div>
         </RecruitmentContainer>
       </Board>
@@ -190,6 +191,10 @@ const SubTitle = styled.p`
   line-height: normal;
   font-family: 'GmarketSansLight';
   color: #000000;
+`;
+
+const SubtitleBlue = styled(SubTitle)`
+  color: #32a9eb;
 `;
 
 const NoticeText = styled.p`
