@@ -245,6 +245,7 @@ const CardContainer = styled.div`
 `;
 
 const CreateOrganization = styled.div`
+  text-decoration: none;
   width: 411px;
   height: 244px;
   margin-top: 8px;

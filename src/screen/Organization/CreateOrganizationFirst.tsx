@@ -1,27 +1,98 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import check_box from '../../assets/check-box.svg';
 import level_one from '../../assets/level-one.svg';
 import level_two from '../../assets/level-two.svg';
 import arrow from '../../assets/arrow.svg';
+import toggle from '../../assets/toggle-up.svg';
 import { Link } from 'react-router-dom';
+import Introduction from '../../component/Organization/Introduction';
+import SelectDate from '../../component/Organization/SelectDate';
+import SelectMemberCount from '../../component/Organization/SelectMemberCount';
+import {
+  BasicInfoAsterisk,
+  BorderLine,
+  SaveButton,
+  SmallTitle,
+  Title
+} from '../../component/Organization/createCommonStyle';
+import SelectClassification from '../../component/Organization/SelectClassification';
+import RelatedTagsSelect from '../../component/Organization/RelatedTagsSelect';
+import SelectMajor from '../../component/Organization/SelectMajor';
+import Preview from '../../component/Organization/Preview';
 
 function CreateOrganizationFirst() {
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [memberCount, setMemberCount] = useState<number | null>(1);
+  const [classification, setClassification] = useState<string>('');
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [selectedMajors, setSelectedMajors] = useState<string[]>([]);
+  const handleDateChange = (date: Date | null) => {
+    setSelectedDate(date);
+  };
+  const handleMemberCountChange = (member: number | null) => {
+    // 수정된 부분
+    setMemberCount(member);
+  };
+  const handleClassificationChange = (classification: string) => {
+    // 수정된 부분
+    setClassification(classification);
+  };
+  const handleSelectedTagsChange = (tags: string[]) => {
+    setSelectedTags(tags);
+  };
+  const handleSelectedMajorsChange = (majors: string[]) => {
+    setSelectedMajors(majors);
+  };
   return (
     <BackGround>
-      <Introduction>
-        <NoticeTitle>단체 등록하기</NoticeTitle>
-        <SubTitle>단체 등록 가이드를 참고해 단체를 등록해보세요</SubTitle>
-        <NoticeText>
-          <img src={check_box} />
-          <p>명지대학교에 등록된 모든 동아리 · 학회 · 학생 단체</p>
-        </NoticeText>
-        <NoticeText>
-          <img src={check_box} />
-          <p> 팀을 빌딩하고 있는 소모임 </p>
-        </NoticeText>
-      </Introduction>
-      <Board></Board>
+      <Introduction></Introduction>
+      <Board>
+        <Title>단체 기본 정보 </Title>
+        <SmallTitle>
+          단체명<BasicInfoAsterisk>*</BasicInfoAsterisk>
+        </SmallTitle>
+        <BasicInput id='name' type='text' placeholder={'예시-놀명 뭐하니'} />
+        <BorderLine></BorderLine>
+        <SmallTitle>
+          단체 한 줄 소개<BasicInfoAsterisk>*</BasicInfoAsterisk>
+        </SmallTitle>
+        <BasicInput
+          id='introduction'
+          type='text'
+          placeholder={
+            '예시 - 놀명뭐하니는 명지대학교 학생들을 위한 단체 등록 및 모집 공고 관리 서비스입니다.'
+          }
+        />
+        <BorderLine></BorderLine>
+        <SmallTitle>
+          설립연도<BasicInfoAsterisk>*</BasicInfoAsterisk>
+        </SmallTitle>
+        <SelectDate onChange={handleDateChange} />
+        <SmallTitle>
+          회원 수<BasicInfoAsterisk>*</BasicInfoAsterisk>
+        </SmallTitle>
+        <SelectMemberCount onChange={handleMemberCountChange} />
+        <SmallTitle>
+          단체 구분<BasicInfoAsterisk>*</BasicInfoAsterisk>
+        </SmallTitle>
+        <SelectClassification onChange={handleClassificationChange} />
+        <SmallTitle>
+          관련 태그<BasicInfoAsterisk>*</BasicInfoAsterisk> (최대 3개)
+        </SmallTitle>
+        <RelatedTagsSelect
+          selectedTags={selectedTags}
+          onChange={setSelectedTags}
+        />
+        <SmallTitle>관련 학과 (최대 3개)</SmallTitle>
+        <SelectMajor
+          selectedMajors={selectedMajors}
+          onChange={handleSelectedMajorsChange}
+        />
+        <SmallTitle>
+          단체 로고 이미지<BasicInfoAsterisk>*</BasicInfoAsterisk>
+        </SmallTitle>
+        <Preview></Preview>
+      </Board>
       <Level>
         <img src={level_one} />
         <img src={level_two} />
@@ -45,7 +116,7 @@ const Board = styled.div`
   background: #fff;
   padding: 20px;
   width: 659px;
-  height: 770px;
+  height: 790px;
   box-shadow: 0px 4px 20px 3px rgba(0, 0, 0, 0.05);
   margin-bottom: 21px;
   margin-left: 8px;
@@ -58,17 +129,6 @@ const BackGround = styled.div`
   align-items: center;
   justify-content: flex-start;
 }
-`;
-
-const Introduction = styled.div`
-  width: 41.188rem;
-  height: 160px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  margin-top: 42px;
-  margin-right: 18px;
 `;
 
 const Level = styled.div`
@@ -89,28 +149,6 @@ const Next = styled.div`
   height: auto;
   justify-content: space-around;
   margin-bottom: 2rem;
-`;
-
-const SaveButton = styled.button`
-  color: #358e48;
-  font-size: 0.9375rem;
-  font-style: normal;
-  font-family: 'GmarketSansMedium';
-  font-weight: 500;
-  line-height: 41px;
-  width: 104px;
-  height: 40px;
-  margin-right: 10px;
-  border-radius: 15px;
-  border: 1px solid rgba(41, 180, 72, 0.7);
-  &:hover {
-    background-color: #04b404;
-    color: #ffffff;
-  }
-
-  &:active {
-    color: #358e48;
-  }
 `;
 
 const NextButton = styled.button`
@@ -150,52 +188,22 @@ const NextButton = styled.button`
   }
 `;
 
-const NoticeTitle = styled.h1`
-  color: #000;
-  leading-trim: both;
-  text-edge: cap;
+const BasicInput = styled.input`
+  width: 600px;
+  height: 16px;
+  padding: 0px;
+  flex-shrink: 0;
+  border: none;
   font-family: 'GmarketSansMedium';
-  font-size: 24px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  margin-bottom: 13px;
-`;
-
-const SubTitle = styled.p`
-  display: flex;
-  align-items: left;
-  margin-bottom: 15px;
-  font-size: 0.875rem;
-  font-weight: 300;
-  line-height: normal;
-  font-family: 'GmarketSansLight';
-  color: #000000;
-`;
-
-const NoticeText = styled.p`
-  display: flex;
-  align-items: left;
-  margin-bottom: 7px;
-  font-size: 0.875rem;
-  font-weight: 300;
-  line-height: normal;
-  font-family: 'GmarketSansLight';
-  color: #000000;
-  img {
-    width: 15px;
-    height: 15px;
-    flex-shrink: 0;
-    margin-right: 5px;
+  margin-left: 36px;
+  margin-bottom: 0px;
+  margin-top: 10px;
+  outline: none;
+  &::placeholder {
+    color: rgba(0, 0, 0, 0.2);
   }
-`;
-
-const Guide = styled.div`
-  font-size: 0.875rem;
-  font-weight: 300;
-  line-height: normal;
-  font-family: 'GmarketSansLight';
-  color: #000000;
-  opacity: 100%;
-  padding-bottom: 0.3rem;
 `;

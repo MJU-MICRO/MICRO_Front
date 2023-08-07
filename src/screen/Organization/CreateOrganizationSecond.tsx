@@ -1,25 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import check_box from '../../assets/check-box.svg';
 import level_one_2 from '../../assets/level_one_2.svg';
 import level_two_2 from '../../assets/level_two_2.svg';
-import arrow from '../../assets/arrow.svg';
+import Introduction from '../../component/Organization/Introduction';
 
 function CreateOrganizationSecond() {
   return (
     <BackGround>
-      <Introduction>
-        <NoticeTitle>단체 등록하기</NoticeTitle>
-        <SubTitle>단체 등록 가이드를 참고해 단체를 등록해보세요</SubTitle>
-        <NoticeText>
-          <img src={check_box} />
-          <p>명지대학교에 등록된 모든 동아리 · 학회 · 학생 단체</p>
-        </NoticeText>
-        <NoticeText>
-          <img src={check_box} />
-          <p> 팀을 빌딩하고 있는 소모임 </p>
-        </NoticeText>
-      </Introduction>
+      <Introduction></Introduction>
       <Board></Board>
       <Level>
         <img src={level_one_2} />
@@ -53,17 +41,6 @@ const BackGround = styled.div`
   align-items: center;
   justify-content: flex-start;
 }
-`;
-
-const Introduction = styled.div`
-  width: 41.188rem;
-  height: 160px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  margin-top: 42px;
-  margin-right: 18px;
 `;
 
 const Level = styled.div`
@@ -127,54 +104,4 @@ const SubmitButton = styled.button`
   &:active {
     color: #008fd5;
   }
-`;
-
-const NoticeTitle = styled.h1`
-  color: #000;
-  leading-trim: both;
-  text-edge: cap;
-  font-family: 'GmarketSansMedium';
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  margin-bottom: 13px;
-`;
-
-const SubTitle = styled.p`
-  display: flex;
-  align-items: left;
-  margin-bottom: 15px;
-  font-size: 0.875rem;
-  font-weight: 300;
-  line-height: normal;
-  font-family: 'GmarketSansLight';
-  color: #000000;
-`;
-
-const NoticeText = styled.p`
-  display: flex;
-  align-items: left;
-  margin-bottom: 7px;
-  font-size: 0.875rem;
-  font-weight: 300;
-  line-height: normal;
-  font-family: 'GmarketSansLight';
-  color: #000000;
-  img {
-    width: 15px;
-    height: 15px;
-    flex-shrink: 0;
-    margin-right: 5px;
-  }
-`;
-
-const Guide = styled.div`
-  font-size: 0.875rem;
-  font-weight: 300;
-  line-height: normal;
-  font-family: 'GmarketSansLight';
-  color: #000000;
-  opacity: 100%;
-  padding-bottom: 0.3rem;
 `;

@@ -111,8 +111,8 @@ const Sidebar: React.FC<SidebarProps> = ({
             경제/금융
           </InterestOption>
           <InterestOption
-            onClick={() => setSelectedInterest('디자인/미디어')}
-            active={selectedInterest === '디자인/미디어'}>
+            onClick={() => setSelectedInterest('디자인/사진')}
+            active={selectedInterest === '디자인/사진'}>
             디자인/미디어
           </InterestOption>
           <InterestOption
@@ -408,12 +408,11 @@ const MajorSearch = styled.div`
     fill: rgba(0, 0, 0, 0.5);
     width: 17.778px;
     height: 17.256px;
-    margin-left: 108px;
     margin-right: 13px;
   }
 
   input {
-    width: 91px;
+    width: 196px;
     height: 16px;
     padding-left: 0.7rem;
     font-size: 15px;
