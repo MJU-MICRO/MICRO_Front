@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import check_box from '../../assets/check-box.svg';
+import DatePicker from 'react-datepicker';
 import level_one from '../../assets/level-one.svg';
 import level_two from '../../assets/level-two.svg';
 import arrow from '../../assets/arrow.svg';
 import { Link } from 'react-router-dom';
 import img from '../../assets/img.svg';
+
+import 'react-datepicker/dist/react-datepicker.css';
+
+import { useDropzone } from 'react-dropzone';
 
 import {
   RecruitmentContainer,
@@ -29,10 +34,47 @@ import {
   FieldInput,
   ActiveContentInput,
   ActivePeriodContainer,
-  ActivePeriodBtn
+  ActivePeriodBtn,
+  DateContainer,
+  SelectedDate,
+  DateText,
+  DropzoneStyle,
+  ImageContainer
 } from '../../component/CreateRecruitment/CreateRecruitmentStyles';
 
 const CreateRecruitmentFirst: React.FC = () => {
+  // 모집기간
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+
+  const handleStartDateChange = (date: Date | null) => {
+    setStartDate(date);
+  };
+
+  const handleEndDateChange = (date: Date | null) => {
+    setEndDate(date);
+  };
+
+  // 사진첨부
+  const [photos, setPhotos] = useState<File[]>([]);
+
+  const onDrop = (acceptedFiles: File[]) => {
+    if (photos.length + acceptedFiles.length <= 5) {
+      setPhotos([...photos, ...acceptedFiles]);
+    }
+  };
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    accept: {
+      'image/png': ['.png'],
+      'image/jpg': ['.jpg'],
+      'image/jpeg': ['.jpeg']
+    },
+    multiple: true,
+    maxFiles: 5 - photos.length
+  });
+
   return (
     <BackGround>
       <Introduction>
@@ -158,6 +200,44 @@ const CreateRecruitmentFirst: React.FC = () => {
               <BasicNoticeText>모집 기간</BasicNoticeText>
               <RedAsterisk>*</RedAsterisk>
             </TextContainer>
+            <DateContainer>
+              <SelectedDate
+                selected={startDate}
+                onChange={handleStartDateChange}
+                dateFormat='yyyy-MM-dd'
+              />
+              <DateText>부터</DateText>
+              <SelectedDate
+                selected={endDate}
+                onChange={handleEndDateChange}
+                dateFormat='yyyy-MM-dd'
+              />
+              <DateText>까지</DateText>
+            </DateContainer>
+          </RecruitmentContainer>
+          {/* 사진첨부 */}
+          <RecruitmentContainer>
+            <TextContainer>
+              <BasicNoticeText>사진 첨부 (최대 5개)</BasicNoticeText>
+            </TextContainer>
+            <ImageContainer>
+              {photos.map((file, index) => (
+                <img
+                  key={index}
+                  src={URL.createObjectURL(file)}
+                  alt={`Uploaded Photo ${index}`}
+                  style={{
+                    width: '10.25rem',
+                    height: '9.375rem',
+                    marginRight: '1rem'
+                  }}
+                />
+              ))}
+            </ImageContainer>
+            <DropzoneStyle {...getRootProps()}>
+              <input {...getInputProps()} />
+              <p>클릭하시거나 파일을 이곳에 올려주세요.</p>
+            </DropzoneStyle>
           </RecruitmentContainer>
         </FormContainer>
       </Board>

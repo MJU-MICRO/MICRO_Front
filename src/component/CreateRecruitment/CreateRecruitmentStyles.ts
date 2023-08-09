@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import DatePicker from 'react-datepicker';
 import '../../../src/App.css';
 
 export const RecruitmentContainer = styled.div`
@@ -216,4 +217,58 @@ export const ActivePeriodBtn = styled.button`
   line-height: normal;
   background-color: white;
   cursor: pointer;
+`;
+
+export const DateContainer = styled(FieldContainer)``;
+
+export const SelectedDate = styled(DatePicker)`
+  width: 7.25rem;
+  color: rgba(0, 0, 0, 0.5);
+  font-family: GmarketSansMedium;
+  font-size: 0.9375rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 0.9625rem;
+  dateformat: yyyy-MM-dd;
+  border: none;
+  border-bottom: 1px solid #dbdbdf;
+`;
+
+export const DateText = styled.span`
+  color: rgba(0, 0, 0, 0.5);
+  font-family: GmarketSansMedium;
+  font-size: 0.9375rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 0.9625rem;
+  margin-right: 1.5rem;
+`;
+
+export const DropzoneStyle = styled.div`
+  width: 34.8125rem;
+  height: 4.4375rem;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.2);
+  font-family: Gmarket Sans TTF;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  border-radius: 0.625rem;
+  border: 1px dashed rgba(0, 0, 0, 0.4);
+  background: #fafafa;
+  textalign: center;
+  padding: 20px;
+  cursor: pointer;
+  margin-top: 1rem;
+`;
+
+export const ImageContainer = styled.div`
+  margin-top: 1.3rem;
+  overflow-x: auto;
+  display: flex;
 `;
