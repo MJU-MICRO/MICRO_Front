@@ -287,3 +287,74 @@ export const ImageContainer = styled.div`
   overflow-x: auto;
   display: flex;
 `;
+
+export const RecruitmentContainer2 = styled(RecruitmentContainer)`
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #dbdbdf;
+`;
+
+export const BasicNoticeTextLight = styled(BasicNoticeText)`
+  font-family: GmarketSansLight;
+`;
+
+// 페이지2
+export const QustionContainer = styled.div`
+  width: 34.8125rem;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0.3125rem;
+  border-top: 0.1px solid #32a9eb;
+  border-right: 0.1px solid #32a9eb;
+  border-bottom: 0.1px solid #32a9eb;
+  border-left: 5px solid #32a9eb;
+  padding: 0.7rem;
+`;
+
+export const QuestionTitleInput = styled(TitleInput)`
+  width: 22.50019rem;
+`;
+
+export const InnerContainer = styled.div`
+  width: 95%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const QuestionSelect = styled.select`
+  width: 8.25rem;
+  height: 2.0625rem;
+  border-radius: 0.3125rem;
+  border: 1px solid #dbdbdf;
+  background: #fff;
+  cursor: pointer;
+
+  color: rgba(0, 0, 0, 0.6);
+  font-family: GmarketSansMedium;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+`;
+
+export const QuestionTitle = styled.span`
+  width: 22.50019rem;
+  height: 1.2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  font-family: GmarketSansMedium;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+  border: none;
+  border-bottom: 0.5px solid #dddddd;
+`;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import check_box from '../../assets/check-box.svg';
 import level_one_2 from '../../assets/level_one_2.svg';
@@ -7,32 +7,16 @@ import arrow from '../../assets/arrow.svg';
 
 import {
   RecruitmentContainer,
-  LogoImage,
-  InfoContainer,
+  RecruitmentContainer2,
   TextContainer,
-  GroupName,
   BasicNoticeTitle,
-  BasicNoticeText,
-  RedAsterisk,
-  GroupLargeCategory,
-  GroupCategories,
-  CategoriesContainer,
-  GroupContainer,
-  GroupIntroduce,
-  FormContainer,
-  TitleInput,
-  ContentInput,
-  FieldContainer,
-  ApplicationField,
-  FieldInput,
-  ActiveContentInput,
-  ActivePeriodContainer,
-  ActivePeriodBtn,
-  DateContainer,
-  SelectedDate,
-  DateText,
-  DropzoneStyle,
-  ImageContainer
+  BasicNoticeTextLight,
+  QustionContainer,
+  InnerContainer,
+  QuestionTitleInput,
+  QuestionSelect,
+  QuestionTitle,
+  RedAsterisk
 } from '../../component/CreateRecruitment/CreateRecruitmentStyles';
 
 const CreateRecruitmentSecond: React.FC = () => {
@@ -56,7 +40,35 @@ const CreateRecruitmentSecond: React.FC = () => {
           </p>
         </NoticeText>
       </Introduction>
-      <Board></Board>
+      <Board>
+        <RecruitmentContainer2>
+          <TextContainer>
+            <BasicNoticeTitle>모집 공고 질문 작성하기 </BasicNoticeTitle>
+          </TextContainer>
+          <TextContainer>
+            <BasicNoticeTextLight>
+              모집 공고 질문은 최대 10개까지 등록 가능해요!
+            </BasicNoticeTextLight>
+          </TextContainer>
+        </RecruitmentContainer2>
+        <QustionContainer>
+          <InnerContainer>
+            <QuestionTitleInput
+              name='questionTitle'
+              type='text'
+              placeholder='질문 제목을 작성해주세요.'
+            />
+            <QuestionSelect>
+              <option>장문형</option>
+              <option>단답형</option>
+              <option>체크박스</option>
+            </QuestionSelect>
+          </InnerContainer>
+          <InnerContainer>
+            <QuestionTitle>장문형 텍스트</QuestionTitle>
+          </InnerContainer>
+        </QustionContainer>
+      </Board>
       <Level>
         <img src={level_one_2} />
         <img src={level_two_2} />

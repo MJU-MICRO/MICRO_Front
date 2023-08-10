@@ -45,7 +45,7 @@ const CreateRecruitmentFirst: React.FC = () => {
     event.preventDefault();
 
     // 여기에 폼 제출 시 수행할 로직을 추가
-    // 예를 들어, 서버로 데이터를 전송하는 등의 작업을 수행가능
+    // 서버로 데이터를 전송하는 등의 작업을 수행가능
   };
 
   // Group 정보
@@ -412,7 +412,7 @@ const CreateRecruitmentFirst: React.FC = () => {
       </Level>
       <Next>
         <SaveButton onClick={handleSaveButtonClick}>임시저장</SaveButton>
-        <Link to={'/CreateOrganizationSecond'}>
+        <Link to={'./CreateRecruitmentSecond'}>
           <NextButton>
             <div>추가 정보</div> <img src={arrow} />
           </NextButton>
