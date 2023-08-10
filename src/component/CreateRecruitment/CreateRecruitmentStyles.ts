@@ -169,21 +169,20 @@ export const ContentInput = styled.textarea`
 `;
 
 export const FieldContainer = styled.div`
-  width: 34.8125rem;
-  height: 2.2rem;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+  overflow-x: auto;
 `;
 
 export const ApplicationField = styled.span`
-  width: 6rem;
+  min-width: 6rem;
   height: 2.0625rem;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   border-radius: 0.625rem;
   border: 1px solid #dbdbdf;
   margin-right: 1rem;
@@ -191,6 +190,17 @@ export const ApplicationField = styled.span`
   font-size: 0.875rem;
   font-style: normal;
   line-height: normal;
+`;
+
+export const RemoveButton = styled.svg`
+  width: 1.59175rem;
+  height: 1.25rem;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  fill: black;
+  fill-opacity: 0.9;
+  vertical-align: middle;
 `;
 
 export const FieldInput = styled(TitleInput)`
@@ -217,6 +227,11 @@ export const ActivePeriodBtn = styled.button`
   line-height: normal;
   background-color: white;
   cursor: pointer;
+
+  &.active {
+    border-color: #32a9eb;
+    color: #32a9eb;
+  }
 `;
 
 export const DateContainer = styled(FieldContainer)``;

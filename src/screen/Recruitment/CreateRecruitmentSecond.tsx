@@ -5,19 +5,55 @@ import level_one_2 from '../../assets/level_one_2.svg';
 import level_two_2 from '../../assets/level_two_2.svg';
 import arrow from '../../assets/arrow.svg';
 
+import {
+  RecruitmentContainer,
+  LogoImage,
+  InfoContainer,
+  TextContainer,
+  GroupName,
+  BasicNoticeTitle,
+  BasicNoticeText,
+  RedAsterisk,
+  GroupLargeCategory,
+  GroupCategories,
+  CategoriesContainer,
+  GroupContainer,
+  GroupIntroduce,
+  FormContainer,
+  TitleInput,
+  ContentInput,
+  FieldContainer,
+  ApplicationField,
+  FieldInput,
+  ActiveContentInput,
+  ActivePeriodContainer,
+  ActivePeriodBtn,
+  DateContainer,
+  SelectedDate,
+  DateText,
+  DropzoneStyle,
+  ImageContainer
+} from '../../component/CreateRecruitment/CreateRecruitmentStyles';
+
 const CreateRecruitmentSecond: React.FC = () => {
   return (
     <BackGround>
       <Introduction>
-        <NoticeTitle>단체 등록하기</NoticeTitle>
-        <SubTitle>단체 등록 가이드를 참고해 단체를 등록해보세요</SubTitle>
+        <NoticeTitle>모집 공고 등록하기</NoticeTitle>
+        <SubtitleContainer>
+          <SubtitleBlue>모집 공고 등록 가이드</SubtitleBlue>
+          <SubTitle>를 참고해 단체를 등록해보세요</SubTitle>
+        </SubtitleContainer>
         <NoticeText>
           <img src={check_box} />
-          <p>명지대학교에 등록된 모든 동아리 · 학회 · 학생 단체</p>
+          <p>명지대학교에 등록된 모든 동아리 · 학회 · 학생 단체의 모집 공고</p>
         </NoticeText>
         <NoticeText>
           <img src={check_box} />
-          <p> 팀을 빌딩하고 있는 소모임 </p>
+          <p>
+            {' '}
+            등록되지 않은 단체여도 소모임 등록 시 모집 공고 등록이 가능해요!{' '}
+          </p>
         </NoticeText>
       </Introduction>
       <Board></Board>
@@ -36,11 +72,15 @@ const CreateRecruitmentSecond: React.FC = () => {
 export default CreateRecruitmentSecond;
 
 const Board = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
   border-radius: 13px;
   background: #fff;
   padding: 20px;
   width: 659px;
-  height: 770px;
+  height: auto;
   box-shadow: 0px 4px 20px 3px rgba(0, 0, 0, 0.05);
   margin-bottom: 21px;
   margin-left: 8px;
@@ -98,6 +138,7 @@ const SaveButton = styled.button`
   margin-right: 10px;
   border-radius: 15px;
   border: 1px solid rgba(41, 180, 72, 0.7);
+  cursor: pointer;
   &:hover {
     background-color: #04b404;
     color: #ffffff;
@@ -106,6 +147,8 @@ const SaveButton = styled.button`
   &:active {
     color: #358e48;
   }
+
+  cursor: pointer;
 `;
 
 const SubmitButton = styled.button`
@@ -119,6 +162,8 @@ const SubmitButton = styled.button`
   line-height: 41px;
   border-radius: 15px;
   border: 1px solid #32a9eb;
+  cursor: pointer;
+
   &:hover {
     background-color: #0080ff;
     color: #ffffff;
@@ -141,6 +186,13 @@ const NoticeTitle = styled.h1`
   margin-bottom: 13px;
 `;
 
+const SubtitleContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
 const SubTitle = styled.p`
   display: flex;
   align-items: left;
@@ -150,6 +202,11 @@ const SubTitle = styled.p`
   line-height: normal;
   font-family: 'GmarketSansLight';
   color: #000000;
+`;
+
+const SubtitleBlue = styled(SubTitle)`
+  font-family: GmarketSansMedium;
+  color: #32a9eb;
 `;
 
 const NoticeText = styled.p`
