@@ -54,4 +54,5 @@ const WrapperBtn = styled.button<TagWrapperType>`
   border: ${(props) => props.border};
   color: ${(props) => props.textColor};
   font-size: ${(props) => props.fontSize};
+  cursor: pointer;
 `;
