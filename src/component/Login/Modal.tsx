@@ -36,7 +36,7 @@ const ModalContainer = styled.div`
 
 const DialogBox = styled.dialog`
   width: 38rem;
-  height: 19rem;
+  height: 21rem;
   display: flex;
   flex-direction: column;
   align-items: center;
