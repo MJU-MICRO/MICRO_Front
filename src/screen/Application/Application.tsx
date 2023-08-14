@@ -1,4 +1,4 @@
-import Header from 'component/Header';
+import Header from 'component/Header/Header';
 import Notice from 'component/Application/Notice';
 import Board from 'component/Application/Board';
 import { ApplicationContainer } from 'component/Application/ApplicationStyles';
