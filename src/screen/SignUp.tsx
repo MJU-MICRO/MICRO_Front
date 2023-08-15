@@ -362,7 +362,7 @@ function SignUp() {
               <OuterContainer />
             </ProfileSettingContainer>
             <CheckboxContainer>
-              <CheckboxInnerContainer>
+              <CheckboxLabel>
                 <Checkbox
                   type='checkbox'
                   name='informationAgreement'
@@ -372,8 +372,8 @@ function SignUp() {
                   놀명 뭐하니?의 개인정보 수집 및 이용에
                 </CheckboxUnderline>
                 <CheckboxText>동의합니다.</CheckboxText>
-              </CheckboxInnerContainer>
-              <CheckboxInnerContainer>
+              </CheckboxLabel>
+              <CheckboxLabel>
                 <Checkbox
                   type='checkbox'
                   name='emailAgreement'
@@ -383,7 +383,7 @@ function SignUp() {
                   놀명 뭐하니?의 이메일 수신에
                 </CheckboxUnderline>
                 <CheckboxText>동의합니다.</CheckboxText>
-              </CheckboxInnerContainer>
+              </CheckboxLabel>
             </CheckboxContainer>
           </InputContainer>
           <SignUpButton onClick={handleSubmit}>가입하기</SignUpButton>
@@ -503,13 +503,13 @@ const VerifyButton = styled.button`
   line-height: normal;
   cursor: pointer;
 
-  &:hover {
-    color: black;
-  }
+  // &:hover {
+  //   color: black;
+  // }
 
-  &:active {
-    color: rgba(0, 143, 213, 0.7);
-  }
+  // &:active {
+  //   color: rgba(0, 143, 213, 0.7);
+  // }
 `;
 
 const RedAsterisk = styled(InputText)`
@@ -650,7 +650,7 @@ const CheckboxContainer = styled.div`
   margin-top: 1rem;
 `;
 
-const CheckboxInnerContainer = styled.div`
+const CheckboxLabel = styled.label`
   width: 20rem;
   height: auto;
   display: flex;
@@ -665,7 +665,8 @@ const Checkbox = styled.input`
   flex-shrink: 0;
   border-radius: 0.1875rem;
   border: 1px solid #dbdbdf;
-  background: #fff;
+  background: #ffffff;
+  cursor: pointer;
 `;
 
 const CheckboxUnderline = styled.span`
