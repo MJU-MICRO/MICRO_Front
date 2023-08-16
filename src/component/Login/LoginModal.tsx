@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 
@@ -73,7 +74,9 @@ const LoginModal: React.FC<LoginProps> = ({ onClickToggleModal }) => {
       <ToSignUpContainer>
         <ModalBottomSpan>아직 회원이 아니신가요?</ModalBottomSpan>
         <ModalInnerContainer>
-          <ModalToSignUpSpan>가입하기</ModalToSignUpSpan>
+          <Link to='/signup' onClick={onClickToggleModal}>
+            <ModalToSignUpSpan>가입하기</ModalToSignUpSpan>
+          </Link>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             width='16'
@@ -89,8 +92,8 @@ const LoginModal: React.FC<LoginProps> = ({ onClickToggleModal }) => {
       </ToSignUpContainer>
       <CloseButton
         onClick={() => {
-          setOpenModal(false); // 모달 닫기
-          onClickToggleModal(); // 모달 닫는 동작 추가
+          setOpenModal(false);
+          onClickToggleModal();
         }}>
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -202,6 +205,7 @@ const ModalBottomSpan = styled.span`
 
 const ModalToSignUpSpan = styled(ModalBottomSpan)`
   color: #32a9eb;
+  text-decoration: none;
 
   &:hover {
     color: #0080ff;
