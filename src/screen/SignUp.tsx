@@ -69,18 +69,21 @@ function SignUp() {
     setIntroduction(event.target.value);
   };
 
-  const handleInformationAgreementChange = (
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
-    setInformationAgreement(event.target.checked);
+  const handleEmailAgreementChange: React.ChangeEventHandler<
+    HTMLInputElement
+  > = () => {
+    setEmailAgreement(!emailAgreement);
+    console.log(emailAgreement);
   };
 
-  const handleEmailAgreementChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmailAgreement(event.target.checked);
+  const handleInformationAgreementChange: React.ChangeEventHandler<
+    HTMLInputElement
+  > = () => {
+    setInformationAgreement(!informationAgreement);
+    console.log(informationAgreement);
   };
 
   // 이미지 추가
-
   const openFileInput = () => {
     const fileInput = document.getElementById('fileInput');
     if (fileInput) {
@@ -92,19 +95,6 @@ function SignUp() {
     event.preventDefault();
 
     try {
-      const userData = {
-        email,
-        password,
-        profileImageUrl,
-        name,
-        phone,
-        studentId,
-        major,
-        introduction,
-        emailAgreement,
-        informationAgreement
-      };
-
       const response = await axios.post('/api/signup', userData);
       console.log(response.data);
     } catch (error) {
@@ -365,7 +355,7 @@ function SignUp() {
               <CheckboxLabel>
                 <Checkbox
                   type='checkbox'
-                  name='informationAgreement'
+                  checked={informationAgreement}
                   onChange={handleInformationAgreementChange}
                 />
                 <CheckboxUnderline>
@@ -376,7 +366,7 @@ function SignUp() {
               <CheckboxLabel>
                 <Checkbox
                   type='checkbox'
-                  name='emailAgreement'
+                  checked={emailAgreement}
                   onChange={handleEmailAgreementChange}
                 />
                 <CheckboxUnderline>
@@ -667,6 +657,15 @@ const Checkbox = styled.input`
   border: 1px solid #dbdbdf;
   background: #ffffff;
   cursor: pointer;
+
+  &:checked {
+    border-color: transparent;
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e");
+    background-size: 100% 100%;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-color: #32a9eb;
+  }
 `;
 
 const CheckboxUnderline = styled.span`
