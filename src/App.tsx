@@ -1,15 +1,17 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './screen/Home';
-import Header from './component/Header/Header';
+import Home from './screens/Home';
+import Header from './components/header/Header';
 import './App.css';
-import RecruitmentList from 'screen/Recruitment/RecruitmentList';
-import OrganizationList from './screen/Organization/OrgaizationList';
-import SignUp from './screen/SignUp';
-import ClubDetail from './screen/Organization/ClubDetail';
-import StudentCouncilDetail from './screen/Organization/StudentCouncilDetail';
-import CreateOrganizationFirst from './screen/Organization/CreateOrganizationFirst';
-import CreateRecruitment from './screen/Recruitment/CreateRecruitment';
-import CreateOrganizationSecond from './screen/Organization/CreateOrganizationSecond';
+import './index.css';
+import RecruitmentList from 'screens/Recruitment/RecruitmentList';
+import OrganizationList from './screens/Organization/OrgaizationList';
+import SignUp from './screens/SignUp';
+import ClubDetail from './screens/Organization/ClubDetail';
+import StudentCouncilDetail from './screens/Organization/StudentCouncilDetail';
+import CreateOrganizationFirst from './screens/Organization/CreateOrganizationFirst';
+import CreateRecruitment from './screens/Recruitment/CreateRecruitment';
+import CreateOrganizationSecond from './screens/Organization/CreateOrganizationSecond';
+import Setting from 'screens/UserSetting/User/Setting';
 
 function App() {
   return (
@@ -31,6 +33,7 @@ function App() {
         <Route path='/club/:id' element={<ClubDetail />} />
         <Route path='/studentCouncil/:id' element={<StudentCouncilDetail />} />
         <Route path='/signUp' element={<SignUp />} />
+        <Route path='/userProfile' element={<Setting />} />
       </Routes>
     </Router>
   );
