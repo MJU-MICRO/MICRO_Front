@@ -5,6 +5,8 @@ import styled from 'styled-components';
 function SignUp() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [profileImageUrl, setProfileImageUrl] = useState<string>('');
   const [name, setName] = useState<string>('');
@@ -35,6 +37,12 @@ function SignUp() {
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
+  };
+
+  const handleConfirmPasswordChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setConfirmPassword(event.target.value);
   };
 
   const handleProfileImageChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -94,11 +102,16 @@ function SignUp() {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    try {
-      const response = await axios.post('/api/signup', userData);
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
+    if (password === confirmPassword) {
+      console.log('비밀번호 동일');
+      try {
+        const response = await axios.post('/api/signup', userData);
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      setPasswordsMatch(false);
     }
   };
 
@@ -169,10 +182,13 @@ function SignUp() {
               </TextContainer>
               <PasswordInput
                 type='password'
-                name='password'
-                value={password}
-                onChange={handlePasswordChange}
+                name='confirmPassword'
+                value={confirmPassword}
+                onChange={handleConfirmPasswordChange}
               />
+              {!passwordsMatch && (
+                <PasswordWarning>비밀번호 불일치</PasswordWarning>
+              )}
             </AccountSettingContainer>
           </InputContainer>
           {/* 프로필 설정 */}
@@ -515,7 +531,7 @@ const TextContainer = styled.div`
   justify-content: center;
 `;
 const AccountSettingContainer = styled.div`
-  width: auto;
+  width: 35rem;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -540,7 +556,7 @@ const StyledInput = styled.input`
 `;
 
 const PasswordInput = styled.input`
-  width: 21rem;
+  width: 14rem;
   height: 2rem;
   flex-shrink: 0;
   border-radius: 0.6rem;
@@ -553,6 +569,15 @@ const PasswordInput = styled.input`
   line-height: normal;
   margin-left: 1.5rem;
   padding-left: 0.5rem;
+`;
+
+const PasswordWarning = styled.p`
+  color: red;
+  font-family: GmarketSansMedium;
+  font-size: 0.875rem;
+  font-style: normal;
+  line-height: normal;
+  margin-left: 0.8rem;
 `;
 
 const ProfileSettingContainer = styled.div`
