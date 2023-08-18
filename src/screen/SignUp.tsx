@@ -18,19 +18,6 @@ function SignUp() {
   const [informationAgreement, setInformationAgreement] =
     useState<boolean>(false);
 
-  const userData = {
-    email,
-    password,
-    profileImageUrl,
-    name,
-    phone,
-    studentId,
-    major,
-    introduction,
-    emailAgreement,
-    informationAgreement
-  };
-
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
@@ -68,7 +55,8 @@ function SignUp() {
   };
 
   const handleMajorChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setMajor(event.target.value);
+    const selectedValue = event.target.value;
+    setMajor(selectedValue);
   };
 
   const handleIntroductionChange = (
@@ -99,17 +87,44 @@ function SignUp() {
     }
   };
 
+  // 가입하기
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
     if (password === confirmPassword) {
-      console.log('비밀번호 동일');
-      try {
-        const response = await axios.post('/api/signup', userData);
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
-      }
+      // try {
+      //   const response = await axios.post('/api/signup');
+      //   console.log(response.data);
+      // } catch (error) {
+      //   console.error(error);
+      // }
+
+      // axios
+      //   .post('/api/auth/sign-up', {
+      //     email: email,
+      //     password: password,
+      //     name: name,
+      //     studentId: studentId,
+      //     major: major,
+      //     phoneNumber: phone,
+      //     introduction: introduction,
+      //     notifiation: emailAgreement
+      //   })
+      //   .then((response) => {
+      //     console.log(response);
+      //     alert('회원가입 성공');
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
+      console.log(email);
+      console.log(password);
+      console.log(name);
+      console.log(studentId);
+      console.log(major);
+      console.log(phone);
+      console.log(introduction);
+      console.log(emailAgreement);
     } else {
       setPasswordsMatch(false);
     }
@@ -152,12 +167,12 @@ function SignUp() {
                   <path
                     d='M16.6667 9.85833C16.4457 9.85833 16.2337 9.94613 16.0774 10.1024C15.9211 10.2587 15.8333 10.4707 15.8333 10.6917V15.3333C15.8333 15.4659 15.7807 15.5931 15.6869 15.6869C15.5931 15.7807 15.4659 15.8333 15.3333 15.8333H4.66667C4.53406 15.8333 4.40688 15.7807 4.31311 15.6869C4.21935 15.5931 4.16667 15.4659 4.16667 15.3333V4.66667C4.16667 4.53406 4.21935 4.40688 4.31311 4.31311C4.40688 4.21935 4.53406 4.16667 4.66667 4.16667H12.6417C12.8627 4.16667 13.0746 4.07887 13.2309 3.92259C13.3872 3.76631 13.475 3.55435 13.475 3.33333C13.475 3.11232 13.3872 2.90036 13.2309 2.74408C13.0746 2.5878 12.8627 2.5 12.6417 2.5H4.66667C4.09271 2.50219 3.54288 2.73117 3.13703 3.13703C2.73117 3.54288 2.50219 4.09271 2.5 4.66667V15.3333C2.50219 15.9073 2.73117 16.4571 3.13703 16.863C3.54288 17.2688 4.09271 17.4978 4.66667 17.5H15.3333C15.9073 17.4978 16.4571 17.2688 16.863 16.863C17.2688 16.4571 17.4978 15.9073 17.5 15.3333V10.6917C17.5 10.4707 17.4122 10.2587 17.2559 10.1024C17.0996 9.94613 16.8877 9.85833 16.6667 9.85833Z'
                     fill='#008FD5'
-                    fill-opacity='0.8'
+                    fillOpacity='0.8'
                   />
                   <path
                     d='M8.93354 9.16716C8.77716 9.02653 8.57339 8.95022 8.3631 8.95356C8.15281 8.95689 7.95156 9.03961 7.79971 9.18513C7.64787 9.33065 7.55666 9.5282 7.54439 9.73816C7.53212 9.94811 7.59969 10.1549 7.73354 10.3172L9.58354 12.2588C9.661 12.3401 9.75407 12.4048 9.85717 12.4492C9.96028 12.4936 10.0713 12.5167 10.1835 12.5172C10.2952 12.5178 10.4059 12.496 10.5089 12.4531C10.612 12.4101 10.7054 12.3469 10.7835 12.2672L16.4335 6.43383C16.5101 6.35504 16.5705 6.26193 16.6111 6.15982C16.6517 6.05771 16.6718 5.9486 16.6703 5.83871C16.6687 5.72883 16.6456 5.62033 16.6021 5.5194C16.5586 5.41848 16.4957 5.3271 16.4169 5.2505C16.3381 5.17389 16.245 5.11356 16.1429 5.07294C16.0408 5.03232 15.9316 5.01221 15.8218 5.01375C15.7119 5.0153 15.6034 5.03848 15.5024 5.08196C15.4015 5.12544 15.3101 5.18837 15.2335 5.26716L10.1919 10.4838L8.93354 9.16716Z'
                     fill='#008FD5'
-                    fill-opacity='0.8'
+                    fillOpacity='0.8'
                   />
                 </svg>
                 인증하기
@@ -187,7 +202,7 @@ function SignUp() {
                 onChange={handleConfirmPasswordChange}
               />
               {!passwordsMatch && (
-                <PasswordWarning>비밀번호 불일치</PasswordWarning>
+                <PasswordWarning>비밀번호를 확인해주세요!</PasswordWarning>
               )}
             </AccountSettingContainer>
           </InputContainer>
@@ -208,27 +223,27 @@ function SignUp() {
                       <path
                         d='M4.16992 5H15.8366C16.2968 5 16.6699 4.6269 16.6699 4.16667C16.6699 3.70643 16.2968 3.33333 15.8366 3.33333H4.16992C3.70968 3.33333 3.33659 3.70643 3.33659 4.16667C3.33659 4.6269 3.70968 5 4.16992 5Z'
                         fill='black'
-                        fill-opacity='0.8'
+                        fillOpacity='0.8'
                       />
                       <path
                         d='M16.6699 5.83301V4.16634C16.6699 3.7061 16.2968 3.33301 15.8366 3.33301C15.3764 3.33301 15.0033 3.7061 15.0033 4.16634V5.83301C15.0033 6.29325 15.3764 6.66634 15.8366 6.66634C16.2968 6.66634 16.6699 6.29325 16.6699 5.83301Z'
                         fill='black'
-                        fill-opacity='0.8'
+                        fillOpacity='0.8'
                       />
                       <path
                         d='M5.00195 5.83301V4.16634C5.00195 3.7061 4.62886 3.33301 4.16862 3.33301C3.70838 3.33301 3.33529 3.7061 3.33529 4.16634V5.83301C3.33529 6.29325 3.70838 6.66634 4.16862 6.66634C4.62886 6.66634 5.00195 6.29325 5.00195 5.83301Z'
                         fill='black'
-                        fill-opacity='0.8'
+                        fillOpacity='0.8'
                       />
                       <path
                         d='M6.66927 11.6664C6.5399 11.6664 6.41231 11.6362 6.29659 11.5784C6.18088 11.5205 6.08023 11.4365 6.0026 11.333C5.93694 11.2455 5.88917 11.1459 5.86201 11.0398C5.83485 10.9338 5.82884 10.8235 5.84431 10.7152C5.85979 10.6068 5.89645 10.5026 5.95221 10.4084C6.00797 10.3143 6.08172 10.232 6.16927 10.1664L9.5026 7.66636C9.64532 7.56207 9.81751 7.50586 9.99427 7.50586C10.171 7.50586 10.3432 7.56207 10.4859 7.66636L13.8193 10.0164C13.9989 10.1438 14.1208 10.3372 14.1583 10.5543C14.1958 10.7713 14.1458 10.9944 14.0193 11.1747C13.9561 11.2648 13.8757 11.3415 13.7828 11.4004C13.6898 11.4593 13.5861 11.4992 13.4776 11.5178C13.3691 11.5364 13.2581 11.5333 13.1508 11.5088C13.0435 11.4842 12.9422 11.4386 12.8526 11.3747L10.0026 9.36636L7.16927 11.4997C7.02502 11.6079 6.84958 11.6664 6.66927 11.6664Z'
                         fill='black'
-                        fill-opacity='0.8'
+                        fillOpacity='0.8'
                       />
                       <path
                         d='M10.0033 17.4993C9.78224 17.4993 9.57028 17.4116 9.414 17.2553C9.25772 17.099 9.16992 16.887 9.16992 16.666V9.99935C9.16992 9.77834 9.25772 9.56637 9.414 9.41009C9.57028 9.25381 9.78224 9.16602 10.0033 9.16602C10.2243 9.16602 10.4362 9.25381 10.5925 9.41009C10.7488 9.56637 10.8366 9.77834 10.8366 9.99935V16.666C10.8366 16.887 10.7488 17.099 10.5925 17.2553C10.4362 17.4116 10.2243 17.4993 10.0033 17.4993Z'
                         fill='black'
-                        fill-opacity='0.8'
+                        fillOpacity='0.8'
                       />
                     </svg>
                     <UploadButtonSpan>업로드</UploadButtonSpan>
@@ -248,7 +263,7 @@ function SignUp() {
                         cy='40'
                         r='40'
                         fill='#E9E9E9'
-                        fill-opacity='0.45'
+                        fillOpacity='0.45'
                       />
                     </svg>
                   </BasicImg>
@@ -269,27 +284,27 @@ function SignUp() {
                       <path
                         d='M4.16992 5H15.8366C16.2968 5 16.6699 4.6269 16.6699 4.16667C16.6699 3.70643 16.2968 3.33333 15.8366 3.33333H4.16992C3.70968 3.33333 3.33659 3.70643 3.33659 4.16667C3.33659 4.6269 3.70968 5 4.16992 5Z'
                         fill='black'
-                        fill-opacity='0.8'
+                        fillOpacity='0.8'
                       />
                       <path
                         d='M16.6699 5.83301V4.16634C16.6699 3.7061 16.2968 3.33301 15.8366 3.33301C15.3764 3.33301 15.0033 3.7061 15.0033 4.16634V5.83301C15.0033 6.29325 15.3764 6.66634 15.8366 6.66634C16.2968 6.66634 16.6699 6.29325 16.6699 5.83301Z'
                         fill='black'
-                        fill-opacity='0.8'
+                        fillOpacity='0.8'
                       />
                       <path
                         d='M5.00195 5.83301V4.16634C5.00195 3.7061 4.62886 3.33301 4.16862 3.33301C3.70838 3.33301 3.33529 3.7061 3.33529 4.16634V5.83301C3.33529 6.29325 3.70838 6.66634 4.16862 6.66634C4.62886 6.66634 5.00195 6.29325 5.00195 5.83301Z'
                         fill='black'
-                        fill-opacity='0.8'
+                        fillOpacity='0.8'
                       />
                       <path
                         d='M6.66927 11.6664C6.5399 11.6664 6.41231 11.6362 6.29659 11.5784C6.18088 11.5205 6.08023 11.4365 6.0026 11.333C5.93694 11.2455 5.88917 11.1459 5.86201 11.0398C5.83485 10.9338 5.82884 10.8235 5.84431 10.7152C5.85979 10.6068 5.89645 10.5026 5.95221 10.4084C6.00797 10.3143 6.08172 10.232 6.16927 10.1664L9.5026 7.66636C9.64532 7.56207 9.81751 7.50586 9.99427 7.50586C10.171 7.50586 10.3432 7.56207 10.4859 7.66636L13.8193 10.0164C13.9989 10.1438 14.1208 10.3372 14.1583 10.5543C14.1958 10.7713 14.1458 10.9944 14.0193 11.1747C13.9561 11.2648 13.8757 11.3415 13.7828 11.4004C13.6898 11.4593 13.5861 11.4992 13.4776 11.5178C13.3691 11.5364 13.2581 11.5333 13.1508 11.5088C13.0435 11.4842 12.9422 11.4386 12.8526 11.3747L10.0026 9.36636L7.16927 11.4997C7.02502 11.6079 6.84958 11.6664 6.66927 11.6664Z'
                         fill='black'
-                        fill-opacity='0.8'
+                        fillOpacity='0.8'
                       />
                       <path
                         d='M10.0033 17.4993C9.78224 17.4993 9.57028 17.4116 9.414 17.2553C9.25772 17.099 9.16992 16.887 9.16992 16.666V9.99935C9.16992 9.77834 9.25772 9.56637 9.414 9.41009C9.57028 9.25381 9.78224 9.16602 10.0033 9.16602C10.2243 9.16602 10.4362 9.25381 10.5925 9.41009C10.7488 9.56637 10.8366 9.77834 10.8366 9.99935V16.666C10.8366 16.887 10.7488 17.099 10.5925 17.2553C10.4362 17.4116 10.2243 17.4993 10.0033 17.4993Z'
                         fill='black'
-                        fill-opacity='0.8'
+                        fillOpacity='0.8'
                       />
                     </svg>
                     <UploadButtonSpan>업로드</UploadButtonSpan>
@@ -345,10 +360,8 @@ function SignUp() {
                   <RedAsterisk>*</RedAsterisk>
                 </InnerContainer>
                 <StyledSelect value={major} onChange={handleMajorChange}>
-                  <option value='응용소프트웨어학과'>응용소프트웨어학과</option>
-                  <option value='데이터테크놀로지학과'>
-                    데이터테크놀로지학과
-                  </option>
+                  <option value='software'>응용소프트웨어학과</option>
+                  <option value='data'>데이터테크놀로지학과</option>
                 </StyledSelect>
               </OuterContainer>
               <OuterContainer />
@@ -392,7 +405,9 @@ function SignUp() {
               </CheckboxLabel>
             </CheckboxContainer>
           </InputContainer>
-          <SignUpButton onClick={handleSubmit}>가입하기</SignUpButton>
+          <SignUpButton onClick={handleSubmit} disabled={!informationAgreement}>
+            가입하기
+          </SignUpButton>
         </SignUpContainer>
       </SignUpForm>
     </Wrapper>
@@ -572,7 +587,7 @@ const PasswordInput = styled.input`
 `;
 
 const PasswordWarning = styled.p`
-  color: red;
+  color: #ff6347;
   font-family: GmarketSansMedium;
   font-size: 0.875rem;
   font-style: normal;
