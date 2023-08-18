@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { StudentCouncilProps } from '../../component/Organization/StudentCouncil/StudentCouncilProps';
+import { ClubProps } from '../../components/organization/club/ClubProps';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import img from '../../assets/img.svg';
 
-function StudentCouncilDetail() {
+function ClubDetail() {
   const { id } = useParams<{ id: string }>();
-  const [studentCouncilData, setStudentCouncilData] =
-    useState<StudentCouncilProps | null>(null);
+  const [clubData, setClubData] = useState<ClubProps | null>(null);
 
-  const sampleStudentCouncilData: StudentCouncilProps[] = [
+  const sampleClubData: ClubProps[] = [
     {
-      id: '101',
-      name: '시그널',
-      ordinalNum: '5기',
+      id: '1',
+      name: '과일 러버',
+      establishedYear: '2023년 7월 14일',
+      numberOfMember: '34명',
       activityTitle: [
         '전 세계 각국의 과일들을 찾아보기',
         '전 세계 각국의 과일들을 찾아보기',
@@ -25,18 +25,19 @@ function StudentCouncilDetail() {
         '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
         '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.'
       ],
-      college: '경영대학 학생회',
-      classification: '학생단체',
+      classification: '소모임',
       campus: '인문캠퍼스',
-      major: 'A 학과',
-      imageUrl: '1.jpg',
+      relationMajor: 'A 학과',
+      imageUrl: 'club1.jpg',
+      interest: ['디자인/미디어', '경영/컨설팅/마케팅', '정치/사회/법률'],
       introduction:
-        '안녕하세요, 저희는 경영대학 학생회 시그널 입니다. 저희의 과일 사랑은 무한합니다. 사실 저는 수박만 좋아합니다. 다른 거를 좋아하기 위한 소모임 입니다.'
+        '안녕하세요, 저희는 과일 러버 소모임 과일 러버단 입니다. 저희의 과일 사랑은 무한합니다. 사실 저는 수박만 좋아합니다. 다른 거를 좋아하기 위한 소모임 입니다.'
     },
     {
-      id: '102',
-      name: '공:존',
-      ordinalNum: '7기',
+      id: '2',
+      name: 'Co.Ad',
+      establishedYear: '2018',
+      numberOfMember: '35',
       activityTitle: [
         '전 세계 각국의 과일들을 찾아보기',
         '전 세계 각국의 과일들을 찾아보기',
@@ -47,54 +48,30 @@ function StudentCouncilDetail() {
         '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
         '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.'
       ],
-      classification: '학생단체',
+      classification: '동아리',
       campus: '인문캠퍼스',
-      college: '총동아리연합회',
-      major: 'D 학과',
-      imageUrl: '2.jpg',
+      relationMajor: 'B 학과',
+      imageUrl: 'club2.jpg',
+      interest: ['디자인/사진/영상', '문화/예술'],
       introduction:
-        '안녕하세요, 저희는 총동아리연합회 공:존 입니다. 저희는 다양한 분야에서 활동하며 광고와 디자인에 관심 있는 학생들이 모인 동아리입니다.'
-    },
-    {
-      id: '103',
-      name: 'MOVE',
-      ordinalNum: '1기',
-      activityTitle: [
-        '전 세계 각국의 과일들을 찾아보기',
-        '전 세계 각국의 과일들을 찾아보기',
-        '전 세계 각국의 과일들을 찾아보기'
-      ],
-      activityContent: [
-        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
-        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
-        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.'
-      ],
-      classification: '학생단체',
-      campus: '인문캠퍼스',
-      college: '총학생회',
-      major: 'D 학과',
-      imageUrl: '2.jpg',
-      introduction:
-        '안녕하세요, 저희는 총학생회 MOVE 입니다. 저희는 다양한 분야에서 활동하며 광고와 디자인에 관심 있는 학생들이 모인 동아리입니다.'
+        '안녕하세요, 저희는 광고 동아리 Co.Ad 입니다. 저희는 다양한 분야에서 활동하며 광고와 디자인에 관심 있는 학생들이 모인 동아리입니다.'
     }
   ];
 
   useEffect(() => {
     // Find the club that matches the id from the URL parameter
-    const foundClub = sampleStudentCouncilData.find(
-      (studentCouncil) => studentCouncil.id === id
-    );
+    const foundClub = sampleClubData.find((club) => club.id === id);
 
     // If the club is found, set it in the clubData state
     if (foundClub) {
-      setStudentCouncilData(foundClub);
+      setClubData(foundClub);
     } else {
       // If no club is found, handle the error or show a message
       console.error(`Club with id ${id} not found.`);
     }
   }, [id]);
 
-  if (!studentCouncilData) {
+  if (!clubData) {
     return <div>Loading...</div>;
   }
 
@@ -105,40 +82,48 @@ function StudentCouncilDetail() {
       <ClubIntroduction>
         <Intro>
           <img src={img} alt='로고 이미지' />
-          <h3>{studentCouncilData.name}</h3>
-          <Classification>{studentCouncilData.classification}</Classification>
-          <Details> {studentCouncilData.introduction} </Details>
+          <h3>{clubData.name}</h3>
+          <Classification>{clubData.classification}</Classification>
+          <Details> {clubData.introduction} </Details>
           <BorderLine></BorderLine>
         </Intro>
         <Wrapper>
           <div>
-            <h3>서수</h3> <p>{studentCouncilData.ordinalNum}</p>
+            <h3>설립일</h3> <p>{clubData.establishedYear}</p>
           </div>
           <div>
-            <h3>소속</h3> <p>{studentCouncilData.college}</p>
+            <h3>회원 수</h3> <p>{clubData.numberOfMember}</p>
           </div>
         </Wrapper>
+        <DownWrapper>
+          <h3>관련 분야</h3>
+          <div>
+            {clubData.interest.map((tag, index) => (
+              <InterestTag key={index}>{tag}</InterestTag>
+            ))}
+          </div>
+        </DownWrapper>
       </ClubIntroduction>
       <ClubExplain>
         <Activity>
           <h3>주요 활동</h3>
-          {studentCouncilData.activityTitle.map((title, index) => (
+          {clubData.activityTitle.map((title, index) => (
             <ActivityItem key={index}>
               <span>{title}</span>
-              <div>{studentCouncilData.activityContent[index]}</div>
+              <div>{clubData.activityContent[index]}</div>
               <BorderLine2></BorderLine2>
             </ActivityItem>
           ))}
         </Activity>
         <Recruitment>
-          <h3>{studentCouncilData.name}의 모집공고</h3>
+          <h3>{clubData.name}의 모집공고</h3>
         </Recruitment>
       </ClubExplain>
     </BackGround>
   );
 }
 
-export default StudentCouncilDetail;
+export default ClubDetail;
 
 const BackGround = styled.div`
   display: flex;
@@ -181,7 +166,7 @@ const ClubIntroduction = styled.div`
   margin-left: 79px;
   padding: 20px;
   width: 337px;
-  height: 480px;
+  height: 557px;
   box-shadow: 0px 4px 20px 3px rgba(0, 0, 0, 0.05);
 }
 `;
@@ -313,6 +298,50 @@ const Wrapper = styled.div`
 }
 `;
 
+const DownWrapper = styled.div`
+  display: inline-block;
+  border-radius: 5px;
+  background-color: #fff;
+  border: 0.4px solid #adadad;
+  width: 307.5px;
+  height: 96px;
+  margin-top: 11px;
+  margin-left: 14px;
+  h3 {
+    color: rgba(0, 0, 0, 0.8);
+    leading-trim: both;
+    text-edge: cap;
+    font-family: 'GmarketSansMedium';
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-top: 16px;
+    margin-left: 10px;
+    margin-bottom: 13px;
+  }
+  div {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+`;
+
+const InterestTag = styled.span`
+  position: relative;
+  margin-left: 9px;
+  margin-bottom: 3px;
+  border-radius: 15px;
+  background-color: #fff;
+  border: 1px solid #dbdbdf;
+  font-family: 'GmarketSansLight';
+  font-size: 10.8px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  padding: 5.3px;
+`;
+
 const Details = styled.div`
   text-align: left;
   vertical-align: middle;
@@ -327,7 +356,7 @@ const Details = styled.div`
 `;
 
 const Classification = styled.div`
-  width: 70px;
+  width: 62px;
   height: 30px;
   flex-shrink: 0;
   border-radius: 10px;

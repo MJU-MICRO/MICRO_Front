@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
-import { ClubCardProps } from '../../component/Organization/Club/ClubCardProps';
-import { StudentCouncilCardProps } from '../../component/Organization/StudentCouncil/StudentCouncilCardProps';
-import Sidebar from '../../component/SideBar';
+import { ClubCardProps } from '../../components/organization/club/ClubCardProps';
+import { StudentCouncilCardProps } from '../../components/organization/studentCouncil/StudentCouncilCardProps';
+import Sidebar from '../../components/SideBar';
 import { Link } from 'react-router-dom';
-import ClubCard from '../../component/Organization/Club/ClubCard';
-import StudentCouncilCard from '../../component/Organization/StudentCouncil/StudentCouncilCard';
+import ClubCard from '../../components/organization/club/ClubCard';
+import StudentCouncilCard from '../../components/organization/studentCouncil/StudentCouncilCard';
 import '../../App.css';
 import plus_Icon from '../../assets/plus-Icon.svg';
 
