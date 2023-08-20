@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
-import { ko } from 'date-fns/esm/locale';
-import { customStyles } from './createCommonStyle';
+import { customStyles } from './ApplyCommonStyle';
 
 interface SelectDateProps {
   onChange: (date: Date | null) => void;

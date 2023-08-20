@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Select, { components } from 'react-select';
 import styled from 'styled-components';
 
 interface SelectClassificationProps {
   onChange: (
+    campus: string,
+    organization: string,
     classification: string,
     faculty: string,
     department: string
@@ -72,7 +74,7 @@ function SelectClassification({ onChange }: SelectClassificationProps) {
   });
 
   const options: [string, string[]][] = [
-    ['캠퍼스 선택', ['인문캠퍼스', '용인캠퍼스']],
+    ['캠퍼스 선택', ['인문캠퍼스', '자연캠퍼스']],
     ['단체 선택', ['학생단체', '동아리/학회', '소모임']],
     [
       '상세 분류',
@@ -170,6 +172,29 @@ function SelectClassification({ onChange }: SelectClassificationProps) {
     국제학부: ['글로벌비즈니스전공']
   };
 
+  const campusesAndFaculties: Record<string, string[]> = {
+    인문캠퍼스: [
+      '인문대학',
+      '사회과학대학',
+      '경영대학',
+      '법과대학',
+      'ICT융합대학',
+      '미래융합대학'
+    ],
+    자연캠퍼스: [
+      '자연과학대학',
+      '공과대학',
+      '예술체육대학',
+      '건축대학',
+      'ICT융합대학'
+    ]
+  };
+
+  const ict융합대학Departments: Record<string, string[]> = {
+    인문캠퍼스: ['디지털콘텐츠디자인학과', '융합소프트웨어학부'],
+    자연캠퍼스: ['정보통신공학과']
+  };
+
   const handleSelectChange = (
     option:
       | 'campus'
@@ -184,28 +209,71 @@ function SelectClassification({ onChange }: SelectClassificationProps) {
       [option]: selectedOption
     }));
 
-    if (option === 'faculty') {
-      const selectedFaculty = selectedOption ? selectedOption.value : '';
+    if (option === 'campus') {
+      setSelectedOptions((prevOptions) => ({
+        ...prevOptions,
+        organization: { value: '', label: '단체 선택' },
+        faculty: { value: '', label: '소속 대학' },
+        department: { value: '', label: '학과 선택' }
+      }));
+    } else if (option === 'faculty') {
+      let dynamicOptionValues: string[] = [];
+      if (selectedOption?.value === 'ICT융합대학') {
+        dynamicOptionValues =
+          ict융합대학Departments[selectedOptions.campus?.value || ''] || [];
+      } else {
+        dynamicOptionValues =
+          facultiesAndDepartments[selectedOptions.campus?.value || ''] || [];
+      }
       setSelectedOptions((prevOptions) => ({
         ...prevOptions,
         department: { value: '', label: '학과 선택' }
       }));
-      if (selectedFaculty) {
-        setSelectedOptions((prevOptions) => ({
-          ...prevOptions,
-          department: { value: '', label: '학과 선택' }
-        }));
-      }
     }
   };
-
+  const selectedCampusRef = useRef<string | null>(null);
+  const selectedOrganizationRef = useRef<string | null>(null);
+  const selectedClassificationRef = useRef<string | null>(null);
+  const selectedFacultyRef = useRef<string | null>(null);
+  const selectedDepartmentRef = useRef<string | null>(null);
   useEffect(() => {
+    const selectedCampus = selectedOptions.campus?.value || '';
+    const selectedOrganization = selectedOptions.organization?.value || '';
+    const selectedClassification = selectedOptions.classification?.value || '';
     const selectedFaculty = selectedOptions.faculty?.value || '';
     const selectedDepartment = selectedOptions.department?.value || '';
 
-    const selectedClassification = selectedOptions.classification?.value || '';
+    // 상태 변경이 있을 때에만 onChange 호출
+    if (
+      selectedCampus !== selectedCampusRef.current ||
+      selectedOrganization !== selectedOrganizationRef.current ||
+      selectedClassification !== selectedClassificationRef.current ||
+      selectedFaculty !== selectedFacultyRef.current ||
+      selectedDepartment !== selectedDepartmentRef.current
+    ) {
+      onChange(
+        selectedCampus,
+        selectedOrganization,
+        selectedClassification,
+        selectedFaculty,
+        selectedDepartment
+      );
 
-    onChange(selectedClassification, selectedFaculty, selectedDepartment);
+      // 변경된 값을 업데이트
+      selectedCampusRef.current = selectedCampus;
+      selectedOrganizationRef.current = selectedOrganization;
+      selectedClassificationRef.current = selectedClassification;
+      selectedFacultyRef.current = selectedFaculty;
+      selectedDepartmentRef.current = selectedDepartment;
+    }
+
+    console.log(
+      selectedCampus,
+      selectedClassification,
+      selectedOrganization,
+      selectedFaculty,
+      selectedDepartment
+    );
   }, [selectedOptions, onChange]);
 
   return (
@@ -217,13 +285,19 @@ function SelectClassification({ onChange }: SelectClassificationProps) {
 
         let dynamicOptionValues: string[] = optionValues; // 초기에는 optionValues 사용
 
-        if (selectedOptionKey === 'faculty') {
-          dynamicOptionValues =
-            facultiesAndDepartments[selectedOptions.campus?.value || ''] || [];
-        } else if (selectedOptionKey === 'department') {
+        if (selectedOptionKey === 'department') {
           dynamicOptionValues = selectedOptions.faculty
             ? facultiesAndDepartments[selectedOptions.faculty.value] || []
             : [];
+        } else if (selectedOptionKey === 'faculty') {
+          if (
+            selectedOptions.campus &&
+            selectedOptions.campus.value &&
+            campusesAndFaculties[selectedOptions.campus.value]
+          ) {
+            dynamicOptionValues =
+              campusesAndFaculties[selectedOptions.campus.value] || [];
+          }
         }
 
         return (

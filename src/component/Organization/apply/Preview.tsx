@@ -1,14 +1,14 @@
 import React, { useState, useRef, ChangeEvent } from 'react';
 import styled from 'styled-components';
-import fileupload from '../../assets/fileupload.svg';
-import upload_icon from '../../assets/uploadButton.svg';
+import fileupload from '../../../assets/fileupload.svg';
+import upload_icon from '../../../assets/uploadButton.svg';
 
 const UploadIcon = styled.img`
   vertical-align: middle;
   margin-right: 8px;
 `;
 
-const Preview = (props) => {
+const Preview = ({ onChange }) => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const imgRef = useRef<HTMLInputElement>(null);
 
@@ -20,6 +20,7 @@ const Preview = (props) => {
       reader.readAsDataURL(file);
       reader.onloadend = () => {
         setImageUrl(reader.result as string);
+        onChange(reader.result as string); // 이미지 URL 전달
       };
     }
   };

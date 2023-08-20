@@ -5,43 +5,88 @@ import level_two from '../../assets/level-two.svg';
 import arrow from '../../assets/arrow.svg';
 import toggle from '../../assets/toggle-up.svg';
 import { Link } from 'react-router-dom';
-import Introduction from '../../component/Organization/Introduction';
-import SelectDate from '../../component/Organization/SelectDate';
-import SelectMemberCount from '../../component/Organization/SelectMemberCount';
+import Introduction from '../../component/Organization/apply/Introduction';
+import SelectDate from '../../component/Organization/apply/SelectDate';
+import SelectMemberCount from '../../component/Organization/apply/SelectMemberCount';
 import {
   BasicInfoAsterisk,
   BorderLine,
   SaveButton,
   SmallTitle,
-  Title
-} from '../../component/Organization/createCommonStyle';
-import SelectClassification from '../../component/Organization/SelectClassification';
-import RelatedTagsSelect from '../../component/Organization/RelatedTagsSelect';
-import SelectMajor from '../../component/Organization/SelectMajor';
-import Preview from '../../component/Organization/Preview';
+  Title,
+  BasicInput,
+  Next,
+  Level
+} from '../../component/Organization/apply/ApplyCommonStyle';
+import SelectClassification from '../../component/Organization/apply/SelectClassification';
+import RelatedTagsSelect from '../../component/Organization/apply/RelatedTagsSelect';
+import SelectMajor from '../../component/Organization/apply/SelectMajor';
+import Preview from '../../component/Organization/apply/Preview';
+import { OrganizationProps } from '../../component/Organization/OrganizationProps';
 
 function CreateOrganizationFirst() {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [memberCount, setMemberCount] = useState<number | null>(1);
+  const [organization, setOrganization] = useState<OrganizationProps>({
+    id: '', // Assuming this will be set later
+    name: '',
+    imageUrl: '', // You might add image URL logic here
+    establishedYear: 0,
+    numberOfMember: '',
+    introduction: '',
+    relationMajor: [],
+    relatedTag: [],
+    activityTitle: [],
+    activityContent: [],
+    isRecruit: false,
+    campus: '',
+    largeCategory: '',
+    mediumCategory: '',
+    smallCategory: '',
+    subCategory: '',
+    presidentEmail: '',
+    isApprove: false
+  });
+  const handleInputChange = (field: keyof OrganizationProps, value: any) => {
+    setOrganization((prevOrganization) => ({
+      ...prevOrganization,
+      [field]: value
+    }));
+  };
   const [classification, setClassification] = useState<string>('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedMajors, setSelectedMajors] = useState<string[]>([]);
   const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date);
+    handleInputChange('establishedYear', date ? date.getFullYear() : 0);
   };
   const handleMemberCountChange = (member: number | null) => {
-    // 수정된 부분
-    setMemberCount(member);
+    handleInputChange('numberOfMember', member || '');
+    console.log(member);
   };
-  const handleClassificationChange = (classification: string) => {
-    // 수정된 부분
-    setClassification(classification);
+  const handleClassificationChange = (
+    classification: string,
+    faculty: string,
+    department: string,
+    campus: string,
+    organization: string
+  ) => {
+    handleInputChange('campus', campus);
+    handleInputChange('largeCategory', organization);
+    handleInputChange('mediumCategory', classification);
+    handleInputChange('smallCategory', faculty);
+    handleInputChange('subCategory', department);
   };
   const handleSelectedTagsChange = (tags: string[]) => {
     setSelectedTags(tags);
+    handleInputChange('relatedTag', tags);
+    console.log(organization.relatedTag);
   };
   const handleSelectedMajorsChange = (majors: string[]) => {
     setSelectedMajors(majors);
+    console.log(majors);
+    handleInputChange('relationMajor', majors);
+  };
+  const handleImgUrlChange = (url: string) => {
+    handleInputChange('imageUrl', url);
+    console.log(url);
   };
   return (
     <BackGround>
@@ -51,7 +96,12 @@ function CreateOrganizationFirst() {
         <SmallTitle>
           단체명<BasicInfoAsterisk>*</BasicInfoAsterisk>
         </SmallTitle>
-        <BasicInput id='name' type='text' placeholder={'예시-놀명 뭐하니'} />
+        <BasicInput
+          id='name'
+          type='text'
+          value={organization.name}
+          placeholder={'예시-놀명 뭐하니'}
+        />
         <BorderLine></BorderLine>
         <SmallTitle>
           단체 한 줄 소개<BasicInfoAsterisk>*</BasicInfoAsterisk>
@@ -59,6 +109,7 @@ function CreateOrganizationFirst() {
         <BasicInput
           id='introduction'
           type='text'
+          value={organization.introduction}
           placeholder={
             '예시 - 놀명뭐하니는 명지대학교 학생들을 위한 단체 등록 및 모집 공고 관리 서비스입니다.'
           }
@@ -81,7 +132,7 @@ function CreateOrganizationFirst() {
         </SmallTitle>
         <RelatedTagsSelect
           selectedTags={selectedTags}
-          onChange={setSelectedTags}
+          onChange={handleSelectedTagsChange}
         />
         <SmallTitle>관련 학과 (최대 3개)</SmallTitle>
         <SelectMajor
@@ -91,7 +142,7 @@ function CreateOrganizationFirst() {
         <SmallTitle>
           단체 로고 이미지<BasicInfoAsterisk>*</BasicInfoAsterisk>
         </SmallTitle>
-        <Preview></Preview>
+        <Preview onChange={handleImgUrlChange}></Preview>
       </Board>
       <Level>
         <img src={level_one} />
@@ -131,26 +182,6 @@ const BackGround = styled.div`
 }
 `;
 
-const Level = styled.div`
-  display: flex;
-  align-items: left;
-  margin-bottom: 41px;
-  margin-right: 650px;
-  img {
-  width: 24px;
-  height: 24px;
-  flex-shrink: 0;
-  }
-}
-`;
-const Next = styled.div`
-  display: flex;
-  align-items: left;
-  height: auto;
-  justify-content: space-around;
-  margin-bottom: 2rem;
-`;
-
 const NextButton = styled.button`
   display: inline-block
   align-items: center;
@@ -185,25 +216,5 @@ const NextButton = styled.button`
     line-height: 40px;
     text-align: center;
     margin-left: 12px;
-  }
-`;
-
-const BasicInput = styled.input`
-  width: 600px;
-  height: 16px;
-  padding: 0px;
-  flex-shrink: 0;
-  border: none;
-  font-family: 'GmarketSansMedium';
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  margin-left: 36px;
-  margin-bottom: 0px;
-  margin-top: 10px;
-  outline: none;
-  &::placeholder {
-    color: rgba(0, 0, 0, 0.2);
   }
 `;

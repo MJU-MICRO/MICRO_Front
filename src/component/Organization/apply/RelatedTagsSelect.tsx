@@ -1,8 +1,8 @@
-// RelatedTagsSelect.tsx
 import React from 'react';
-import Select, { ActionMeta, components } from 'react-select';
+import Select, { ActionMeta } from 'react-select';
 import styled from 'styled-components';
-import { customStyles } from './createCommonStyle';
+import { MultiCustomStyles } from './ApplyCommonStyle';
+
 interface RelatedTagsSelectProps {
   selectedTags: string[];
   onChange: (tags: string[]) => void;
@@ -29,10 +29,11 @@ const CustomSelect = styled(Select)`
     color: rgba(0, 0, 0, 0.95);
   }
 `;
-const RelatedTagsSelect: React.FC<RelatedTagsSelectProps> = ({
+
+const RelatedTagsSelect = ({
   selectedTags,
   onChange
-}) => {
+}: RelatedTagsSelectProps) => {
   const options = [
     { value: '언론/미디어', label: '언론/미디어' },
     { value: '문화/역사', label: '문화/역사' },
@@ -60,7 +61,7 @@ const RelatedTagsSelect: React.FC<RelatedTagsSelectProps> = ({
       onChange={handleSelectChange}
       options={options}
       placeholder='관련 태그를 선택해주세요'
-      styles={customStyles}
+      styles={MultiCustomStyles}
     />
   );
 };

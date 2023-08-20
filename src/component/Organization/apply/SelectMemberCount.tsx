@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
-import { customStyles } from './createCommonStyle';
+import { customStyles } from './ApplyCommonStyle';
 
 interface SelectMemberCountProps {
   onChange: (count: number | null) => void;
