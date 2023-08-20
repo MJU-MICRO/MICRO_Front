@@ -3,6 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 
 function SignUp() {
+  const [containerHeight, setContainerHeight] = useState<string>('59rem');
   const [email, setEmail] = useState<string>('');
   const [emailIsClicked, setEmailIsClicked] = useState<boolean>(false);
   const [verifyCode, setVerifyCode] = useState<string>('');
@@ -106,13 +107,6 @@ function SignUp() {
     event.preventDefault();
 
     if (password === confirmPassword) {
-      // try {
-      //   const response = await axios.post('/api/signup');
-      //   console.log(response.data);
-      // } catch (error) {
-      //   console.error(error);
-      // }
-
       axios
         .post('/api/auth/sign-up', {
           email: email,
@@ -131,15 +125,6 @@ function SignUp() {
         .catch((err) => {
           console.log(err);
         });
-
-      console.log(email);
-      console.log(password);
-      console.log(name);
-      console.log(studentId);
-      console.log(major);
-      console.log(phone);
-      console.log(introduction);
-      console.log(emailAgreement);
     } else {
       setPasswordsMatch(false);
     }
@@ -156,7 +141,7 @@ function SignUp() {
             있어요.
           </NoticeText>
         </NoticeContainer>
-        <SignUpContainer>
+        <SignUpContainer style={{ height: containerHeight }}>
           {/* 계정 설정 */}
           <InputContainer>
             <InputTitle>계정설정</InputTitle>
@@ -175,7 +160,11 @@ function SignUp() {
                     onChange={handleEmailChange}
                   />
                   <EmailText>@mju.ac.kr</EmailText>
-                  <ReverifyButton onClick={() => setEmailIsClicked(false)}>
+                  <ReverifyButton
+                    onClick={() => {
+                      setEmailIsClicked(false);
+                      setContainerHeight('59rem');
+                    }}>
                     인증번호 재전송
                   </ReverifyButton>
                 </AccountSettingContainer>
@@ -191,7 +180,11 @@ function SignUp() {
                         setVerifyCode(event.target.value);
                       }}
                     />
-                    <SendCodeButton onClick={() => setEmailIsClicked(false)}>
+                    <SendCodeButton
+                      onClick={() => {
+                        setEmailIsClicked(false);
+                        setContainerHeight('59rem');
+                      }}>
                       인증번호 확인
                     </SendCodeButton>
                   </InnerAccountContainer>
@@ -202,7 +195,6 @@ function SignUp() {
                       {seconds.toString().padStart(2, '0')}{' '}
                     </RemainTimeValue>
                   </RemainTimeContainer>
-
                   <InnerAccountSpanContainer>
                     <VerifyNotice>
                       인증번호를 받은 시점으로부터 5분간만 유효합니다.
@@ -226,7 +218,11 @@ function SignUp() {
                   onChange={handleEmailChange}
                 />
                 <EmailText>@mju.ac.kr</EmailText>
-                <VerifyButton onClick={() => setEmailIsClicked(true)}>
+                <VerifyButton
+                  onClick={() => {
+                    setEmailIsClicked(true);
+                    setContainerHeight('66rem');
+                  }}>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     width='20'
@@ -528,7 +524,7 @@ const NoticeText = styled.span`
 
 const SignUpContainer = styled.div`
   width: 40rem;
-  height: 59rem;
+  // height: 59rem;
   display: flex;
   flex-direction: column;
   align-items: center;
