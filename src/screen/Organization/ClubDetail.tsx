@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { ClubProps } from '../../component/Organization/Club/ClubProps';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import img from '../../assets/img.svg';
+import { OrganizationProps } from '../../component/Organization/OrganizationProps';
 
 function ClubDetail() {
   const { id } = useParams<{ id: string }>();
-  const [clubData, setClubData] = useState<ClubProps | null>(null);
+  const [clubData, setClubData] = useState<OrganizationProps | null>(null);
 
-  const sampleClubData: ClubProps[] = [
+  const sampleClubData: OrganizationProps[] = [
     {
       id: '1',
       name: '과일 러버',
-      establishedYear: '2023년 7월 14일',
+      imageUrl: 'club1.jpg',
+      establishedYear: 2023,
       numberOfMember: '34명',
       activityTitle: [
         '전 세계 각국의 과일들을 찾아보기',
@@ -25,19 +26,25 @@ function ClubDetail() {
         '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
         '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.'
       ],
-      classification: '소모임',
+      isRecruit: true,
       campus: '인문캠퍼스',
-      relationMajor: 'A 학과',
-      imageUrl: 'club1.jpg',
-      interest: ['디자인/미디어', '경영/컨설팅/마케팅', '정치/사회/법률'],
+      largeCategory: '동아리',
+      mediumCategory: '중앙동아리',
+      smallCategory: '',
+      subCategory: '',
+      relationMajor: ['경영학과'],
+      relatedTag: ['디자인/미디어', '경영/컨설팅/마케팅', '정치/사회/법률'],
       introduction:
-        '안녕하세요, 저희는 과일 러버 소모임 과일 러버단 입니다. 저희의 과일 사랑은 무한합니다. 사실 저는 수박만 좋아합니다. 다른 거를 좋아하기 위한 소모임 입니다.'
+        '안녕하세요, 저희는 과일 러버 소모임 과일 러버단 입니다. 저희의 과일 사랑은 무한합니다. 사실 저는 수박만 좋아합니다. 다른 거를 좋아하기 위한 소모임 입니다.',
+      presidentEmail: 'hgd@mju.ac.kr',
+      isApprove: true
     },
     {
       id: '2',
       name: 'Co.Ad',
-      establishedYear: '2018',
-      numberOfMember: '35',
+      imageUrl: 'club1.jpg',
+      establishedYear: 2023,
+      numberOfMember: '34명',
       activityTitle: [
         '전 세계 각국의 과일들을 찾아보기',
         '전 세계 각국의 과일들을 찾아보기',
@@ -48,13 +55,18 @@ function ClubDetail() {
         '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
         '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.'
       ],
-      classification: '동아리',
+      isRecruit: true,
       campus: '인문캠퍼스',
-      relationMajor: 'B 학과',
-      imageUrl: 'club2.jpg',
-      interest: ['디자인/사진/영상', '문화/예술'],
+      largeCategory: '동아리',
+      mediumCategory: '준동아리',
+      smallCategory: '',
+      subCategory: '',
+      relationMajor: ['경영학과'],
+      relatedTag: ['디자인/미디어', '경영/컨설팅/마케팅', '정치/사회/법률'],
       introduction:
-        '안녕하세요, 저희는 광고 동아리 Co.Ad 입니다. 저희는 다양한 분야에서 활동하며 광고와 디자인에 관심 있는 학생들이 모인 동아리입니다.'
+        '안녕하세요, 저희는 과일 러버 소모임 과일 러버단 입니다. 저희의 과일 사랑은 무한합니다. 사실 저는 수박만 좋아합니다. 다른 거를 좋아하기 위한 소모임 입니다.',
+      presidentEmail: 'hgd@mju.ac.kr',
+      isApprove: true
     }
   ];
 
@@ -75,21 +87,19 @@ function ClubDetail() {
     return <div>Loading...</div>;
   }
 
-  // Render student council detail using studentCouncilData
-
   return (
     <BackGround>
       <ClubIntroduction>
         <Intro>
           <img src={img} alt='로고 이미지' />
           <h3>{clubData.name}</h3>
-          <Classification>{clubData.classification}</Classification>
+          <Classification>{clubData.mediumCategory}</Classification>
           <Details> {clubData.introduction} </Details>
           <BorderLine></BorderLine>
         </Intro>
         <Wrapper>
           <div>
-            <h3>설립일</h3> <p>{clubData.establishedYear}</p>
+            <h3>설립연도</h3> <p>{clubData.establishedYear}년</p>
           </div>
           <div>
             <h3>회원 수</h3> <p>{clubData.numberOfMember}</p>
@@ -98,7 +108,7 @@ function ClubDetail() {
         <DownWrapper>
           <h3>관련 분야</h3>
           <div>
-            {clubData.interest.map((tag, index) => (
+            {clubData.relatedTag.map((tag, index) => (
               <InterestTag key={index}>{tag}</InterestTag>
             ))}
           </div>
@@ -124,6 +134,13 @@ function ClubDetail() {
 }
 
 export default ClubDetail;
+
+const UpWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+`;
 
 const BackGround = styled.div`
   display: flex;
@@ -355,14 +372,15 @@ const Details = styled.div`
   margin-top: 19px;
 `;
 
-const Classification = styled.div`
-  width: 62px;
+const Classification = styled.span`
   height: 30px;
   flex-shrink: 0;
   border-radius: 10px;
   background: rgba(52, 206, 174, 0.1);
   color: #34ceae;
   leading-trim: both;
+  padding-left: 7px;
+  padding-right: 7px;
   text-edge: cap;
   font-size: 13px;
   font-style: normal;
@@ -372,6 +390,8 @@ const Classification = styled.div`
   text-align: center;
   font-family: 'GmarketSansMedium';
   margin-top: 11px;
+  margin-right: 3px;
+  margin-left: 3px;
 `;
 
 const BorderLine = styled.hr`

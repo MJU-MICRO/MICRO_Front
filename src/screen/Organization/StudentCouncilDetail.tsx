@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { StudentCouncilProps } from '../../component/Organization/StudentCouncil/StudentCouncilProps';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import img from '../../assets/img.svg';
+import { OrganizationProps } from '../../component/Organization/OrganizationProps';
 
 function StudentCouncilDetail() {
   const { id } = useParams<{ id: string }>();
   const [studentCouncilData, setStudentCouncilData] =
-    useState<StudentCouncilProps | null>(null);
+    useState<OrganizationProps | null>(null);
 
-  const sampleStudentCouncilData: StudentCouncilProps[] = [
+  const sampleStudentCouncilData: OrganizationProps[] = [
     {
       id: '101',
       name: '시그널',
-      ordinalNum: '5기',
+      imageUrl: 'club1.jpg',
+      establishedYear: 2023,
+      numberOfMember: '34명',
       activityTitle: [
         '전 세계 각국의 과일들을 찾아보기',
         '전 세계 각국의 과일들을 찾아보기',
@@ -25,18 +27,25 @@ function StudentCouncilDetail() {
         '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
         '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.'
       ],
-      college: '경영대학 학생회',
-      classification: '학생단체',
+      isRecruit: true,
       campus: '인문캠퍼스',
-      major: 'A 학과',
-      imageUrl: '1.jpg',
+      largeCategory: '학생단체',
+      mediumCategory: '학과 학생회',
+      smallCategory: '경영대학',
+      subCategory: '경영정보학과',
+      relationMajor: ['경영정보학과'],
+      relatedTag: ['경영/컨설팅/마케팅', '정치/사회/법률'],
       introduction:
-        '안녕하세요, 저희는 경영대학 학생회 시그널 입니다. 저희의 과일 사랑은 무한합니다. 사실 저는 수박만 좋아합니다. 다른 거를 좋아하기 위한 소모임 입니다.'
+        '안녕하세요, 저희는 과일 러버 소모임 과일 러버단 입니다. 저희의 과일 사랑은 무한합니다. 사실 저는 수박만 좋아합니다. 다른 거를 좋아하기 위한 소모임 입니다.',
+      presidentEmail: 'hgd@mju.ac.kr',
+      isApprove: true
     },
     {
       id: '102',
       name: '공:존',
-      ordinalNum: '7기',
+      imageUrl: 'club1.jpg',
+      establishedYear: 2023,
+      numberOfMember: '34명',
       activityTitle: [
         '전 세계 각국의 과일들을 찾아보기',
         '전 세계 각국의 과일들을 찾아보기',
@@ -47,18 +56,25 @@ function StudentCouncilDetail() {
         '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
         '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.'
       ],
-      classification: '학생단체',
+      isRecruit: true,
       campus: '인문캠퍼스',
-      college: '총동아리연합회',
-      major: 'D 학과',
-      imageUrl: '2.jpg',
+      largeCategory: '학생단체',
+      mediumCategory: '총동아리연합회',
+      smallCategory: '',
+      subCategory: '',
+      relationMajor: [''],
+      relatedTag: ['디자인/미디어', '경영/컨설팅/마케팅', '정치/사회/법률'],
       introduction:
-        '안녕하세요, 저희는 총동아리연합회 공:존 입니다. 저희는 다양한 분야에서 활동하며 광고와 디자인에 관심 있는 학생들이 모인 동아리입니다.'
+        '안녕하세요, 저희는 과일 러버 소모임 과일 러버단 입니다. 저희의 과일 사랑은 무한합니다. 사실 저는 수박만 좋아합니다. 다른 거를 좋아하기 위한 소모임 입니다.',
+      presidentEmail: 'hgd@mju.ac.kr',
+      isApprove: true
     },
     {
       id: '103',
       name: 'MOVE',
-      ordinalNum: '1기',
+      imageUrl: 'club1.jpg',
+      establishedYear: 2023,
+      numberOfMember: '34명',
       activityTitle: [
         '전 세계 각국의 과일들을 찾아보기',
         '전 세계 각국의 과일들을 찾아보기',
@@ -69,13 +85,18 @@ function StudentCouncilDetail() {
         '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
         '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.'
       ],
-      classification: '학생단체',
+      isRecruit: true,
       campus: '인문캠퍼스',
-      college: '총학생회',
-      major: 'D 학과',
-      imageUrl: '2.jpg',
+      largeCategory: '학생단체',
+      mediumCategory: '단과대학 학생회',
+      smallCategory: '경영대학',
+      subCategory: '',
+      relationMajor: ['경영학과', '경영정보학과', '국제통상학과'],
+      relatedTag: [''],
       introduction:
-        '안녕하세요, 저희는 총학생회 MOVE 입니다. 저희는 다양한 분야에서 활동하며 광고와 디자인에 관심 있는 학생들이 모인 동아리입니다.'
+        '안녕하세요, 저희는 과일 러버 소모임 과일 러버단 입니다. 저희의 과일 사랑은 무한합니다. 사실 저는 수박만 좋아합니다. 다른 거를 좋아하기 위한 소모임 입니다.',
+      presidentEmail: 'hgd@mju.ac.kr',
+      isApprove: true
     }
   ];
 
@@ -106,16 +127,24 @@ function StudentCouncilDetail() {
         <Intro>
           <img src={img} alt='로고 이미지' />
           <h3>{studentCouncilData.name}</h3>
-          <Classification>{studentCouncilData.classification}</Classification>
+          <Classification>{studentCouncilData.largeCategory}</Classification>
           <Details> {studentCouncilData.introduction} </Details>
           <BorderLine></BorderLine>
         </Intro>
         <Wrapper>
           <div>
-            <h3>서수</h3> <p>{studentCouncilData.ordinalNum}</p>
+            <h3>설립연도</h3> <p>{studentCouncilData.establishedYear}년</p>
           </div>
           <div>
-            <h3>소속</h3> <p>{studentCouncilData.college}</p>
+            <h3>상세분류</h3> <p>{studentCouncilData.mediumCategory}</p>
+          </div>
+        </Wrapper>
+        <Wrapper>
+          <div>
+            <h3>소속대학</h3> <p>{studentCouncilData.smallCategory}</p>
+          </div>
+          <div>
+            <h3>소속학과</h3> <p> {studentCouncilData.subCategory}</p>
           </div>
         </Wrapper>
       </ClubIntroduction>
@@ -181,7 +210,7 @@ const ClubIntroduction = styled.div`
   margin-left: 79px;
   padding: 20px;
   width: 337px;
-  height: 480px;
+  height: 520px;
   box-shadow: 0px 4px 20px 3px rgba(0, 0, 0, 0.05);
 }
 `;
@@ -367,4 +396,33 @@ const BorderLine2 = styled.hr`
   border-top: 1px solid #dbdbdf;
   margin-top: 13px;
   margin-bottom: 13px;
+`;
+
+const DownWrapper = styled.div`
+  display: inline-block;
+  border-radius: 5px;
+  background-color: #fff;
+  border: 0.4px solid #adadad;
+  width: 307.5px;
+  height: 96px;
+  margin-top: 11px;
+  margin-left: 14px;
+  h3 {
+    color: rgba(0, 0, 0, 0.8);
+    leading-trim: both;
+    text-edge: cap;
+    font-family: 'GmarketSansMedium';
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-top: 16px;
+    margin-left: 10px;
+    margin-bottom: 13px;
+  }
+  div {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
 `;

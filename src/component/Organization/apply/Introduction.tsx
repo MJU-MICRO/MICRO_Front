@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import check_box from '../../assets/check-box.svg';
+import check_box from '../../../assets/check-box.svg';
 import {
   Container,
   NoticeTitle,
   NoticeText,
   SubTitle
-} from './createCommonStyle';
+} from './ApplyCommonStyle';
 function Introduction() {
   return (
     <Container>

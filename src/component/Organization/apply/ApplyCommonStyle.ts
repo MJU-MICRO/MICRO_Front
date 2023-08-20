@@ -127,3 +127,73 @@ export const customStyles = {
     textOverflow: 'ellipsis'
   })
 };
+
+export const MultiCustomStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    boxShadow: 'none',
+    border: 'none',
+    background: provided.background,
+    cursor: 'pointer'
+  }),
+  indicatorSeparator: () => ({
+    display: 'none'
+  }),
+  singleValue: (provided) => ({
+    ...provided,
+    maxWidth: '100%',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
+  }),
+  multiValue: (base: any, state: any) => ({
+    ...base,
+    borderRadius: '10px',
+    border: '0.8px solid #858585',
+    background: 'rgba(255, 255, 255, 0.05)'
+  }),
+  multiValueLabel: (base: any, state: any) => ({
+    ...base,
+    color: 'rgba(0, 0, 0, 0.95)', // 선택된 태그 텍스트 색상 변경
+    fontFamily: 'GmarketSansMedium'
+  })
+};
+
+export const BasicInput = styled.input`
+  width: 600px;
+  height: 16px;
+  padding: 0px;
+  flex-shrink: 0;
+  border: none;
+  font-family: 'GmarketSansMedium';
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-left: 36px;
+  margin-bottom: 0px;
+  margin-top: 10px;
+  outline: none;
+  &::placeholder {
+    color: rgba(0, 0, 0, 0.2);
+  }
+`;
+
+export const Level = styled.div`
+  display: flex;
+  align-items: left;
+  margin-bottom: 31px;
+  margin-right: 650px;
+  img {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  }
+}
+`;
+export const Next = styled.div`
+  display: flex;
+  align-items: left;
+  height: auto;
+  justify-content: space-around;
+  margin-bottom: 2rem;
+`;
