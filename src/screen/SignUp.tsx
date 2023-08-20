@@ -1,9 +1,12 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 
 function SignUp() {
   const [email, setEmail] = useState<string>('');
+  const [emailIsClicked, setEmailIsClicked] = useState<boolean>(false);
+  const [verifyCode, setVerifyCode] = useState<string>('');
+  const [remainingTime, setRemainingTime] = useState<number>(5 * 60);
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordsMatch, setPasswordsMatch] = useState(true);
@@ -21,6 +24,17 @@ function SignUp() {
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setRemainingTime((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const minutes = Math.floor(remainingTime / 60);
+  const seconds = remainingTime % 60;
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
@@ -99,24 +113,25 @@ function SignUp() {
       //   console.error(error);
       // }
 
-      // axios
-      //   .post('/api/auth/sign-up', {
-      //     email: email,
-      //     password: password,
-      //     name: name,
-      //     studentId: studentId,
-      //     major: major,
-      //     phoneNumber: phone,
-      //     introduction: introduction,
-      //     notifiation: emailAgreement
-      //   })
-      //   .then((response) => {
-      //     console.log(response);
-      //     alert('회원가입 성공');
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
+      axios
+        .post('/api/auth/sign-up', {
+          email: email,
+          password: password,
+          name: name,
+          studentId: studentId,
+          major: major,
+          phoneNumber: phone,
+          introduction: introduction,
+          notifiation: emailAgreement
+        })
+        .then((response) => {
+          console.log(response);
+          alert('회원가입 성공');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
       console.log(email);
       console.log(password);
       console.log(name);
@@ -145,39 +160,94 @@ function SignUp() {
           {/* 계정 설정 */}
           <InputContainer>
             <InputTitle>계정설정</InputTitle>
-            <AccountSettingContainer>
-              <TextContainer>
-                <InputText>학교 이메일</InputText>
-                <RedAsterisk>*</RedAsterisk>
-              </TextContainer>
-              <StyledInput
-                type='text'
-                name='email'
-                value={email}
-                onChange={handleEmailChange}
-              />
-              <EmailText>@mju.ac.kr</EmailText>
-              <VerifyButton>
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  width='20'
-                  height='20'
-                  viewBox='0 0 20 20'
-                  fill='none'>
-                  <path
-                    d='M16.6667 9.85833C16.4457 9.85833 16.2337 9.94613 16.0774 10.1024C15.9211 10.2587 15.8333 10.4707 15.8333 10.6917V15.3333C15.8333 15.4659 15.7807 15.5931 15.6869 15.6869C15.5931 15.7807 15.4659 15.8333 15.3333 15.8333H4.66667C4.53406 15.8333 4.40688 15.7807 4.31311 15.6869C4.21935 15.5931 4.16667 15.4659 4.16667 15.3333V4.66667C4.16667 4.53406 4.21935 4.40688 4.31311 4.31311C4.40688 4.21935 4.53406 4.16667 4.66667 4.16667H12.6417C12.8627 4.16667 13.0746 4.07887 13.2309 3.92259C13.3872 3.76631 13.475 3.55435 13.475 3.33333C13.475 3.11232 13.3872 2.90036 13.2309 2.74408C13.0746 2.5878 12.8627 2.5 12.6417 2.5H4.66667C4.09271 2.50219 3.54288 2.73117 3.13703 3.13703C2.73117 3.54288 2.50219 4.09271 2.5 4.66667V15.3333C2.50219 15.9073 2.73117 16.4571 3.13703 16.863C3.54288 17.2688 4.09271 17.4978 4.66667 17.5H15.3333C15.9073 17.4978 16.4571 17.2688 16.863 16.863C17.2688 16.4571 17.4978 15.9073 17.5 15.3333V10.6917C17.5 10.4707 17.4122 10.2587 17.2559 10.1024C17.0996 9.94613 16.8877 9.85833 16.6667 9.85833Z'
-                    fill='#008FD5'
-                    fillOpacity='0.8'
+            {/* 메일 인증 */}
+            {emailIsClicked ? (
+              <VerifyContainer>
+                <AccountSettingContainer>
+                  <TextContainer>
+                    <InputText>학교 이메일</InputText>
+                    <RedAsterisk>*</RedAsterisk>
+                  </TextContainer>
+                  <ReVerifyInput
+                    type='text'
+                    name='email'
+                    value={email}
+                    onChange={handleEmailChange}
                   />
-                  <path
-                    d='M8.93354 9.16716C8.77716 9.02653 8.57339 8.95022 8.3631 8.95356C8.15281 8.95689 7.95156 9.03961 7.79971 9.18513C7.64787 9.33065 7.55666 9.5282 7.54439 9.73816C7.53212 9.94811 7.59969 10.1549 7.73354 10.3172L9.58354 12.2588C9.661 12.3401 9.75407 12.4048 9.85717 12.4492C9.96028 12.4936 10.0713 12.5167 10.1835 12.5172C10.2952 12.5178 10.4059 12.496 10.5089 12.4531C10.612 12.4101 10.7054 12.3469 10.7835 12.2672L16.4335 6.43383C16.5101 6.35504 16.5705 6.26193 16.6111 6.15982C16.6517 6.05771 16.6718 5.9486 16.6703 5.83871C16.6687 5.72883 16.6456 5.62033 16.6021 5.5194C16.5586 5.41848 16.4957 5.3271 16.4169 5.2505C16.3381 5.17389 16.245 5.11356 16.1429 5.07294C16.0408 5.03232 15.9316 5.01221 15.8218 5.01375C15.7119 5.0153 15.6034 5.03848 15.5024 5.08196C15.4015 5.12544 15.3101 5.18837 15.2335 5.26716L10.1919 10.4838L8.93354 9.16716Z'
-                    fill='#008FD5'
-                    fillOpacity='0.8'
-                  />
-                </svg>
-                인증하기
-              </VerifyButton>
-            </AccountSettingContainer>
+                  <EmailText>@mju.ac.kr</EmailText>
+                  <ReverifyButton onClick={() => setEmailIsClicked(false)}>
+                    인증번호 재전송
+                  </ReverifyButton>
+                </AccountSettingContainer>
+                <InnerVerifyContainer>
+                  <InnerAccountContainer>
+                    <VerifyInput
+                      type='text'
+                      name='verifyCode'
+                      value={verifyCode}
+                      onChange={(
+                        event: React.ChangeEvent<HTMLInputElement>
+                      ) => {
+                        setVerifyCode(event.target.value);
+                      }}
+                    />
+                    <SendCodeButton onClick={() => setEmailIsClicked(false)}>
+                      인증번호 확인
+                    </SendCodeButton>
+                  </InnerAccountContainer>
+                  <RemainTimeContainer>
+                    <RemainTime>입력대기시간</RemainTime>
+                    <RemainTimeValue>
+                      {minutes.toString().padStart(2, '0')}:
+                      {seconds.toString().padStart(2, '0')}{' '}
+                    </RemainTimeValue>
+                  </RemainTimeContainer>
+
+                  <InnerAccountSpanContainer>
+                    <VerifyNotice>
+                      인증번호를 받은 시점으로부터 5분간만 유효합니다.
+                      <br />
+                      인증번호를 받지 못한 경우 위의 인증번호 재전송 버튼을
+                      눌러주세요.
+                    </VerifyNotice>
+                  </InnerAccountSpanContainer>
+                </InnerVerifyContainer>
+              </VerifyContainer>
+            ) : (
+              <AccountSettingContainer>
+                <TextContainer>
+                  <InputText>학교 이메일</InputText>
+                  <RedAsterisk>*</RedAsterisk>
+                </TextContainer>
+                <StyledInput
+                  type='text'
+                  name='email'
+                  value={email}
+                  onChange={handleEmailChange}
+                />
+                <EmailText>@mju.ac.kr</EmailText>
+                <VerifyButton onClick={() => setEmailIsClicked(true)}>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    width='20'
+                    height='20'
+                    viewBox='0 0 20 20'
+                    fill='none'>
+                    <path
+                      d='M16.6667 9.85833C16.4457 9.85833 16.2337 9.94613 16.0774 10.1024C15.9211 10.2587 15.8333 10.4707 15.8333 10.6917V15.3333C15.8333 15.4659 15.7807 15.5931 15.6869 15.6869C15.5931 15.7807 15.4659 15.8333 15.3333 15.8333H4.66667C4.53406 15.8333 4.40688 15.7807 4.31311 15.6869C4.21935 15.5931 4.16667 15.4659 4.16667 15.3333V4.66667C4.16667 4.53406 4.21935 4.40688 4.31311 4.31311C4.40688 4.21935 4.53406 4.16667 4.66667 4.16667H12.6417C12.8627 4.16667 13.0746 4.07887 13.2309 3.92259C13.3872 3.76631 13.475 3.55435 13.475 3.33333C13.475 3.11232 13.3872 2.90036 13.2309 2.74408C13.0746 2.5878 12.8627 2.5 12.6417 2.5H4.66667C4.09271 2.50219 3.54288 2.73117 3.13703 3.13703C2.73117 3.54288 2.50219 4.09271 2.5 4.66667V15.3333C2.50219 15.9073 2.73117 16.4571 3.13703 16.863C3.54288 17.2688 4.09271 17.4978 4.66667 17.5H15.3333C15.9073 17.4978 16.4571 17.2688 16.863 16.863C17.2688 16.4571 17.4978 15.9073 17.5 15.3333V10.6917C17.5 10.4707 17.4122 10.2587 17.2559 10.1024C17.0996 9.94613 16.8877 9.85833 16.6667 9.85833Z'
+                      fill='#008FD5'
+                      fillOpacity='0.8'
+                    />
+                    <path
+                      d='M8.93354 9.16716C8.77716 9.02653 8.57339 8.95022 8.3631 8.95356C8.15281 8.95689 7.95156 9.03961 7.79971 9.18513C7.64787 9.33065 7.55666 9.5282 7.54439 9.73816C7.53212 9.94811 7.59969 10.1549 7.73354 10.3172L9.58354 12.2588C9.661 12.3401 9.75407 12.4048 9.85717 12.4492C9.96028 12.4936 10.0713 12.5167 10.1835 12.5172C10.2952 12.5178 10.4059 12.496 10.5089 12.4531C10.612 12.4101 10.7054 12.3469 10.7835 12.2672L16.4335 6.43383C16.5101 6.35504 16.5705 6.26193 16.6111 6.15982C16.6517 6.05771 16.6718 5.9486 16.6703 5.83871C16.6687 5.72883 16.6456 5.62033 16.6021 5.5194C16.5586 5.41848 16.4957 5.3271 16.4169 5.2505C16.3381 5.17389 16.245 5.11356 16.1429 5.07294C16.0408 5.03232 15.9316 5.01221 15.8218 5.01375C15.7119 5.0153 15.6034 5.03848 15.5024 5.08196C15.4015 5.12544 15.3101 5.18837 15.2335 5.26716L10.1919 10.4838L8.93354 9.16716Z'
+                      fill='#008FD5'
+                      fillOpacity='0.8'
+                    />
+                  </svg>
+                  인증하기
+                </VerifyButton>
+              </AccountSettingContainer>
+            )}
             <AccountSettingContainer>
               <TextContainer>
                 <InputText>비밀번호</InputText>
@@ -360,6 +430,7 @@ function SignUp() {
                   <RedAsterisk>*</RedAsterisk>
                 </InnerContainer>
                 <StyledSelect value={major} onChange={handleMajorChange}>
+                  <option value='unSelected'>학과를 선택해주세요</option>
                   <option value='software'>응용소프트웨어학과</option>
                   <option value='data'>데이터테크놀로지학과</option>
                 </StyledSelect>
@@ -533,6 +604,32 @@ const VerifyButton = styled.button`
   // }
 `;
 
+const ReverifyButton = styled(VerifyButton)`
+  width: 8rem;
+  justify-content: center;
+`;
+
+const SendCodeButton = styled(VerifyButton)`
+  width: 8rem;
+  justify-content: center;
+`;
+
+const VerifyContainer = styled.div`
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+`;
+
+const InnerVerifyContainer = styled.div`
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+`;
+
 const RedAsterisk = styled(InputText)`
   color: red;
 `;
@@ -545,6 +642,7 @@ const TextContainer = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
 const AccountSettingContainer = styled.div`
   width: 35rem;
   display: flex;
@@ -552,6 +650,26 @@ const AccountSettingContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   margin-top: 1rem;
+`;
+
+const InnerAccountContainer = styled.div`
+  width: 30rem;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-left: 5.1rem;
+  margin-top: 1rem;
+`;
+
+const InnerAccountSpanContainer = styled(InnerAccountContainer)`
+  width: 28rem;
+`;
+
+const RemainTimeContainer = styled(InnerAccountContainer)`
+  width: 20rem;
+  margin-left: 11.6rem;
 `;
 
 const StyledInput = styled.input`
@@ -568,6 +686,42 @@ const StyledInput = styled.input`
   line-height: normal;
   margin-left: 1.5rem;
   padding-left: 0.5rem;
+`;
+
+const ReVerifyInput = styled(StyledInput)`
+  width: 10rem;
+`;
+
+const VerifyInput = styled(StyledInput)`
+  width: 16rem;
+`;
+
+const RemainTime = styled.span`
+  color: rgba(0, 0, 0, 0.7);
+  text-align: center;
+  font-family: GmarketSansLight;
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+`;
+
+const RemainTimeValue = styled.span`
+  color: rgba(255, 0, 0, 0.7);
+  font-family: GmarketSansLight;
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+`;
+
+const VerifyNotice = styled.span`
+  color: rgba(0, 0, 0, 0.7);
+  font-family: GmarketSansLight;
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
 `;
 
 const PasswordInput = styled.input`
