@@ -17,10 +17,26 @@ const OrganizationList = () => {
   const [selectedRelationMajor, setSelectedRelationMajor] = useState<string[]>(
     []
   );
+  const [sampleData2, setSampleData2] = useState<OrganizationProps[]>([]);
   const [selectedClassification, setSelectedClassification] = useState<
     string | null
   >(null);
   const [selectedCampus, setSelectedCampus] = useState<string | null>(null);
+  useEffect(() => {
+    axios
+      .get('api/group')
+      .then((response) => {
+        console.log(response);
+        if (response.data) {
+          setSampleData2(response.data);
+        } else {
+          console.error('Application list data not available:', response.data);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching application history:', error);
+      });
+  });
 
   // 가상의 클럽 데이터
   const sampleData: OrganizationProps[] = [

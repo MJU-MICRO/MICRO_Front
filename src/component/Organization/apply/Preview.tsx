@@ -9,21 +9,8 @@ const UploadIcon = styled.img`
 `;
 
 const Preview = ({ onChange }) => {
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const imgRef = useRef<HTMLInputElement>(null);
-
-  const onChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
-    const reader = new FileReader();
-    const file = e.target.files && e.target.files[0];
-
-    if (file) {
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        setImageUrl(reader.result as string);
-        onChange(reader.result as string); // 이미지 URL 전달
-      };
-    }
-  };
 
   const onClickFileBtn = () => {
     if (imgRef.current) {
@@ -31,15 +18,30 @@ const Preview = ({ onChange }) => {
     }
   };
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      setSelectedFile(file);
+    } else {
+      setSelectedFile(null);
+    }
+    onChange(event);
+    console.log(selectedFile);
+  };
+
   return (
     <ImageUploadWrapper>
       <ImageBox>
-        <StyledImage src={imageUrl || fileupload} alt='Uploaded' />
+        <StyledImage
+          src={selectedFile ? URL.createObjectURL(selectedFile) : fileupload}
+          alt='Uploaded'
+        />
       </ImageBox>
       <input
         type='file'
         ref={imgRef}
-        onChange={onChangeImage}
+        onChange={handleFileChange} // 수정된 부분
         style={{ display: 'none' }}
       />
       <Wrapper>

@@ -18,6 +18,7 @@ import {
 import img from '../../assets/img.svg';
 import { RecruitmentProps } from './RecruitmentProps';
 import { OrganizationProps } from '../Organization/OrganizationProps';
+import styled from 'styled-components';
 
 const ClubRecruitmentCard = ({
   id,
@@ -58,12 +59,14 @@ const ClubRecruitmentCard = ({
               {isRecruit ? formattedDays : '모집 종료'}
             </Status>
           </Wrapper>
-          <p>
-            {campus} · {establishedYear}년 개설 · 회원 수 {numberOfMember}
-          </p>
-          {relatedTag.map((tag, index) => (
-            <InterestTag key={index}>{tag}</InterestTag>
-          ))}
+          <DownWrapper>
+            <p>
+              {campus} · {establishedYear}년 개설 · 회원 수 {numberOfMember}
+            </p>
+            {relatedTag.map((tag, index) => (
+              <InterestTag key={index}>{tag}</InterestTag>
+            ))}
+          </DownWrapper>
         </CardInfo>
       </UpWrapper>
       <BorderLine></BorderLine>
@@ -96,3 +99,10 @@ const formatRemainingDays = (days) => {
   }
 };
 export default ClubRecruitmentCard;
+
+const DownWrapper = styled.div`
+  float: left;
+  p {
+    margin-right: 40px;
+  }
+`;

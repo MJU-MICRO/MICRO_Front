@@ -168,7 +168,7 @@ export const InterestTag = styled.span`
 export const Wrapper = styled.div`
   display: flex;
   justify-content: flex-start;
-  width: 380px;
+  width: 460px;
 `;
 
 export const UpWrapper = styled.div`
@@ -178,7 +178,7 @@ export const UpWrapper = styled.div`
 
 export const BorderLine = styled.hr`
   stroke-width: 2px;
-  width: 480px;
+  width: 555px;
   flex-shrink: 0;
   margin-left: 17px;
   margin-right: 8px;

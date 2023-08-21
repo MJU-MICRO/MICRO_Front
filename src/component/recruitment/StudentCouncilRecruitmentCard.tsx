@@ -18,6 +18,7 @@ import {
 import img from '../../assets/img.svg';
 import { RecruitmentProps } from './RecruitmentProps';
 import { OrganizationProps } from '../Organization/OrganizationProps';
+import styled from 'styled-components';
 
 const StudentCouncilRecruitmentCard = ({
   id,
@@ -58,14 +59,18 @@ const StudentCouncilRecruitmentCard = ({
               {isRecruit ? formattedDays : '모집 종료'}
             </Status>
           </Wrapper>
-          <p>
-            {campus} · {establishedYear}년 개설 · 회원 수 {numberOfMember}
-          </p>
-          <InterestTag>{mediumCategory}</InterestTag>
-          {smallCategory != '' && subCategory == '' && (
-            <InterestTag>{smallCategory}</InterestTag>
-          )}
-          {subCategory != '' && <InterestTag>{subCategory}</InterestTag>}
+          <DownWrapper>
+            <p>
+              {campus} · {establishedYear}년 개설 · 회원 수 {numberOfMember}
+            </p>
+            <Tag>
+              <InterestTag>{mediumCategory}</InterestTag>
+              {smallCategory != '' && subCategory == '' && (
+                <InterestTag>{smallCategory}</InterestTag>
+              )}
+              {subCategory != '' && <InterestTag>{subCategory}</InterestTag>}
+            </Tag>
+          </DownWrapper>
         </CardInfo>
       </UpWrapper>
       <BorderLine></BorderLine>
@@ -99,3 +104,11 @@ const formatRemainingDays = (days) => {
   }
 };
 export default StudentCouncilRecruitmentCard;
+
+const DownWrapper = styled.div`
+  float: left;
+`;
+
+const Tag = styled.div`
+  float: left;
+`;

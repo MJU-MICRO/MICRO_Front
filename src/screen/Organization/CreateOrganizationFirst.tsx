@@ -23,12 +23,13 @@ import RelatedTagsSelect from '../../component/Organization/apply/RelatedTagsSel
 import SelectMajor from '../../component/Organization/apply/SelectMajor';
 import Preview from '../../component/Organization/apply/Preview';
 import { OrganizationProps } from '../../component/Organization/OrganizationProps';
+import axios from 'axios';
 
 function CreateOrganizationFirst() {
   const [organization, setOrganization] = useState<OrganizationProps>({
-    id: '', // Assuming this will be set later
+    id: '',
     name: '',
-    imageUrl: '', // You might add image URL logic here
+    imageUrl: '',
     establishedYear: 0,
     numberOfMember: '',
     introduction: '',
@@ -51,9 +52,26 @@ function CreateOrganizationFirst() {
       [field]: value
     }));
   };
-  const [classification, setClassification] = useState<string>('');
+  const handleClubNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newName = event.target.value;
+    setClubName(newName);
+    handleInputChange('name', newName);
+    console.log(newName);
+  };
+
+  const handleClubDescriptionChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newDescription = event.target.value;
+    setClubDescription(newDescription);
+    handleInputChange('introduction', newDescription);
+    console.log(newDescription);
+  };
+  const [clubName, setClubName] = useState(''); // 동아리명 입력 상태
+  const [clubDescription, setClubDescription] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedMajors, setSelectedMajors] = useState<string[]>([]);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const handleDateChange = (date: Date | null) => {
     handleInputChange('establishedYear', date ? date.getFullYear() : 0);
   };
@@ -84,9 +102,32 @@ function CreateOrganizationFirst() {
     console.log(majors);
     handleInputChange('relationMajor', majors);
   };
-  const handleImgUrlChange = (url: string) => {
-    handleInputChange('imageUrl', url);
-    console.log(url);
+  const handleImgUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setSelectedFile(event.target.files[0]);
+    }
+    console.log(selectedFile);
+  };
+  const handleTempSave = () => {
+    console.log('임시저장');
+    console.log(selectedFile);
+    // const userEmail = localStorage.getItem('userEmail');
+    //
+    // // Prepare the data to send to the temporary save API
+    // const dataToSend = {
+    //   organization: organization,
+    //   userEmail: userEmail
+    // };
+    //
+    // // Send data to the temporary save API
+    // axios
+    //   .post('https://api.example.org/temp-save', dataToSend)
+    //   .then((response) => {
+    //     console.log('Temporary save successful:', response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error saving data:', error);
+    //   });
   };
   return (
     <BackGround>
@@ -99,7 +140,8 @@ function CreateOrganizationFirst() {
         <BasicInput
           id='name'
           type='text'
-          value={organization.name}
+          value={clubName}
+          onChange={handleClubNameChange} // 입력값 업데이트 함수 연결
           placeholder={'예시-놀명 뭐하니'}
         />
         <BorderLine></BorderLine>
@@ -109,7 +151,8 @@ function CreateOrganizationFirst() {
         <BasicInput
           id='introduction'
           type='text'
-          value={organization.introduction}
+          value={clubDescription}
+          onChange={handleClubDescriptionChange} // 입력값 업데이트 함수 연결
           placeholder={
             '예시 - 놀명뭐하니는 명지대학교 학생들을 위한 단체 등록 및 모집 공고 관리 서비스입니다.'
           }
@@ -142,15 +185,15 @@ function CreateOrganizationFirst() {
         <SmallTitle>
           단체 로고 이미지<BasicInfoAsterisk>*</BasicInfoAsterisk>
         </SmallTitle>
-        <Preview onChange={handleImgUrlChange}></Preview>
+        <Preview onChange={handleImgUrlChange} />
       </Board>
       <Level>
         <img src={level_one} />
         <img src={level_two} />
       </Level>
       <Next>
-        <SaveButton>임시저장</SaveButton>
-        <Link to={'/CreateOrganizationSecond'}>
+        <SaveButton onClick={handleTempSave}>임시저장</SaveButton>
+        <Link to='/CreateOrganizationSecond' state={organization}>
           <NextButton>
             <div>추가 정보</div> <img src={arrow} />
           </NextButton>

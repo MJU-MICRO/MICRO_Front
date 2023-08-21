@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import level_one_2 from '../../assets/level_one_2.svg';
 import level_two_2 from '../../assets/level_two_2.svg';
@@ -13,28 +13,82 @@ import {
 import { useLocation } from 'react-router-dom';
 
 function CreateOrganizationSecond() {
+  const [activityTitles, setActivityTitles] = useState(['', '', '']);
+  const [activityContents, setActivityContents] = useState(['', '', '']);
   const location = useLocation();
-  const [activityTitles, setActivityTitles] = React.useState(['', '', '']);
-  const [activityContents, setActivityContents] = React.useState(['', '', '']);
+  const organization = location.state;
 
-  const handleTitleChange = (index, value) => {
+  const handleTitleChange = (index: number, value: string) => {
     if (value.length <= 40) {
       const newTitles = [...activityTitles];
       newTitles[index] = value;
       setActivityTitles(newTitles);
+
+      const updatedOrganization = {
+        ...organization,
+        activityTitle: newTitles
+      };
+      // organization 상태를 직접 업데이트
+      location.state = updatedOrganization;
     }
-    console.log(activityTitles);
   };
 
-  const handleContentChange = (index, value) => {
+  const handleContentChange = (index: number, value: string) => {
     if (value.length <= 500) {
       const newContents = [...activityContents];
       newContents[index] = value;
       setActivityContents(newContents);
-    }
-    console.log(activityContents);
-  };
 
+      const updatedOrganization = {
+        ...organization,
+        activityContent: newContents
+      };
+      // organization 상태를 직접 업데이트
+      location.state = updatedOrganization;
+    }
+  };
+  const handleTempSave = () => {
+    console.log('임시저장');
+    console.log(organization);
+    // const userEmail = localStorage.getItem('userEmail');
+    //
+    // // Prepare the data to send to the temporary save API
+    // const dataToSend = {
+    //   organization: organization,
+    //   userEmail: userEmail
+    // };
+    //
+    // // Send data to the temporary save API
+    // axios
+    //   .post('https://api.example.org/temp-save', dataToSend)
+    //   .then((response) => {
+    //     console.log('Temporary save successful:', response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error saving data:', error);
+    //   });
+  };
+  const handleSubmit = () => {
+    console.log('제출');
+    console.log(organization);
+    // const userEmail = localStorage.getItem('userEmail');
+    //
+    // // Prepare the data to send to the temporary save API
+    // const dataToSend = {
+    //   organization: organization,
+    //   userEmail: userEmail
+    // };
+    //
+    // // Send data to the temporary save API
+    // axios
+    //   .post('https://api.example.org/temp-save', dataToSend)
+    //   .then((response) => {
+    //     console.log('Temporary save successful:', response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error saving data:', error);
+    //   });
+  };
   return (
     <BackGround>
       <Introduction />
@@ -65,8 +119,8 @@ function CreateOrganizationSecond() {
         <img src={level_two_2} alt='Level Two' />
       </Level>
       <Next>
-        <SaveButton>임시저장</SaveButton>
-        <SubmitButton>등록하기</SubmitButton>
+        <SaveButton onClick={handleTempSave}>임시저장</SaveButton>
+        <SubmitButton onClick={handleSubmit}>등록하기</SubmitButton>
       </Next>
     </BackGround>
   );
