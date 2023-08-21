@@ -1,108 +1,202 @@
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
-import { ClubCardProps } from '../../component/Organization/Club/ClubCardProps';
-import { StudentCouncilCardProps } from '../../component/Organization/StudentCouncil/StudentCouncilCardProps';
 import Sidebar from '../../component/SideBar';
 import { Link } from 'react-router-dom';
-import ClubCard from '../../component/Organization/Club/ClubCard';
-import StudentCouncilCard from '../../component/Organization/StudentCouncil/StudentCouncilCard';
+import ClubCard from '../../component/Organization/ClubCard';
+import StudentCouncilCard from '../../component/Organization/StudentCouncilCard';
 import '../../App.css';
 import plus_Icon from '../../assets/plus-Icon.svg';
-
+import { OrganizationProps } from '../../component/Organization/OrganizationProps';
+import axios from 'axios';
 const OrganizationList = () => {
-  // 가상의 데이터로 클럽과 학생회 데이터 생성
-  const [clubData, setClubData] = useState<ClubCardProps[]>([]);
+  const [clubData, setClubData] = useState<OrganizationProps[]>([]);
   const [studentCouncilData, setStudentCouncilData] = useState<
-    StudentCouncilCardProps[]
+    OrganizationProps[]
   >([]);
   const [selectedInterest, setSelectedInterest] = useState<string | null>(null);
-  const [selectedRelationMajor, setSelectedRelationMajor] = useState<
-    string | null
-  >(null);
+  const [selectedRelationMajor, setSelectedRelationMajor] = useState<string[]>(
+    []
+  );
+  const [sampleData2, setSampleData2] = useState<OrganizationProps[]>([]);
   const [selectedClassification, setSelectedClassification] = useState<
     string | null
   >(null);
   const [selectedCampus, setSelectedCampus] = useState<string | null>(null);
+  useEffect(() => {
+    axios
+      .get('api/group')
+      .then((response) => {
+        console.log(response);
+        if (response.data) {
+          setSampleData2(response.data);
+        } else {
+          console.error('Application list data not available:', response.data);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching application history:', error);
+      });
+  });
 
   // 가상의 클럽 데이터
-  const sampleClubData: ClubCardProps[] = [
+  const sampleData: OrganizationProps[] = [
     {
       id: '1',
       name: '과일 러버',
-      classification: '소모임',
-      campus: '인문캠퍼스',
-      relationMajor: 'A 학과',
-      status: true,
       imageUrl: 'club1.jpg',
-      interest: ['디자인/미디어', '경영/컨설팅/마케팅', '정치/사회/법률'],
+      establishedYear: 2023,
+      numberOfMember: '34명',
+      activityTitle: [
+        '전 세계 각국의 과일들을 찾아보기',
+        '전 세계 각국의 과일들을 찾아보기',
+        '전 세계 각국의 과일들을 찾아보기'
+      ],
+      activityContent: [
+        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
+        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
+        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.'
+      ],
+      isRecruit: true,
+      campus: '인문캠퍼스',
+      largeCategory: '동아리',
+      mediumCategory: '중앙동아리',
+      smallCategory: '',
+      subCategory: '',
+      relationMajor: ['경영학과'],
+      relatedTag: ['디자인/미디어', '경영/컨설팅/마케팅', '정치/사회/법률'],
       introduction:
-        '안녕하세요, 저희는 과일 러버 소모임 과일 러버단 입니다. 저희의 과일 사랑은 무한합니다. 사실 저는 수박만 좋아합니다. 다른 거를 좋아하기 위한 소모임 입니다.'
+        '안녕하세요, 저희는 과일 러버 소모임 과일 러버단 입니다. 저희의 과일 사랑은 무한합니다. 사실 저는 수박만 좋아합니다. 다른 거를 좋아하기 위한 소모임 입니다.',
+      presidentEmail: 'hgd@mju.ac.kr',
+      isApprove: true
     },
     {
       id: '2',
       name: 'Co.Ad',
-      classification: '동아리',
+      imageUrl: 'club1.jpg',
+      establishedYear: 2023,
+      numberOfMember: '34명',
+      activityTitle: [
+        '전 세계 각국의 과일들을 찾아보기',
+        '전 세계 각국의 과일들을 찾아보기',
+        '전 세계 각국의 과일들을 찾아보기'
+      ],
+      activityContent: [
+        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
+        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
+        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.'
+      ],
+      isRecruit: true,
       campus: '인문캠퍼스',
-      relationMajor: 'B 학과',
-      status: false,
-      imageUrl: 'club2.jpg',
-      interest: ['디자인/미디어', '체육/헬스'],
+      largeCategory: '동아리',
+      mediumCategory: '준동아리',
+      smallCategory: '',
+      subCategory: '',
+      relationMajor: ['경영학과'],
+      relatedTag: ['디자인/미디어', '경영/컨설팅/마케팅', '정치/사회/법률'],
       introduction:
-        '안녕하세요, 저희는 과일 러버 소모임 과일 러버단\n' +
-        '입니다. 저희의 과일 사랑은 무한합니다. 사실 저는 \n' +
-        '수박만 좋아합니다. 다른 거를 좋아하기 위한 소모임\n' +
-        '입니다.'
-    }
-  ];
-
-  // 가상의 학생회 데이터
-  const sampleStudentCouncilData: StudentCouncilCardProps[] = [
+        '안녕하세요, 저희는 과일 러버 소모임 과일 러버단 입니다. 저희의 과일 사랑은 무한합니다. 사실 저는 수박만 좋아합니다. 다른 거를 좋아하기 위한 소모임 입니다.',
+      presidentEmail: 'hgd@mju.ac.kr',
+      isApprove: true
+    },
     {
       id: '101',
       name: '시그널',
-      classification: '학생단체',
+      imageUrl: 'club1.jpg',
+      establishedYear: 2023,
+      numberOfMember: '34명',
+      activityTitle: [
+        '전 세계 각국의 과일들을 찾아보기',
+        '전 세계 각국의 과일들을 찾아보기',
+        '전 세계 각국의 과일들을 찾아보기'
+      ],
+      activityContent: [
+        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
+        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
+        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.'
+      ],
+      isRecruit: true,
       campus: '인문캠퍼스',
-      major: 'C 학과',
-      college: '경영대학 학생회',
-      status: true,
-      imageUrl: 'council1.jpg',
+      largeCategory: '학생단체',
+      mediumCategory: '학과 학생회',
+      smallCategory: '경영대학',
+      subCategory: '경영정보학과',
+      relationMajor: ['경영정보학과'],
+      relatedTag: ['경영/컨설팅/마케팅', '정치/사회/법률'],
       introduction:
-        '안녕하세요, 저희는 과일 러버 소모임 과일 러버단\n' +
-        '입니다. 저희의 과일 사랑은 무한합니다. 사실 저는 \n' +
-        '수박만 좋아합니다. 다른 거를 좋아하기 위한 소모임\n' +
-        '입니다.'
+        '안녕하세요, 저희는 과일 러버 소모임 과일 러버단 입니다. 저희의 과일 사랑은 무한합니다. 사실 저는 수박만 좋아합니다. 다른 거를 좋아하기 위한 소모임 입니다.',
+      presidentEmail: 'hgd@mju.ac.kr',
+      isApprove: true
     },
     {
       id: '102',
       name: '공:존',
-      classification: '학생단체',
+      imageUrl: 'club1.jpg',
+      establishedYear: 2023,
+      numberOfMember: '34명',
+      activityTitle: [
+        '전 세계 각국의 과일들을 찾아보기',
+        '전 세계 각국의 과일들을 찾아보기',
+        '전 세계 각국의 과일들을 찾아보기'
+      ],
+      activityContent: [
+        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
+        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
+        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.'
+      ],
+      isRecruit: true,
       campus: '인문캠퍼스',
-      major: 'D 학과',
-      college: '총동아리연합회',
-      status: false,
-      imageUrl: 'council2.jpg',
+      largeCategory: '학생단체',
+      mediumCategory: '총동아리연합회',
+      smallCategory: '',
+      subCategory: '',
+      relationMajor: [''],
+      relatedTag: ['디자인/미디어', '경영/컨설팅/마케팅', '정치/사회/법률'],
       introduction:
-        '안녕하세요, 저희는 과일 러버 소모임 과일 러버단\n' +
-        '입니다. 저희의 과일 사랑은 무한합니다. 사실 저는 \n' +
-        '수박만 좋아합니다. 다른 거를 좋아하기 위한 소모임\n' +
-        '입니다.'
+        '안녕하세요, 저희는 과일 러버 소모임 과일 러버단 입니다. 저희의 과일 사랑은 무한합니다. 사실 저는 수박만 좋아합니다. 다른 거를 좋아하기 위한 소모임 입니다.',
+      presidentEmail: 'hgd@mju.ac.kr',
+      isApprove: true
     },
     {
       id: '103',
       name: 'MOVE',
-      classification: '학생단체',
+      imageUrl: 'club1.jpg',
+      establishedYear: 2023,
+      numberOfMember: '34명',
+      activityTitle: [
+        '전 세계 각국의 과일들을 찾아보기',
+        '전 세계 각국의 과일들을 찾아보기',
+        '전 세계 각국의 과일들을 찾아보기'
+      ],
+      activityContent: [
+        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
+        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
+        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.'
+      ],
+      isRecruit: true,
       campus: '인문캠퍼스',
-      major: 'D 학과',
-      college: '총학생회',
-      status: false,
-      imageUrl: 'council2.jpg',
+      largeCategory: '학생단체',
+      mediumCategory: '단과대학 학생회',
+      smallCategory: '경영대학',
+      subCategory: '',
+      relationMajor: ['경영학과', '경영정보학과', '국제통상학과'],
+      relatedTag: [''],
       introduction:
-        '안녕하세요, 저희는 과일 러버 소모임 과일 러버단\n' +
-        '입니다. 저희의 과일 사랑은 무한합니다. 사실 저는 \n' +
-        '수박만 좋아합니다. 다른 거를 좋아하기 위한 소모임\n' +
-        '입니다.'
+        '안녕하세요, 저희는 과일 러버 소모임 과일 러버단 입니다. 저희의 과일 사랑은 무한합니다. 사실 저는 수박만 좋아합니다. 다른 거를 좋아하기 위한 소모임 입니다.',
+      presidentEmail: 'hgd@mju.ac.kr',
+      isApprove: true
     }
   ];
+
+  const sampleClubData: OrganizationProps[] = sampleData.filter(
+    (item) =>
+      item.largeCategory === '동아리' ||
+      item.largeCategory === '소모임' ||
+      item.largeCategory === '학회'
+  );
+
+  const sampleStudentCouncilData: OrganizationProps[] = sampleData.filter(
+    (item) => item.largeCategory === '학생단체'
+  );
 
   useEffect(() => {
     setClubData(sampleClubData);
@@ -110,31 +204,47 @@ const OrganizationList = () => {
   }, []);
 
   // 클럽 데이터 필터링
-  const filteredClubData: ClubCardProps[] = clubData.filter((club) => {
+  const filteredClubData: OrganizationProps[] = clubData.filter((club) => {
     const interestMatch =
-      !selectedInterest || club.interest.includes(selectedInterest);
+      !selectedInterest || club.relatedTag.includes(selectedInterest);
     const relationMajorMatch =
-      !selectedRelationMajor || club.relationMajor === selectedRelationMajor;
+      !selectedRelationMajor ||
+      (Array.isArray(selectedRelationMajor) &&
+        selectedRelationMajor.some((major) =>
+          club.relationMajor.includes(major)
+        ));
     const classificationMatch =
-      !selectedClassification || club.classification === selectedClassification;
+      !selectedClassification || club.largeCategory === selectedClassification;
     const campusMatch = !selectedCampus || club.campus === selectedCampus;
+    const noMajorSelected =
+      !selectedRelationMajor || selectedRelationMajor.length === 0;
+
     return (
-      interestMatch && relationMajorMatch && classificationMatch && campusMatch
+      interestMatch &&
+      (noMajorSelected || relationMajorMatch) &&
+      classificationMatch &&
+      campusMatch
     );
   });
 
-  const filteredStudentCouncilData: StudentCouncilCardProps[] =
+  const filteredStudentCouncilData: OrganizationProps[] =
     studentCouncilData.filter((studentCouncil) => {
       const relationMajorMatch =
         !selectedRelationMajor ||
-        studentCouncil.major === selectedRelationMajor;
+        (Array.isArray(selectedRelationMajor) &&
+          selectedRelationMajor.some((major) =>
+            studentCouncil.relationMajor.includes(major)
+          ));
       const classificationMatch =
         !selectedClassification ||
-        studentCouncil.classification === selectedClassification;
+        studentCouncil.largeCategory === selectedClassification;
       const campusMatch =
         !selectedCampus || studentCouncil.campus === selectedCampus;
+      const noMajorSelected =
+        !selectedRelationMajor || selectedRelationMajor.length === 0;
+
       return (
-        relationMajorMatch &&
+        (noMajorSelected || relationMajorMatch) &&
         classificationMatch &&
         campusMatch &&
         !selectedInterest
@@ -242,9 +352,14 @@ const CardContainer = styled.div`
   margin-bottom: 22px;
   border-radius: 15px;
   background: #fff;
+  a {
+    text-decoration: none;
+    color: inherit; /* Inherit color from parent */
+  }
 `;
 
 const CreateOrganization = styled.div`
+  text-decoration: none;
   width: 411px;
   height: 244px;
   margin-top: 8px;
@@ -281,5 +396,9 @@ const CreateOrganization = styled.div`
     font-weight: 300;
     line-height: normal;
     font-family: 'GmarketSansLight';
+  }
+  a {
+    text-decoration: none;
+    color: inherit; /* Inherit color from parent */
   }
 `;

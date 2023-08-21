@@ -1,5 +1,4 @@
 import React from 'react';
-import { ClubCardProps } from './ClubCardProps';
 import {
   CardContainer,
   LogoImage,
@@ -10,20 +9,30 @@ import {
   Wrapper,
   UpWrapper,
   BorderLine
-} from '../CardStyles';
-import img from '../../../assets/img.svg';
+} from './OrganizationCardStyles';
+import img from '../../assets/img.svg';
+import { OrganizationProps } from './OrganizationProps';
 
 const ClubCard = ({
   id,
   name,
-  classification,
-  campus,
-  relationMajor,
-  status,
   imageUrl,
-  interest,
+  establishedYear,
+  numberOfMember,
+  relationMajor,
+  relatedTag,
+  activityTitle,
+  activityContent,
+  isRecruit,
+  campus,
+  largeCategory,
+  mediumCategory,
+  smallCategory,
+  subCategory,
+  presidentEmail,
+  isApprove,
   introduction
-}: ClubCardProps) => {
+}: OrganizationProps) => {
   return (
     <CardContainer>
       <UpWrapper>
@@ -31,12 +40,12 @@ const ClubCard = ({
         <CardInfo>
           <Wrapper>
             <h3>{name}</h3>
-            {status && <Status>모집중</Status>}
+            {isRecruit && <Status>모집중</Status>}
           </Wrapper>
           <p>
-            {campus} · {classification}
+            {campus} · {mediumCategory}
           </p>
-          {interest.map((tag, index) => (
+          {relatedTag.map((tag, index) => (
             <InterestTag key={index}>{tag}</InterestTag>
           ))}
         </CardInfo>
