@@ -13,6 +13,8 @@ import CreateRecruitment from './screens/Recruitment/CreateRecruitment';
 import CreateOrganizationSecond from './screens/Organization/CreateOrganizationSecond';
 import Setting from 'screens/UserSetting/user/Setting';
 import ApplicationManagement from 'screens/applicationManagement/ApplicationManagement';
+import MyProfile from 'screens/UserSetting/user/MyProfile';
+import OrganizationSetting from 'screens/UserSetting/organization/OrganizationSetting';
 
 function App() {
   return (
@@ -34,7 +36,9 @@ function App() {
         <Route path='/club/:id' element={<ClubDetail />} />
         <Route path='/studentCouncil/:id' element={<StudentCouncilDetail />} />
         <Route path='/signUp' element={<SignUp />} />
-        <Route path='/userProfile' element={<Setting />} />
+        <Route path='/setting' element={<Setting />} />
+        <Route path='/myProfile' element={<MyProfile />} />
+        <Route path='/organizationSetting' element={<OrganizationSetting />} />
         <Route
           path='/applicationManagement'
           element={<ApplicationManagement />}

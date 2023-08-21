@@ -21,7 +21,7 @@ const Header = () => {
   const [ApplicationHovered, setApplicationHovered] = useState(false);
   const [MessageHovered, setMessageHovered] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-  const { user, login, loginError, getUserInfo } = useAuth();
+  const { user, login, loginError, getUserInfo, accessToken } = useAuth();
 
   const openPostModal = () => {
     setIsPostModalOpen(true);
@@ -34,11 +34,6 @@ const Header = () => {
   const openModal = () => {
     setIsModalOpen(true);
   };
-
-  useEffect(() => {
-    getUserInfo();
-    console.log(user);
-  }, []);
 
   const closeModal = () => {
     window.location.reload();
@@ -66,8 +61,9 @@ const Header = () => {
   const handleLogin = async () => {
     try {
       await login(email, password);
-      getUserInfo();
-      closeModal();
+      if (loginError === null) {
+        closeModal();
+      }
     } catch (error) {
       console.log('Login error', error);
     }
@@ -212,9 +208,9 @@ const Header = () => {
                     alt='profile'
                     onClick={toggleProfileMenu}
                   />
+                  {isProfileMenuOpen && <ProfileMenu />}
                 </li>
               </Styled.UserWrapper>
-              {isProfileMenuOpen && <ProfileMenu />}
             </>
           ) : (
             <>
@@ -242,7 +238,7 @@ const Header = () => {
           header={'놀명뭐하니 로그인'}
           children={modalContent}
           description={
-            '놀명뭐하니는 명지대학교 동아리, 학생 단체, 소모임을 위한  공간이에요.'
+            '놀명뭐하니는 명지대학교 동아리, 학생 단체, 소모임을 위한 공간이에요.'
           }
         />
       )}
