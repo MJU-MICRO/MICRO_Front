@@ -409,7 +409,7 @@ const CardList = styled.div`
 `;
 
 const CardContainer = styled.div`
-  width: 530px;
+  width: 610px;
   height: 230px;
   margin-top: 8px;
   margin-right: 45px;
@@ -420,7 +420,7 @@ const CardContainer = styled.div`
 
 const ApplyCard = styled.div`
   text-decoration: none;
-  width: 530px;
+  width: 610px;
   height: 230px;
   margin-top: 8px;
   margin-right: 45px;

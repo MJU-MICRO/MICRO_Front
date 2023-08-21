@@ -75,18 +75,15 @@ const RecruitmentModal = ({
             />
           )}
           <ModalBody>
+            <ImgCarousel selectedRecruitmentId={selectedRecruitment.id} />
             <Title>{selectedRecruitment.title}</Title>
             <Description>
               <SubTitle>모집 설명글</SubTitle>
               <Content>{selectedRecruitment.description}</Content>
             </Description>
-            <Description2>
-              <SubTitle>지원 자격</SubTitle>
-              <Basic>과일을 사랑하는 사람 누구나</Basic>
-            </Description2>
             <Description>
               <SubTitle>활동 내용</SubTitle>
-              <Content>{selectedRecruitment.description}</Content>
+              <Content>{selectedRecruitment.content}</Content>
             </Description>
             <Description2>
               <SubTitle>활동 기간</SubTitle>
