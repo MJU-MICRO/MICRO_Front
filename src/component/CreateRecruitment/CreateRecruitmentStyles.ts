@@ -358,3 +358,19 @@ export const QuestionTitle = styled.span`
   border: none;
   border-bottom: 0.5px solid #dddddd;
 `;
+
+export const QuestionAddBtn = styled.button`
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 5rem;
+  top: 20rem;
+  background: white;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+`;

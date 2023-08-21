@@ -16,12 +16,84 @@ import {
   QuestionTitleInput,
   QuestionSelect,
   QuestionTitle,
-  RedAsterisk
+  RedAsterisk,
+  QuestionAddBtn
 } from '../../component/CreateRecruitment/CreateRecruitmentStyles';
 
+type QuestionType = 'long' | 'short' | 'checkbox';
+
+interface Question {
+  title: string;
+  type: QuestionType;
+}
+
 const CreateRecruitmentSecond: React.FC = () => {
+  const [questions, setQuestions] = useState<Question[]>([]);
+
+  // 새로운 질문을 추가하는 함수
+  const handleAddQuestion = () => {
+    // 새로운 질문을 생성하고 기존 질문 배열에 추가
+    const newQuestion: Question = {
+      title: '',
+      type: 'long' // 초기 값으로 장문형 선택
+    };
+    const updatedQuestions = [...questions, newQuestion];
+    setQuestions(updatedQuestions);
+  };
+
+  // 질문 제목 변경 핸들러
+  const handleQuestionTitleChange = (index: number, title: string) => {
+    const updatedQuestions = [...questions];
+    updatedQuestions[index].title = title;
+    setQuestions(updatedQuestions);
+  };
+
+  // 질문 유형 변경 핸들러
+  const handleQuestionTypeChange = (index: number, type: QuestionType) => {
+    const updatedQuestions = [...questions];
+    updatedQuestions[index].type = type;
+    setQuestions(updatedQuestions);
+  };
+
   return (
     <BackGround>
+      <QuestionAddBtn onClick={handleAddQuestion}>
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          width='40'
+          height='40'
+          viewBox='0 0 40 40'
+          fill='none'>
+          <g clip-path='url(#clip0_601_29)'>
+            <path
+              d='M20.0011 38.5714C30.258 38.5714 38.5725 30.2569 38.5725 20C38.5725 9.7433 30.258 1.42859 20.0011 1.42859C9.7444 1.42859 1.42969 9.7433 1.42969 20C1.42969 30.2569 9.7444 38.5714 20.0011 38.5714Z'
+              stroke='#32A9EB'
+              stroke-width='3'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+            />
+            <path
+              d='M20 11.4286V28.5714'
+              stroke='#32A9EB'
+              stroke-width='3'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+            />
+            <path
+              d='M11.4297 20H28.5725'
+              stroke='#32A9EB'
+              stroke-width='3'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+            />
+          </g>
+          <defs>
+            <clipPath id='clip0_601_29'>
+              <rect width='40' height='40' fill='white' />
+            </clipPath>
+          </defs>
+        </svg>
+      </QuestionAddBtn>
       <Introduction>
         <NoticeTitle>모집 공고 등록하기</NoticeTitle>
         <SubtitleContainer>
@@ -51,6 +123,58 @@ const CreateRecruitmentSecond: React.FC = () => {
             </BasicNoticeTextLight>
           </TextContainer>
         </RecruitmentContainer2>
+        {/* <QustionContainer>
+          <InnerContainer>
+            <QuestionTitleInput
+              name='questionTitle'
+              type='text'
+              placeholder='질문 제목을 작성해주세요.'
+            />
+            <QuestionSelect>
+              <option>장문형</option>
+              <option>단답형</option>
+              <option>체크박스</option>
+            </QuestionSelect>
+          </InnerContainer>
+          <InnerContainer>
+            <QuestionTitle>장문형 텍스트</QuestionTitle>
+          </InnerContainer>
+        </QustionContainer> */}
+
+        {/* {questions.map((question, index) => (
+          <InnerContainer key={index}>
+            <QuestionTitleInput
+              name={`questionTitle_${index}`}
+              type='text'
+              placeholder='질문 제목을 작성해주세요.'
+              value={question.title}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                handleQuestionTitleChange(index, event.target.value)
+              }
+            />
+            <QuestionSelect
+              value={question.type}
+              onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
+                handleQuestionTypeChange(
+                  index,
+                  event.target.value as QuestionType
+                )
+              }>
+              <option value='long'>장문형</option>
+              <option value='short'>단답형</option>
+              <option value='checkbox'>체크박스</option>
+            </QuestionSelect>
+            {question.type === 'long' && (
+              <QuestionTitle>장문형 텍스트</QuestionTitle>
+            )}
+            {question.type === 'short' && (
+              <QuestionTitle>단답형 텍스트</QuestionTitle>
+            )}
+            {question.type === 'checkbox' && (
+              <QuestionTitle>체크박스</QuestionTitle>
+            )}
+          </InnerContainer>
+        ))} */}
         <QustionContainer>
           <InnerContainer>
             <QuestionTitleInput
@@ -68,6 +192,37 @@ const CreateRecruitmentSecond: React.FC = () => {
             <QuestionTitle>장문형 텍스트</QuestionTitle>
           </InnerContainer>
         </QustionContainer>
+        {/*  */}
+        {questions.map((question, index) => (
+          <QustionContainer>
+            <InnerContainer key={index}>
+              <QuestionTitleInput
+                name={`questionTitle_${index}`}
+                type='text'
+                placeholder='질문 제목을 작성해주세요.'
+                value={question.title}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  handleQuestionTitleChange(index, event.target.value)
+                }
+              />
+              <QuestionSelect
+                value={question.type}
+                onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
+                  handleQuestionTypeChange(
+                    index,
+                    event.target.value as QuestionType
+                  )
+                }>
+                <option value='long'>장문형</option>
+                <option value='short'>단답형</option>
+                <option value='checkbox'>체크박스</option>
+              </QuestionSelect>
+              {question.type === 'long' && <span>장문형 텍스트</span>}
+              {question.type === 'short' && <span>단답형 텍스트</span>}
+              {question.type === 'checkbox' && <span>체크박스</span>}
+            </InnerContainer>
+          </QustionContainer>
+        ))}
       </Board>
       <Level>
         <img src={level_one_2} />
