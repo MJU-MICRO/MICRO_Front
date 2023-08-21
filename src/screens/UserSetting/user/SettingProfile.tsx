@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import uploadImg from '../../../assets/upload.svg';
 import img from '../../../assets/img.svg';
-import UploadBtn from 'components/Setting/UploadBtn';
+import UploadBtn from 'component/Setting/UploadBtn';
 import { useAuth } from 'contexts/AuthContext';
 
 const SettingProfile = () => {

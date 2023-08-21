@@ -59,7 +59,7 @@ export default ProfileMenu;
 const Container = styled.div`
   position: absolute;
   top: 4rem;
-  right: 15rem;
+
   display: flex;
   flex-direction: column;
   padding: 1rem 1rem;

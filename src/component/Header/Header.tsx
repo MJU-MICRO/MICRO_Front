@@ -7,7 +7,7 @@ import message from '../../assets/header/message.svg';
 import recruitmentImg from '../../assets/header/recruitmentImg.svg';
 import organizationImg from '../../assets/header/organizationImg.svg';
 import arrowRight from '../../assets/header/arrow-right.svg';
-import Modal from 'components/Common/Modal';
+import Modal from 'component/Common/Modal';
 import { useAuth } from 'contexts/AuthContext';
 import * as Styled from './HeaderStyles';
 import newPost from '../../assets/header/newPost.svg';
@@ -21,7 +21,8 @@ const Header = () => {
   const [ApplicationHovered, setApplicationHovered] = useState(false);
   const [MessageHovered, setMessageHovered] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-  const { user, login, loginError, getUserInfo, accessToken } = useAuth();
+  const { user, login, loginError, getUserInfo, accessToken, loading } =
+    useAuth();
 
   const openPostModal = () => {
     setIsPostModalOpen(true);
@@ -36,7 +37,6 @@ const Header = () => {
   };
 
   const closeModal = () => {
-    window.location.reload();
     setIsModalOpen(false);
   };
 
@@ -61,10 +61,12 @@ const Header = () => {
   const handleLogin = async () => {
     try {
       await login(email, password);
-      if (loginError === null) {
+      if (localStorage.getItem('accessToken') !== null) {
+        console.log('유더', user);
         closeModal();
       }
     } catch (error) {
+      console.log('로그인 에러', loginError);
       console.log('Login error', error);
     }
   };

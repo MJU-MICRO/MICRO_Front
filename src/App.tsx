@@ -15,35 +15,44 @@ import Setting from 'screens/UserSetting/user/Setting';
 import ApplicationManagement from 'screens/applicationManagement/ApplicationManagement';
 import MyProfile from 'screens/UserSetting/user/MyProfile';
 import OrganizationSetting from 'screens/UserSetting/organization/OrganizationSetting';
+import { AuthProvider } from 'contexts/AuthContext';
 
 function App() {
   return (
     <Router>
-      <Header />
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/recruitmentList' element={<RecruitmentList />} />
-        <Route path='/organizationList' element={<OrganizationList />} />
-        <Route
-          path='/CreateOrganizationFirst'
-          element={<CreateOrganizationFirst />}
-        />
-        <Route
-          path='/CreateOrganizationSecond'
-          element={<CreateOrganizationSecond />}
-        />
-        <Route path='/createRecruitment' element={<CreateRecruitment />} />
-        <Route path='/club/:id' element={<ClubDetail />} />
-        <Route path='/studentCouncil/:id' element={<StudentCouncilDetail />} />
-        <Route path='/signUp' element={<SignUp />} />
-        <Route path='/setting' element={<Setting />} />
-        <Route path='/myProfile' element={<MyProfile />} />
-        <Route path='/organizationSetting' element={<OrganizationSetting />} />
-        <Route
-          path='/applicationManagement'
-          element={<ApplicationManagement />}
-        />
-      </Routes>
+      <AuthProvider>
+        <Header />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/recruitmentList' element={<RecruitmentList />} />
+          <Route path='/organizationList' element={<OrganizationList />} />
+          <Route
+            path='/CreateOrganizationFirst'
+            element={<CreateOrganizationFirst />}
+          />
+          <Route
+            path='/CreateOrganizationSecond'
+            element={<CreateOrganizationSecond />}
+          />
+          <Route path='/createRecruitment' element={<CreateRecruitment />} />
+          <Route path='/club/:id' element={<ClubDetail />} />
+          <Route
+            path='/studentCouncil/:id'
+            element={<StudentCouncilDetail />}
+          />
+          <Route path='/signUp' element={<SignUp />} />
+          <Route path='/setting' element={<Setting />} />
+          <Route path='/myProfile' element={<MyProfile />} />
+          <Route
+            path='/organizationSetting'
+            element={<OrganizationSetting />}
+          />
+          <Route
+            path='/applicationManagement'
+            element={<ApplicationManagement />}
+          />
+        </Routes>
+      </AuthProvider>
     </Router>
   );
 }

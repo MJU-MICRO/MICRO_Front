@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import UserProps from '../interfaces/UserProps';
+import { useNavigate } from 'react-router-dom';
 
 interface AuthContextProps {
   user: UserProps | null;
@@ -10,6 +11,8 @@ interface AuthContextProps {
   loginError: string | null;
   setLoginError: (message: string) => void;
   accessToken: string | null;
+  loading: boolean;
+  setLoading: (value: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -25,12 +28,10 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserProps | null>(null);
   const [loginError, setLoginError] = useState<string | null>(null);
-  const [accessToken, setAccessToken] = useState<string | null>(
-    localStorage.getItem('accessToken') || null
-  );
-  const [refreshToken, setRefreshToken] = useState<string | null>(
-    localStorage.getItem('refreshToken') || null
-  );
+  const navigate = useNavigate();
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [refreshToken, setRefreshToken] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const login = async (email: string, password: string) => {
     try {
@@ -39,18 +40,44 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         email: modifiedEmail,
         password
       });
-      console.log(response.data.data);
+
       const { accessToken, refreshToken } = response.data.data;
       localStorage.setItem('accessToken', accessToken);
       setAccessToken(accessToken);
       setRefreshToken(refreshToken);
       console.log('로그인 완료');
-      console.log('refreshToken 저장', refreshToken);
-      await getUserInfo();
+      console.log('엥', response.data.data);
+      if (localStorage.getItem('accessToken')) {
+        axios
+          .get('/api/user/my', {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
+            }
+          })
+          .then((response) => {
+            console.log('getUserAPI 요청');
+            setUser(response.data.data);
+            setLoginError('');
+            setLoading(false);
+            navigate('/');
+          })
+          .catch((error) => {
+            if (error.response || error.response.status === 401) {
+              // 만료된 액세스 토큰으로 인한 401 Unauthorized 에러
+              // 리프레시 토큰으로 새로운 액세스 토큰 발급
+              console.log('refreshToken 재발급 요청');
+              refreshAccessToken();
+            } else {
+              console.log('api/user/my 요청 실패', error);
+            }
+          });
+      }
     } catch (error) {
       console.log('Login error:', error);
       setLoginError('로그인에 실패했습니다. 다시 시도해주세요.'); // 에러 메시지 설정
     }
+
+    return user;
   };
 
   const getUserInfo = () => {
@@ -63,22 +90,22 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
       })
       .then((response) => {
+        console.log('getUserAPI 요청');
         setUser(response.data.data);
       })
       .catch((error) => {
         if (error.response || error.response.status === 401) {
           // 만료된 액세스 토큰으로 인한 401 Unauthorized 에러
           // 리프레시 토큰으로 새로운 액세스 토큰 발급
+          console.log('refreshToken 재발급 요청');
           refreshAccessToken();
         } else {
-          console.log(accessToken);
           console.log('api/user/my 요청 실패', error);
         }
       });
   };
 
   const refreshAccessToken = () => {
-    console.log('refreshToken 재발급 전', refreshToken);
     if (!refreshToken) return;
 
     axios
@@ -92,12 +119,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         localStorage.setItem('refreshToken', refreshToken);
         setAccessToken(accessToken);
         setRefreshToken(refreshToken);
-        console.log('refreshToken 재발급 후', refreshToken);
+        console.log('refreshToken 재발급 요청');
         getUserInfo();
       })
       .catch((error) => {
-        console.log('Refresh token도 만료되었습니다. :', error);
-        // 리프레시 토큰도 만료된 경우 또는 다른 에러 처리
+        console.log('Refresh token 재발급 실패 :', error);
       });
   };
 
@@ -117,7 +143,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       localStorage.removeItem('accessToken');
       setUser(null);
-      console.log('로그아웃 완료');
+      navigate('/');
     } catch (error) {
       console.log('Logout error:', error);
     }
@@ -125,7 +151,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     getUserInfo();
-    console.log(user);
   }, [setUser, accessToken]);
 
   return (
@@ -137,7 +162,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         getUserInfo,
         loginError,
         setLoginError,
-        accessToken
+        accessToken,
+        loading,
+        setLoading
       }}>
       {children}
     </AuthContext.Provider>
