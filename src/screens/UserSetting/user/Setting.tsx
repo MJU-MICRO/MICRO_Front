@@ -1,4 +1,4 @@
-import Layout from 'components/setting/Layout';
+import Layout from 'component/Setting/Layout';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import SettingNotice from './SettingNotice';

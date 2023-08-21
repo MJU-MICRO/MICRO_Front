@@ -7,7 +7,7 @@ import message from '../../assets/header/message.svg';
 import recruitmentImg from '../../assets/header/recruitmentImg.svg';
 import organizationImg from '../../assets/header/organizationImg.svg';
 import arrowRight from '../../assets/header/arrow-right.svg';
-import Modal from 'components/common/Modal';
+import Modal from 'components/Common/Modal';
 import { useAuth } from 'contexts/AuthContext';
 import * as Styled from './HeaderStyles';
 import newPost from '../../assets/header/newPost.svg';
