@@ -1,33 +1,126 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import check_box from '../../assets/check-box.svg';
 import level_one_2 from '../../assets/level_one_2.svg';
 import level_two_2 from '../../assets/level_two_2.svg';
-import arrow from '../../assets/arrow.svg';
+import Introduction from '../../component/Organization/apply/Introduction';
+import {
+  Title,
+  SmallTitle,
+  Next,
+  Level,
+  SaveButton
+} from '../../component/Organization/apply/ApplyCommonStyle';
+import { useLocation } from 'react-router-dom';
 
 function CreateOrganizationSecond() {
+  const [activityTitles, setActivityTitles] = useState(['', '', '']);
+  const [activityContents, setActivityContents] = useState(['', '', '']);
+  const location = useLocation();
+  const organization = location.state;
+
+  const handleTitleChange = (index: number, value: string) => {
+    if (value.length <= 40) {
+      const newTitles = [...activityTitles];
+      newTitles[index] = value;
+      setActivityTitles(newTitles);
+
+      const updatedOrganization = {
+        ...organization,
+        activityTitle: newTitles
+      };
+      // organization 상태를 직접 업데이트
+      location.state = updatedOrganization;
+    }
+  };
+
+  const handleContentChange = (index: number, value: string) => {
+    if (value.length <= 500) {
+      const newContents = [...activityContents];
+      newContents[index] = value;
+      setActivityContents(newContents);
+
+      const updatedOrganization = {
+        ...organization,
+        activityContent: newContents
+      };
+      // organization 상태를 직접 업데이트
+      location.state = updatedOrganization;
+    }
+  };
+  const handleTempSave = () => {
+    console.log('임시저장');
+    console.log(organization);
+    // const userEmail = localStorage.getItem('userEmail');
+    //
+    // // Prepare the data to send to the temporary save API
+    // const dataToSend = {
+    //   organization: organization,
+    //   userEmail: userEmail
+    // };
+    //
+    // // Send data to the temporary save API
+    // axios
+    //   .post('https://api.example.org/temp-save', dataToSend)
+    //   .then((response) => {
+    //     console.log('Temporary save successful:', response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error saving data:', error);
+    //   });
+  };
+  const handleSubmit = () => {
+    console.log('제출');
+    console.log(organization);
+    // const userEmail = localStorage.getItem('userEmail');
+    //
+    // // Prepare the data to send to the temporary save API
+    // const dataToSend = {
+    //   organization: organization,
+    //   userEmail: userEmail
+    // };
+    //
+    // // Send data to the temporary save API
+    // axios
+    //   .post('https://api.example.org/temp-save', dataToSend)
+    //   .then((response) => {
+    //     console.log('Temporary save successful:', response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error saving data:', error);
+    //   });
+  };
   return (
     <BackGround>
-      <Introduction>
-        <NoticeTitle>단체 등록하기</NoticeTitle>
-        <SubTitle>단체 등록 가이드를 참고해 단체를 등록해보세요</SubTitle>
-        <NoticeText>
-          <img src={check_box} />
-          <p>명지대학교에 등록된 모든 동아리 · 학회 · 학생 단체</p>
-        </NoticeText>
-        <NoticeText>
-          <img src={check_box} />
-          <p> 팀을 빌딩하고 있는 소모임 </p>
-        </NoticeText>
-      </Introduction>
-      <Board></Board>
+      <Introduction />
+      <Board>
+        <Title>단체 추가 정보</Title>
+        <SmallTitle>단체 주요 활동 (최대 3개)</SmallTitle>
+        {[0, 1, 2].map((index) => (
+          <div key={index}>
+            <Wrapper>
+              <Num>{index + 1}.</Num>
+              <BasicInput
+                placeholder={'홛동 제목'}
+                value={activityTitles[index]}
+                onChange={(e) => handleTitleChange(index, e.target.value)}
+              />
+            </Wrapper>
+            <BorderLine />
+            <ActivityContent
+              placeholder={'활동 내용 (최대 500자)'}
+              value={activityContents[index]}
+              onChange={(e) => handleContentChange(index, e.target.value)}
+            />
+          </div>
+        ))}
+      </Board>
       <Level>
-        <img src={level_one_2} />
-        <img src={level_two_2} />
+        <img src={level_one_2} alt='Level One' />
+        <img src={level_two_2} alt='Level Two' />
       </Level>
       <Next>
-        <SaveButton>임시저장</SaveButton>
-        <SubmitButton>등록하기</SubmitButton>
+        <SaveButton onClick={handleTempSave}>임시저장</SaveButton>
+        <SubmitButton onClick={handleSubmit}>등록하기</SubmitButton>
       </Next>
     </BackGround>
   );
@@ -40,7 +133,7 @@ const Board = styled.div`
   background: #fff;
   padding: 20px;
   width: 659px;
-  height: 770px;
+  height: 625px;
   box-shadow: 0px 4px 20px 3px rgba(0, 0, 0, 0.05);
   margin-bottom: 21px;
   margin-left: 8px;
@@ -53,59 +146,6 @@ const BackGround = styled.div`
   align-items: center;
   justify-content: flex-start;
 }
-`;
-
-const Introduction = styled.div`
-  width: 41.188rem;
-  height: 160px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  margin-top: 42px;
-  margin-right: 18px;
-`;
-
-const Level = styled.div`
-  display: flex;
-  align-items: left;
-  margin-bottom: 41px;
-  margin-right: 650px;
-  img {
-  width: 24px;
-  height: 24px;
-  flex-shrink: 0;
-  }
-}
-`;
-const Next = styled.div`
-  display: flex;
-  align-items: left;
-  height: auto;
-  justify-content: space-around;
-  margin-bottom: 2rem;
-`;
-
-const SaveButton = styled.button`
-  color: #358e48;
-  font-size: 0.9375rem;
-  font-style: normal;
-  font-family: 'GmarketSansMedium';
-  font-weight: 500;
-  line-height: 41px;
-  width: 104px;
-  height: 40px;
-  margin-right: 10px;
-  border-radius: 15px;
-  border: 1px solid rgba(41, 180, 72, 0.7);
-  &:hover {
-    background-color: #04b404;
-    color: #ffffff;
-  }
-
-  &:active {
-    color: #358e48;
-  }
 `;
 
 const SubmitButton = styled.button`
@@ -129,52 +169,79 @@ const SubmitButton = styled.button`
   }
 `;
 
-const NoticeTitle = styled.h1`
-  color: #000;
-  leading-trim: both;
-  text-edge: cap;
+const ActivityContent = styled.textarea`
+  width: 570px;
+  height: 72px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  border: 1px solid #dbdbdf;
+  background: #fafafa;
   font-family: 'GmarketSansMedium';
-  font-size: 24px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  margin-bottom: 13px;
-`;
-
-const SubTitle = styled.p`
-  display: flex;
-  align-items: left;
-  margin-bottom: 15px;
-  font-size: 0.875rem;
-  font-weight: 300;
-  line-height: normal;
-  font-family: 'GmarketSansLight';
-  color: #000000;
-`;
-
-const NoticeText = styled.p`
-  display: flex;
-  align-items: left;
-  margin-bottom: 7px;
-  font-size: 0.875rem;
-  font-weight: 300;
-  line-height: normal;
-  font-family: 'GmarketSansLight';
-  color: #000000;
-  img {
-    width: 15px;
-    height: 15px;
-    flex-shrink: 0;
-    margin-right: 5px;
+  margin-left: 36px;
+  margin-bottom: 10px;
+  padding: 12px 12px;
+  resize: none;
+  outline: none;
+  position: relative;
+  &::placeholder {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 0;
+    color: rgba(0, 0, 0, 0.2);
+    pointer-events: none;
   }
 `;
 
-const Guide = styled.div`
-  font-size: 0.875rem;
-  font-weight: 300;
+const Num = styled.div`
+  color: rgba(0, 0, 0, 1);
+  font-family: 'GmarketSansMedium';
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
   line-height: normal;
-  font-family: 'GmarketSansLight';
-  color: #000000;
-  opacity: 100%;
-  padding-bottom: 0.3rem;
+  margin-left: 36px;
+`;
+
+const BasicInput = styled.input`
+  width: 600px;
+  height: 16px;
+  padding: 0px;
+  flex-shrink: 0;
+  border: none;
+  font-family: 'GmarketSansMedium';
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px;
+  margin-bottom: 0px;
+  outline: none;
+  &::placeholder {
+    color: rgba(0, 0, 0, 0.2);
+  }
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  align-items: left;
+  height: auto;
+  justify-content: space-around;
+  margin-top: 18px;
+`;
+
+const BorderLine = styled.hr`
+  stroke-width: 2px;
+  width: 570px;
+  flex-shrink: 0;
+  margin-left: 36px;
+  margin-right: 8px;
+  color: #dbdbdf;
+  border: none;
+  border-top: 1px solid #dbdbdf;
+  margin-top: 6px;
+  margin-bottom: 15px;
 `;
