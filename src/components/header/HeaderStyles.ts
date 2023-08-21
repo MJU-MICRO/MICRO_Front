@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div``;
+export const ModalWrapper = styled.div``;
 
 export const LoginBoxWrapper = styled.div`
   display: flex;
@@ -232,3 +232,161 @@ export const Line = styled.div`
   background: #00000024;
   border-radius: 2rem;
 `;
+
+export const PostWrapper = styled.div`
+  width: 6.625rem;
+  height: 2.475rem;
+  border-radius: 0.9375rem;
+  background: rgba(0, 143, 213, 0.1);
+  display: flex;
+  align-items: center;
+  margin-left: 1.61rem;
+  padding-left: 0.62rem;
+  margin-right: 1.61rem;
+  cursor: pointer;
+  &:hover {
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 3px 10px 0px rgba(0, 143, 213, 0.2);
+  }
+
+  div {
+    background-color: #008fd5;
+    width: 1.9625rem;
+    height: 1.9625rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  img {
+    width: 1rem;
+    height: 0.8rem;
+
+    margin-left: 1.6rem;
+  }
+
+  h2 {
+    margin-left: 0.55rem;
+    color: #008fd5;
+    font-family: GmarketSansMedium;
+    font-size: 0.8125rem;
+    font-style: normal;
+    font-weight: 500;
+  }
+`;
+
+export const UserProfileImg = styled.img`
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+`;
+
+export const UserWrapper = styled.div`
+  background-color: red6;
+  display: flex;
+  align-items: center;
+  margin-left: -2rem;
+  li {
+    display: flex;
+    align-items: center;
+    img {
+      width: 2.25rem;
+      height: 1.375rem;
+      stroke-width: 2px;
+      stroke: rgba(0, 0, 0, 0.6);
+      margin-right: 1.5rem;
+    }
+  }
+`;
+
+export const IconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+  width: 2.5rem;
+  height: 2.5rem;
+  &:hover {
+    transition: fill 0.3s ease-in-out;
+    background-color: rgba(200, 200, 200, 0.3);
+    border-radius: 50%;
+  }
+
+  img {
+    padding-left: 1.4rem;
+  }
+`;
+
+export const IconHover1 = styled.div`
+  position: absolute;
+  bottom: -2rem;
+
+  padding: 0.3rem 0.8rem;
+  border-radius: 0.5rem;
+  background: rgba(57, 57, 57, 0.9);
+  backdrop-filter: blur(2px);
+  color: #fff;
+  font-family: Gmarket Sans TTF;
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 500;
+`;
+
+export const IconHover2 = styled.div`
+  position: absolute;
+  bottom: -2rem;
+
+  padding: 0.3rem 0.8rem;
+  border-radius: 0.5rem;
+  background: rgba(57, 57, 57, 0.9);
+  backdrop-filter: blur(2px);
+  color: #fff;
+  font-family: Gmarket Sans TTF;
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 500;
+`;
+
+export const PostModalContentWrapper = styled.div``;
+
+export const ContentWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 30rem;
+  height: 3.1875rem;
+  flex-shrink: 0;
+  border-radius: 0.9375rem;
+  background-color: rgba(0, 0, 0, 0.08);
+  padding: 0 1rem;
+  margin-bottom: 0.3rem;
+
+  &:hover {
+    background-color: white;
+    transition: all 0.1s ease-in-out;
+  }
+
+  div {
+    display: flex;
+    align-items: center;
+  }
+`;
+
+export const PostText = styled.div`
+  color: #000;
+  font-family: Gmarket Sans TTF;
+  font-size: 0.9375rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+`;
+
+export const PostImg = styled.img`
+  width: 1.4375rem;
+  height: 1.4375rem;
+  flex-shrink: 0;
+  margin-right: 0.69rem;
+`;
+
+export const LinkImg = styled.img``;

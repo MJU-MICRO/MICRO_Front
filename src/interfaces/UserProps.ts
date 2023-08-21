@@ -4,6 +4,7 @@ interface UserProps {
   major: string;
   introduction?: string;
   nickName?: string;
+  email: string;
 }
 
 export default UserProps;

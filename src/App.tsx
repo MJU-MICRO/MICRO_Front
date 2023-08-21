@@ -11,7 +11,8 @@ import StudentCouncilDetail from './screens/Organization/StudentCouncilDetail';
 import CreateOrganizationFirst from './screens/Organization/CreateOrganizationFirst';
 import CreateRecruitment from './screens/Recruitment/CreateRecruitment';
 import CreateOrganizationSecond from './screens/Organization/CreateOrganizationSecond';
-import Setting from 'screens/UserSetting/User/Setting';
+import Setting from 'screens/UserSetting/user/Setting';
+import ApplicationManagement from 'screens/applicationManagement/ApplicationManagement';
 
 function App() {
   return (
@@ -34,6 +35,10 @@ function App() {
         <Route path='/studentCouncil/:id' element={<StudentCouncilDetail />} />
         <Route path='/signUp' element={<SignUp />} />
         <Route path='/userProfile' element={<Setting />} />
+        <Route
+          path='/applicationManagement'
+          element={<ApplicationManagement />}
+        />
       </Routes>
     </Router>
   );

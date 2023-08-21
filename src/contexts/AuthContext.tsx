@@ -6,10 +6,10 @@ interface AuthContextProps {
   user: UserProps | null;
   login: (email: string, password: string) => void;
   logout: () => void;
-  getAccessToken: () => string | null;
   getUserInfo: () => void;
   loginError: string | null;
   setLoginError: (message: string) => void;
+  accessToken: string | null;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -25,9 +25,14 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserProps | null>(null);
   const [loginError, setLoginError] = useState<string | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(
+    localStorage.getItem('accessToken') || null
+  );
+  const [refreshToken, setRefreshToken] = useState<string | null>(
+    localStorage.getItem('refreshToken') || null
+  );
 
   const login = (email: string, password: string) => {
-    // Adding @mju.ac.kr to the email
     const modifiedEmail = `${email}@mju.ac.kr`;
     axios
       .post('api/auth/login', {
@@ -35,19 +40,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         password
       })
       .then((response) => {
-        const { accessToken } = response.data.data;
+        console.log(response.data.data);
+        const { accessToken, refreshToken } = response.data.data;
         localStorage.setItem('accessToken', accessToken);
+        setRefreshToken(refreshToken); // 이 부분 추가
+        getUserInfo();
       })
       .catch((error) => {
-        console.error('Login error:', error);
+        console.log('Login error:', error);
         setLoginError('로그인에 실패했습니다. 다시 시도해주세요.'); // 에러 메시지 설정
       });
   };
 
-  const getAccessToken = () => localStorage.getItem('accessToken');
-
   const getUserInfo = () => {
-    const accessToken = getAccessToken();
     if (!accessToken) return;
 
     axios
@@ -60,7 +65,33 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(response.data.data);
       })
       .catch((error) => {
-        console.error('Fetch user info error:', error);
+        if (error.response && error.response.status === 401) {
+          // 만료된 액세스 토큰으로 인한 401 Unauthorized 에러
+          // 리프레시 토큰으로 새로운 액세스 토큰 발급
+          refreshAccessToken();
+        } else {
+          console.log(accessToken);
+          console.log('api/user/my 요청 실패', error);
+        }
+      });
+  };
+
+  const refreshAccessToken = () => {
+    if (!refreshToken) return;
+
+    axios
+      .post('https://nolmyong.com/api/auth/refresh', {
+        refreshToken
+      })
+      .then((response) => {
+        const { accessToken, refreshToken } = response.data.data;
+        localStorage.setItem('accessToken', accessToken);
+        setRefreshToken(refreshToken); // 이 부분 추가
+        getUserInfo();
+      })
+      .catch((error) => {
+        console.log('Refresh token도 만료되었습니다. :', error);
+        // 리프레시 토큰도 만료된 경우 또는 다른 에러 처리
       });
   };
 
@@ -71,7 +102,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     getUserInfo();
-    console.log(user);
   }, []);
 
   return (
@@ -80,10 +110,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         user,
         login,
         logout,
-        getAccessToken,
         getUserInfo,
         loginError,
-        setLoginError
+        setLoginError,
+        accessToken
       }}>
       {children}
     </AuthContext.Provider>
