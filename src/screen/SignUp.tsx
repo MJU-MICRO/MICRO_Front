@@ -1,4 +1,10 @@
-import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  ChangeEvent,
+  FormEvent
+} from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 
@@ -20,6 +26,7 @@ function SignUp() {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [profileImageUrl, setProfileImageUrl] = useState<string>('');
   const [name, setName] = useState<string>('');
+  const [nickName, setNickName] = useState<string>('없음');
   const [phone, setPhone] = useState<string>('');
   const [studentId, setStudentId] = useState<string>('');
   const [major, setMajor] = useState<string>('');
@@ -61,8 +68,7 @@ function SignUp() {
         setIsEmailEmpty(false);
       })
       .catch((error) => {
-        // console.error('Error sending email confirmation:', error);
-        console.log('에러발생: ', error);
+        console.error('Error sending email confirmation:', error);
       });
     setIsEmailEmpty(false);
   };
@@ -162,26 +168,11 @@ function SignUp() {
     setConfirmPassword(event.target.value);
   };
 
-  // const handleProfileImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   const selectedFile = event.target.files && event.target.files[0];
-  //   if (selectedFile) {
-  //     setProfileImage(selectedFile);
-  //     setProfileImageUrl(URL.createObjectURL(selectedFile));
-  //   }
-  // };
-
   const handleProfileImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files && event.target.files[0];
-
     if (selectedFile) {
-      const imageType = selectedFile.type;
-      if (imageType === 'image/png') {
-        // 이미지 타입 확인 (PNG)
-        setSelectedImage(selectedFile);
-        setProfileImageUrl(URL.createObjectURL(selectedFile));
-      } else {
-        alert('프로필 사진은 PNG 형식으로 업로드해주세요.');
-      }
+      setSelectedImage(selectedFile);
+      setProfileImageUrl(URL.createObjectURL(selectedFile));
     }
   };
 
@@ -214,14 +205,12 @@ function SignUp() {
     HTMLInputElement
   > = () => {
     setEmailAgreement(!emailAgreement);
-    console.log(emailAgreement);
   };
 
   const handleInformationAgreementChange: React.ChangeEventHandler<
     HTMLInputElement
   > = () => {
     setInformationAgreement(!informationAgreement);
-    console.log(informationAgreement);
   };
 
   // 이미지 추가
@@ -232,16 +221,21 @@ function SignUp() {
     }
   };
 
-  // 가입하기
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
+  };
+
+  // 가입하기
+  const handleClick = async (event: FormEvent) => {
+    event.preventDefault();
+    if (!selectedImage) return;
 
     const dto = {
       code: verificationCode,
       email: email,
       password: password,
       name: name,
-      nickName: 'nickName',
+      nickName: nickName,
       studentId: studentId,
       major: major,
       phoneNumber: phone,
@@ -251,10 +245,7 @@ function SignUp() {
 
     const formData = new FormData();
     formData.append('dto', JSON.stringify(dto));
-
-    if (selectedImage instanceof File) {
-      formData.append('file', selectedImage);
-    }
+    formData.append('file', selectedImage);
 
     if (password === confirmPassword) {
       axios
@@ -555,8 +546,67 @@ function SignUp() {
                 </InnerContainer>
                 <StyledSelect value={major} onChange={handleMajorChange}>
                   <option value='unSelected'>학과를 선택해주세요</option>
-                  <option value='software'>응용소프트웨어학과</option>
-                  <option value='data'>데이터테크놀로지학과</option>
+                  <option value='국어국문학과'>국어국문학과</option>
+                  <option value='중어중문학과'>중어중문학과</option>
+                  <option value='일어일문학과'>일어일문학과</option>
+                  <option value='영어영문학과'>영어영문학과</option>
+                  <option value='사학과'>사학과</option>
+                  <option value='아랍지역학과'>아랍지역학과</option>
+                  <option value='미술사학과'>미술사학과</option>
+                  <option value='철학과'>철학과</option>
+                  <option value='글로벌한국어학과'>글로벌한국어학과</option>
+                  <option value='글로벌아시아문화학과'>
+                    글로벌아시아문화학과
+                  </option>
+                  <option value='행정학과'>행정학과</option>
+                  <option value='경제학과'>경제학과</option>
+                  <option value='정치외교학과'>정치외교학과</option>
+                  <option value='디지털미디어학과'>디지털미디어학과</option>
+                  <option value='아동학과'>아동학과</option>
+                  <option value='청소년지도학과'>청소년지도학과</option>
+                  <option value='경영학과'>경영학과</option>
+                  <option value='국제통상학과'>국제통상학과</option>
+                  <option value='경영정보학과'>경영정보학과</option>
+                  <option value='법학과'>법학과</option>
+                  <option value='법무정책학과'>법무정책학과</option>
+                  <option value='디지털콘텐츠디자인학과'>
+                    디지털콘텐츠디자인학과
+                  </option>
+                  <option value='융합소프트웨어학부'>융합소프트웨어학부</option>
+                  <option value='디지털미디어학과'>디지털미디어학과</option>
+                  <option value='정보통신공학과'>정보통신공학과</option>
+                  <option value='창의융합인재학부'>창의융합인재학부</option>
+                  <option value='사회복지학과'>사회복지학과</option>
+                  <option value='국제통상학과'>국제통상학과</option>
+                  <option value='경영정보학과'>경영정보학과</option>
+                  <option value='부동산학과'>부동산학과</option>
+                  <option value='법무행정학과'>법무행정학과</option>
+                  <option value='심리치료학과'>심리치료학과</option>
+                  <option value='미래융합경영학과'>미래융합경영학과</option>
+                  <option value='멀티디자인학과'>멀티디자인학과</option>
+                  <option value='계약학과'>계약학과</option>
+                  <option value='수학과'>수학과</option>
+                  <option value='물리학과'>물리학과</option>
+                  <option value='화학과'>화학과</option>
+                  <option value='식품영양학과'>식품영양학과</option>
+                  <option value='생명과학정보학과'>생명과학정보학과</option>
+                  <option value='전기공학과'>전기공학과</option>
+                  <option value='전자공학과'>전자공학과</option>
+                  <option value='반도체공학과'>반도체공학과</option>
+                  <option value='화학공학과'>화학공학과</option>
+                  <option value='신소재공학과'>신소재공학과</option>
+                  <option value='환경에너지공학과'>환경에너지공학과</option>
+                  <option value='컴퓨터공학과'>컴퓨터공학과</option>
+                  <option value='토목환경공학과'>토목환경공학과</option>
+                  <option value='교통공학과'>교통공학과</option>
+                  <option value='기계공학과'>기계공학과</option>
+                  <option value='산업경영공학과'>산업경영공학과</option>
+                  <option value='디자인학부'>디자인학부</option>
+                  <option value='스포츠학부'>스포츠학부</option>
+                  <option value='바둑학과'>바둑학과</option>
+                  <option value='예술학부'>예술학부</option>
+                  <option value='건축학부'>건축학부</option>
+                  <option value='글로벌비즈니스전공'>글로벌비즈니스전공</option>
                 </StyledSelect>
               </OuterContainer>
               <OuterContainer />
@@ -600,7 +650,7 @@ function SignUp() {
               </CheckboxLabel>
             </CheckboxContainer>
           </InputContainer>
-          <SignUpButton onClick={handleSubmit} disabled={!informationAgreement}>
+          <SignUpButton onClick={handleClick} disabled={!informationAgreement}>
             가입하기
           </SignUpButton>
         </SignUpContainer>
