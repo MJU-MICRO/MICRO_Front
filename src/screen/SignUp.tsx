@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  ChangeEvent,
-  FormEvent
-} from 'react';
+import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 
@@ -244,8 +238,14 @@ function SignUp() {
     };
 
     const formData = new FormData();
-    formData.append('dto', JSON.stringify(dto));
+    formData.append(
+      'dto',
+      new Blob([JSON.stringify(dto)], { type: 'application/json' })
+    );
     formData.append('file', selectedImage);
+
+    console.log(formData.get('dto'));
+    console.log(formData.get('file'));
 
     if (password === confirmPassword) {
       axios
