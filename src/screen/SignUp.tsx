@@ -5,13 +5,19 @@ import styled from 'styled-components';
 function SignUp() {
   const [containerHeight, setContainerHeight] = useState<string>('59rem');
   const [email, setEmail] = useState<string>('');
-  const [emailIsClicked, setEmailIsClicked] = useState<boolean>(false);
-  const [verifyCode, setVerifyCode] = useState<string>('');
-  const [remainingTime, setRemainingTime] = useState<number>(5 * 60);
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [verificationCode, setVerificationCode] = useState('');
+  const [verificationCountdown, setVerificationCountdown] = useState(300);
+  const [countdown, setCountdown] = useState<number>(300);
+  const [isVerificationCompleted, setIsVerificationCompleted] = useState(false);
+  const [isEmailEmpty, setIsEmailEmpty] = useState(false);
+  const [isCodeInvalid, setIsCodeInvalid] = useState(false);
+  const [verificationButtonText, setVerificationButtonText] = useState('확인');
+
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordsMatch, setPasswordsMatch] = useState(true);
-  const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [profileImageUrl, setProfileImageUrl] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
@@ -22,21 +28,130 @@ function SignUp() {
   const [informationAgreement, setInformationAgreement] =
     useState<boolean>(false);
 
+  // 메일인증
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
 
+  const handleEmailVerification = () => {
+    setContainerHeight('66rem');
+
+    if (email === '') {
+      setIsEmailEmpty(true);
+      return;
+    }
+
+    if (!email.includes('@')) {
+      setEmail('');
+      setIsEmailEmpty(true);
+      return;
+    }
+
+    alert('코드를 발송했습니다. 메일을 확인해주세요');
+    const userEmail = {
+      email: email
+    };
+
+    axios
+      .post('https://nolmyong.com/api/auth/email', userEmail)
+      .then((response) => {
+        setIsEmailVerified(true);
+        setIsVerificationCompleted(false);
+        setIsCodeInvalid(false);
+        setIsEmailEmpty(false);
+      })
+      .catch((error) => {
+        // console.error('Error sending email confirmation:', error);
+        console.log('에러발생: ', error);
+      });
+    setIsEmailEmpty(false);
+  };
+
   useEffect(() => {
-    const timer = setInterval(() => {
-      setRemainingTime((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
-    }, 1000);
+    let interval: NodeJS.Timeout | undefined;
 
-    return () => clearInterval(timer);
-  }, []);
+    if (countdown > 0 && isEmailVerified && !isVerificationCompleted) {
+      interval = setInterval(() => {
+        setCountdown((prevCountdown) => prevCountdown - 1);
+      }, 1000);
+    }
 
-  const minutes = Math.floor(remainingTime / 60);
-  const seconds = remainingTime % 60;
+    if (countdown === 0 || isVerificationCompleted) {
+      clearInterval(interval);
+    }
 
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+  }, [countdown, isEmailVerified, isVerificationCompleted]);
+
+  const handleResendEmail = () => {
+    const userEmail = {
+      email: email
+    };
+
+    axios
+      .post('https://nolmyong.com/api/auth/email', userEmail)
+      .then((response) => {
+        setIsEmailVerified(true);
+        setIsVerificationCompleted(false);
+        setIsCodeInvalid(false);
+        setIsEmailEmpty(false);
+      })
+      .catch((error) => {
+        console.error('Error sending email confirmation:', error);
+      });
+    setVerificationCountdown(300); // Reset countdown
+    setCountdown(300); // Reset the countdown timer to 5 minutes
+  };
+
+  const handleVerify = () => {
+    const userEmail = {
+      email: email,
+      emailCode: verificationCode
+    };
+
+    axios
+      .post('https://nolmyong.com/api/auth/email/verify', userEmail)
+      .then((response) => {
+        if (response.status === 200) {
+          // HTTP 상태 코드 200일 경우 처리 (성공)
+          console.log('Email verification successful:', response);
+
+          setIsVerificationCompleted(true);
+          setIsCodeInvalid(false);
+          setVerificationButtonText('인증완료');
+          alert('인증되었습니다.');
+        } else {
+          // HTTP 상태 코드가 200이 아닌 경우 처리 (실패)
+          console.log('Email verification failed:', response);
+          setIsVerificationCompleted(false);
+          setIsCodeInvalid(true);
+          setVerificationButtonText('재입력');
+          alert('코드가 다릅니다. 재전송 후 다시 확인해주세요');
+        }
+      })
+      .catch((error) => {
+        // HTTP 요청 실패 시 처리
+        console.error('Error confirming email:', error);
+        setIsVerificationCompleted(false);
+        setIsCodeInvalid(true);
+        setVerificationButtonText('재입력');
+      });
+  };
+
+  function formatTime(seconds: number): string {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    const formattedTime = `${minutes
+      .toString()
+      .padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+    return formattedTime;
+  }
+
+  // 비밀번호 시작
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
@@ -47,11 +162,26 @@ function SignUp() {
     setConfirmPassword(event.target.value);
   };
 
+  // const handleProfileImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   const selectedFile = event.target.files && event.target.files[0];
+  //   if (selectedFile) {
+  //     setProfileImage(selectedFile);
+  //     setProfileImageUrl(URL.createObjectURL(selectedFile));
+  //   }
+  // };
+
   const handleProfileImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files && event.target.files[0];
+
     if (selectedFile) {
-      setProfileImage(selectedFile);
-      setProfileImageUrl(URL.createObjectURL(selectedFile));
+      const imageType = selectedFile.type;
+      if (imageType === 'image/png') {
+        // 이미지 타입 확인 (PNG)
+        setSelectedImage(selectedFile);
+        setProfileImageUrl(URL.createObjectURL(selectedFile));
+      } else {
+        alert('프로필 사진은 PNG 형식으로 업로드해주세요.');
+      }
     }
   };
 
@@ -106,17 +236,32 @@ function SignUp() {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
+    const dto = {
+      code: verificationCode,
+      email: email,
+      password: password,
+      name: name,
+      nickName: 'nickName',
+      studentId: studentId,
+      major: major,
+      phoneNumber: phone,
+      introduction: introduction,
+      notification: emailAgreement
+    };
+
+    const formData = new FormData();
+    formData.append('dto', JSON.stringify(dto));
+
+    if (selectedImage instanceof File) {
+      formData.append('file', selectedImage);
+    }
+
     if (password === confirmPassword) {
       axios
-        .post('/api/auth/sign-up', {
-          email: email,
-          password: password,
-          name: name,
-          studentId: studentId,
-          major: major,
-          phoneNumber: phone,
-          introduction: introduction,
-          notifiation: emailAgreement
+        .post('https://nolmyong.com/api/auth/sign-up', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
         })
         .then((response) => {
           console.log(response);
@@ -146,54 +291,38 @@ function SignUp() {
           <InputContainer>
             <InputTitle>계정설정</InputTitle>
             {/* 메일 인증 */}
-            {emailIsClicked ? (
+            {isEmailVerified && (
               <VerifyContainer>
                 <AccountSettingContainer>
                   <TextContainer>
                     <InputText>학교 이메일</InputText>
                     <RedAsterisk>*</RedAsterisk>
                   </TextContainer>
-                  <ReVerifyInput
-                    type='text'
-                    name='email'
-                    value={email}
-                    onChange={handleEmailChange}
-                  />
-                  <EmailText>@mju.ac.kr</EmailText>
-                  <ReverifyButton
-                    onClick={() => {
-                      setEmailIsClicked(false);
-                      setContainerHeight('59rem');
-                    }}>
+                  <ReVerifyInput>{email}</ReVerifyInput>
+                  <ReverifyButton onClick={handleResendEmail}>
                     인증번호 재전송
                   </ReverifyButton>
                 </AccountSettingContainer>
                 <InnerVerifyContainer>
                   <InnerAccountContainer>
-                    <VerifyInput
+                    <StyledInput
                       type='text'
-                      name='verifyCode'
-                      value={verifyCode}
+                      name='verificationCode'
+                      value={verificationCode}
                       onChange={(
                         event: React.ChangeEvent<HTMLInputElement>
                       ) => {
-                        setVerifyCode(event.target.value);
+                        setVerificationCode(event.target.value);
                       }}
                     />
-                    <SendCodeButton
-                      onClick={() => {
-                        setEmailIsClicked(false);
-                        setContainerHeight('59rem');
-                      }}>
-                      인증번호 확인
+                    <SendCodeButton onClick={handleVerify}>
+                      {/* 인증번호 확인 */}
+                      {verificationButtonText}
                     </SendCodeButton>
                   </InnerAccountContainer>
                   <RemainTimeContainer>
                     <RemainTime>입력대기시간</RemainTime>
-                    <RemainTimeValue>
-                      {minutes.toString().padStart(2, '0')}:
-                      {seconds.toString().padStart(2, '0')}{' '}
-                    </RemainTimeValue>
+                    <RemainTimeValue>{formatTime(countdown)}</RemainTimeValue>
                   </RemainTimeContainer>
                   <InnerAccountSpanContainer>
                     <VerifyNotice>
@@ -205,24 +334,23 @@ function SignUp() {
                   </InnerAccountSpanContainer>
                 </InnerVerifyContainer>
               </VerifyContainer>
-            ) : (
+            )}
+            {!isEmailVerified && (
               <AccountSettingContainer>
                 <TextContainer>
                   <InputText>학교 이메일</InputText>
                   <RedAsterisk>*</RedAsterisk>
                 </TextContainer>
                 <StyledInput
+                  id='name'
                   type='text'
-                  name='email'
                   value={email}
+                  placeholder='abcd@mju.ac.kr'
                   onChange={handleEmailChange}
                 />
-                <EmailText>@mju.ac.kr</EmailText>
                 <VerifyButton
-                  onClick={() => {
-                    setEmailIsClicked(true);
-                    setContainerHeight('66rem');
-                  }}>
+                  onClick={handleEmailVerification}
+                  disabled={isEmailVerified}>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     width='20'
@@ -655,7 +783,7 @@ const InnerAccountContainer = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-left: 5.1rem;
+  margin-left: 4.3rem;
   margin-top: 1rem;
 `;
 
@@ -665,7 +793,7 @@ const InnerAccountSpanContainer = styled(InnerAccountContainer)`
 
 const RemainTimeContainer = styled(InnerAccountContainer)`
   width: 20rem;
-  margin-left: 11.6rem;
+  margin-left: 9.8rem;
 `;
 
 const StyledInput = styled.input`
@@ -684,13 +812,29 @@ const StyledInput = styled.input`
   padding-left: 0.5rem;
 `;
 
-const ReVerifyInput = styled(StyledInput)`
-  width: 10rem;
+const ReVerifyInput = styled.span`
+  width: 14rem;
+  height: 2rem;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 0.6rem;
+  border: 1px solid #dbdbdf;
+  background: #ffffff;
+  color: rgba(0, 0, 0, 0.7);
+  font-family: GmarketSansLight;
+  font-size: 0.875rem;
+  font-style: normal;
+  line-height: normal;
+  margin-left: 1.5rem;
+  padding-left: 0.5rem;
 `;
 
-const VerifyInput = styled(StyledInput)`
-  width: 16rem;
-`;
+// const VerifyInput = styled(StyledInput)`
+//   width: 16rem;
+// `;
 
 const RemainTime = styled.span`
   color: rgba(0, 0, 0, 0.7);
