@@ -21,7 +21,11 @@ const ImgCarousel = ({ selectedRecruitmentId }) => {
         'image-url-1-2.jpg',
         'image-url-1-3.jpg'
       ],
-      captions: ['Caption 1-1', 'Caption 1-2', 'Caption 1-3']
+      captions: [
+        '과일을 먹는 쿵야회원의 모습',
+        '과일을 먹는 쿵야회원의 모습',
+        '과일을 먹는 쿵야회원의 모습'
+      ]
     },
     {
       id: 'image2',
@@ -117,7 +121,7 @@ const CustomSlider = styled(Slider)`
   }
 
   .slick-center {
-    transform: scale(1.2);
+    transform: scale(1.1);
     filter: blur(0);
     z-index: 1;
   }
@@ -159,6 +163,10 @@ const Image = styled.img`
 
 const Caption = styled.div`
   text-align: center;
+  font-size: 13px;
+  font-style: normal;
+  font-family: 'GmarketSansLight';
+  margin-top: 9px;
 `;
 
 export default ImgCarousel;
