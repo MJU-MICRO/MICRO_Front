@@ -1,9 +1,9 @@
-// import CreateRecruitmentFirst from './CreateRecruitmentFirst';
-import CreateRecruitmentSecond from './CreateRecruitmentSecond';
+import CreateRecruitmentFirst from './CreateRecruitmentFirst';
+// import CreateRecruitmentSecond from './CreateRecruitmentSecond';
 
 const RecruitmentList = () => {
   // return <div>모집 공고</div>;
-  return <CreateRecruitmentSecond />;
+  return <CreateRecruitmentFirst />;
 };
 
 export default RecruitmentList;
