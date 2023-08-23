@@ -25,6 +25,7 @@ const UserLikeBlock = () => {
         }
       );
       const data = response.data.data;
+      console.log(data);
       setLikedGroups(data);
     } catch (error) {
       console.log('bookmark/groups api get 실패', error);
@@ -33,34 +34,41 @@ const UserLikeBlock = () => {
 
   return (
     <Container>
-      {likedGroups.map((group) => (
-        <GroupInfo key={group.id}>
-          <ImgWrapper>
-            <img src={group.logoImageUrl} alt='img' />
-          </ImgWrapper>
-          <InfoWrapper>
-            <Section>
-              <div>
-                <Name>{group.groupName}</Name>
-                <Division>{group.subCategory}</Division>
-              </div>
-              <div>
-                <StatusBlock
-                  status={group.recruit ? 'recruitTrue' : 'recruitFalse'}
-                />
-              </div>
-            </Section>
-            <Section>
-              {group.relatedTag.map((tag, index) => (
-                <Tag key={index}>{tag}</Tag>
-              ))}
-            </Section>
-            <Section>
-              <Intro>{group.introduction}</Intro>
-            </Section>
-          </InfoWrapper>
-        </GroupInfo>
-      ))}
+      {likedGroups === null ? (
+        <div>없다능 </div>
+      ) : (
+        <>
+          {' '}
+          {likedGroups.map((group) => (
+            <GroupInfo key={group.id}>
+              <ImgWrapper>
+                <img src={group.logoImageUrl} alt='img' />
+              </ImgWrapper>
+              <InfoWrapper>
+                <Section>
+                  <div>
+                    <Name>{group.groupName}</Name>
+                    <Division>{group.subCategory}</Division>
+                  </div>
+                  <div>
+                    <StatusBlock
+                      status={group.recruit ? 'recruitTrue' : 'recruitFalse'}
+                    />
+                  </div>
+                </Section>
+                <Section>
+                  {group.relatedTag.map((tag, index) => (
+                    <Tag key={index}>{tag}</Tag>
+                  ))}
+                </Section>
+                <Section>
+                  <Intro>{group.introduction}</Intro>
+                </Section>
+              </InfoWrapper>
+            </GroupInfo>
+          ))}
+        </>
+      )}
     </Container>
   );
 };
