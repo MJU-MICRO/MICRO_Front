@@ -1,8 +1,8 @@
 import Layout from 'component/Setting/Layout';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import SettingNotice from './SettingNotice';
-import SettingProfile from './SettingProfile';
+import SettingNotice from '../../../component/Setting/User/SettingNotice';
+import SettingProfile from '../../../component/Setting/User/SettingProfile';
 
 const Setting = () => {
   const [activeMenuItem, setActiveMenuItem] = useState('profile');

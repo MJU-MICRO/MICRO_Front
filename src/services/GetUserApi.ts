@@ -23,7 +23,8 @@ const GetUserApi = ({ setUser, accessToken }: GetUserApiProps) => {
         profileImageUrl: userDataFromApi.profileImageUrl,
         major: userDataFromApi.major,
         introduction: userDataFromApi.introduction,
-        email: userDataFromApi.email
+        email: userDataFromApi.email,
+        id: userDataFromApi.id
       });
     });
   }, [setUser, accessToken]);

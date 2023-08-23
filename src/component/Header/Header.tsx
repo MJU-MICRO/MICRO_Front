@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import Search from './Search';
@@ -40,7 +40,8 @@ const Header = () => {
     setIsModalOpen(false);
   };
 
-  const toggleProfileMenu = () => {
+  const toggleProfileMenu = (event: React.MouseEvent) => {
+    event.stopPropagation();
     setIsProfileMenuOpen(!isProfileMenuOpen);
   };
 
@@ -62,7 +63,7 @@ const Header = () => {
     try {
       await login(email, password);
       if (localStorage.getItem('accessToken') !== null) {
-        console.log('유더', user);
+        console.log('유저 정보', user);
         closeModal();
       }
     } catch (error) {

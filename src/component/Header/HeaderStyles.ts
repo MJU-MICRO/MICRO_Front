@@ -280,6 +280,7 @@ export const UserProfileImg = styled.img`
   height: 2.5rem;
   border-radius: 50%;
   position: relative;
+  cursor: pointer;
 `;
 
 export const UserWrapper = styled.div`

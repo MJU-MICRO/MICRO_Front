@@ -5,6 +5,7 @@ interface UserProps {
   introduction?: string;
   nickName?: string;
   email: string;
+  id: number;
 }
 
 export default UserProps;

@@ -29,7 +29,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserProps | null>(null);
   const [loginError, setLoginError] = useState<string | null>(null);
   const navigate = useNavigate();
-  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(
+    localStorage.getItem('accessToken') || null
+  );
   const [refreshToken, setRefreshToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -45,8 +47,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       localStorage.setItem('accessToken', accessToken);
       setAccessToken(accessToken);
       setRefreshToken(refreshToken);
-      console.log('로그인 완료');
-      console.log('엥', response.data.data);
+      console.log('로그인 완료', response.data.data);
       if (localStorage.getItem('accessToken')) {
         axios
           .get('/api/user/my', {
@@ -55,7 +56,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             }
           })
           .then((response) => {
-            console.log('getUserAPI 요청');
+            console.log('getUserAPI 요청', response.data.data);
             setUser(response.data.data);
             setLoginError('');
             setLoading(false);
@@ -152,6 +153,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     getUserInfo();
   }, [setUser, accessToken]);
+
+  // 새로고침 시 로그인 유지
+  useEffect(() => {
+    if (accessToken) {
+      getUserInfo();
+    } else {
+      setLoading(false);
+    }
+  }, [accessToken]);
 
   return (
     <AuthContext.Provider
