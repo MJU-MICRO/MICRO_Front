@@ -438,18 +438,43 @@ function SignUp() {
                 <InnerContainer>
                   <BasicImg>
                     <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      width='81'
+                      width='80'
                       height='80'
-                      viewBox='0 0 81 80'
-                      fill='none'>
+                      viewBox='0 0 80 80'
+                      fill='none'
+                      href='http://www.w3.org/2000/svg'>
                       <circle
-                        cx='40.002'
+                        cx='40'
                         cy='40'
                         r='40'
                         fill='#E9E9E9'
                         fillOpacity='0.45'
                       />
+                      <rect
+                        x='-3'
+                        y='-2'
+                        width='89'
+                        height='85'
+                        fill='url(#pattern0)'
+                      />
+                      <defs>
+                        <pattern
+                          id='pattern0'
+                          patternContentUnits='objectBoundingBox'
+                          width='1'
+                          height='1'>
+                          <use
+                            href='#image0_1260_688'
+                            transform='matrix(0.00840336 0 0 0.00879881 0 -0.0235294)'
+                          />
+                        </pattern>
+                        <image
+                          id='image0_1260_688'
+                          width='119'
+                          height='119'
+                          href='data:image/png;base64,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'
+                        />
+                      </defs>
                     </svg>
                   </BasicImg>
                   <input
@@ -882,10 +907,6 @@ const ReVerifyInput = styled.span`
   padding-left: 0.5rem;
 `;
 
-// const VerifyInput = styled(StyledInput)`
-//   width: 16rem;
-// `;
-
 const RemainTime = styled.span`
   color: rgba(0, 0, 0, 0.7);
   text-align: center;
@@ -1117,11 +1138,13 @@ const BasicImg = styled.div`
   height: 5rem;
   flex-shrink: 0;
   fill: rgba(233, 233, 233, 0.45);
+  object-fit: cover;
 `;
 
 const ProfileImg = styled.img`
   width: 6rem;
   height: 6rem;
+  object-fit: cover;
 `;
 
 const UploadButton = styled.button`
