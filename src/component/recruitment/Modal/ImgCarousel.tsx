@@ -5,8 +5,13 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { RecruitmentImageProps } from './RecruitmentImageProps';
 import img from '../../../assets/image_2.svg';
-
+interface CarouselItemProps {
+  marginLeft: string;
+}
 const ImgCarousel = ({ selectedRecruitmentId }) => {
+  const [imageDatalist, setImageDatalist] = useState<RecruitmentImageProps[]>(
+    []
+  );
   const imageSamples: RecruitmentImageProps[] = [
     {
       id: 'image1',
@@ -58,21 +63,25 @@ const ImgCarousel = ({ selectedRecruitmentId }) => {
   );
 
   if (!selectedImage) {
-    return null; // Handle the case when no matching image is found
+    return null; // 선택된 이미지가 없는 경우 처리
   }
-
+  const getMarginLeft = () => {
+    if (selectedImage.recruitmentImageUrl.length === 1) {
+      return '283px';
+    }
+    return '83px';
+  };
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [centerIndex, setCenterIndex] = useState(0);
 
   const settings = {
     centerMode: true,
     centerPadding: '0',
-    slidesToShow: Math.min(selectedImage.recruitmentImageUrl.length, 3),
+    slidesToShow: Math.min(2.4, selectedImage.recruitmentImageUrl.length), // 중앙에 표시할 슬라이드 개수 조절
     slidesToScroll: 1,
+    slidesToTouch: true,
     focusOnSelect: true,
-    beforeChange: (current, next) => {
-      setCenterIndex(next);
-    }
+    initialSlide: 0
   };
 
   return (
@@ -81,13 +90,12 @@ const ImgCarousel = ({ selectedRecruitmentId }) => {
         {selectedImage.recruitmentImageUrl.map((imageUrl, index) => (
           <CarouselItem
             key={index}
-            className={centerIndex === index ? 'centered' : ''}>
+            className={centerIndex === index ? 'centered' : ''}
+            marginLeft={getMarginLeft()}>
             <ImageWrapper className={centerIndex === index ? 'centered' : ''}>
               <Image src={img} alt={`Image ${index}`} />
-            </ImageWrapper>
-            {centerIndex === index && (
               <Caption>{selectedImage.captions[index]}</Caption>
-            )}
+            </ImageWrapper>
           </CarouselItem>
         ))}
       </CustomSlider>
@@ -98,6 +106,9 @@ const ImgCarousel = ({ selectedRecruitmentId }) => {
 const CarouselWrapper = styled.div`
   align-items: center;
   justify-content: center;
+  margin-top: 5px;
+  max-width: 100%; /* 추가: 최대 가로 너비 설정 */
+  overflow: hidden;
 `;
 
 const CustomSlider = styled(Slider)`
@@ -106,25 +117,27 @@ const CustomSlider = styled(Slider)`
   }
 
   .slick-center {
-    transform: scale(1.3); /* Adjust the scale factor as needed */
+    transform: scale(1.2);
     filter: blur(0);
     z-index: 1;
   }
-  width: 900px;
+
+  .centered {
+    opacity: 1 !important;
+  }
+  width: 100%;
+  height: 100%;
 `;
 
-const CarouselItem = styled.div<{ className?: string }>`
-  transition: transform 0.3s ease-in-out;
+const CarouselItem = styled.div<CarouselItemProps>`
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: transparent;
-  opacity: ${(props) =>
-    props.className && props.className.includes('centered') ? 1 : 0.5};
   border-radius: 10px;
-
+  margin-left: ${(props) => props.marginLeft};
   &:focus {
     outline: none;
   }
@@ -132,17 +145,19 @@ const CarouselItem = styled.div<{ className?: string }>`
 
 const ImageWrapper = styled.div`
   width: 250px;
-  height: 350px;
+  height: 335px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  text-align: center;
+  margin-top: 50px;
 `;
 
-const Image = styled.img<{ className?: string }>`
+const Image = styled.img`
   border-radius: 10px;
 `;
 
-const Caption = styled.div<{ show?: boolean }>`
+const Caption = styled.div`
   text-align: center;
 `;
 

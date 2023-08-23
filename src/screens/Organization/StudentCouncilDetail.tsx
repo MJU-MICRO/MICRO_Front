@@ -351,21 +351,19 @@ const Heart = styled.img`
   height: 21px;
 `;
 const ArrowIcon1 = styled.img`
-  width: 82px;
-  height: 4px;
-  color: rgba(0, 0, 0, 0.8);
-  transform: rotate(90deg);
+  height: 100px;
+  color: rgba(255, 255, 100, 10);
   stroke-width: 1px;
   stroke: #737373;
-  margin-bottom: 50px;
+  margin-bottom: 9px;
+  margin-top: 20px;
 `;
 const ArrowIcon2 = styled.img`
-  width: 82px;
-  height: 4px;
-  transform: rotate(90deg);
+  height: 100px;
+  color: rgba(255, 255, 100, 10);
   stroke-width: 1px;
   stroke: #737373;
-  margin-top: 50px;
+  margin-top: 9px;
 `;
 const RecruitDate = styled.div`
   color: #000;
@@ -381,6 +379,7 @@ const DateWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  height: 230px;
   margin-left: 55px;
   margin-right: 75px;
 `;
