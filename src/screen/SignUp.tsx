@@ -119,7 +119,6 @@ function SignUp() {
         if (response.status === 200) {
           // HTTP 상태 코드 200일 경우 처리 (성공)
           console.log('Email verification successful:', response);
-
           setIsVerificationCompleted(true);
           setIsCodeInvalid(false);
           setVerificationButtonText('인증완료');
