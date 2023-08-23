@@ -62,7 +62,7 @@ const Header = () => {
     try {
       await login(email, password);
       if (localStorage.getItem('accessToken') !== null) {
-        console.log('유더', user);
+        console.log('유저', user);
         closeModal();
       }
     } catch (error) {
@@ -166,7 +166,7 @@ const Header = () => {
               <Styled.UserWrapper>
                 <li>
                   <NavLink
-                    to='/applicationManagment'
+                    to='/applicationManagement'
                     onMouseEnter={() => setApplicationHovered(true)}
                     onMouseLeave={() => setApplicationHovered(false)}>
                     <Styled.IconWrapper>

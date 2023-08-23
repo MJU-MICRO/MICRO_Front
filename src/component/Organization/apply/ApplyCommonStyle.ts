@@ -82,14 +82,13 @@ export const SmallTitle = styled.div`
   line-height: normal;
   margin-left: 36px;
   margin-bottom: 2px;
-}`;
+`;
 
 export const Title = styled.div`
   margin-top: 30px;
   margin-left: 36px;
   font-size: 16px;
   margin-bottom: 25px;
-}
 `;
 
 export const BasicInfoAsterisk = styled.span`
@@ -184,11 +183,10 @@ export const Level = styled.div`
   margin-bottom: 31px;
   margin-right: 650px;
   img {
-  width: 24px;
-  height: 24px;
-  flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
   }
-}
 `;
 export const Next = styled.div`
   display: flex;
