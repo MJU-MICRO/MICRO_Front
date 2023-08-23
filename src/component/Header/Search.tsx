@@ -31,11 +31,9 @@ const Search = ({ placeholder, onSearch }: searchType) => {
         setIsClicked(false);
       }
     };
-    // document - DOM 최상위 객체
     document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
-      // event listentner 누적 방지
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);

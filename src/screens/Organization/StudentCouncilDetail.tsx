@@ -403,7 +403,6 @@ const CardContainer = styled.div`
 const BackGround = styled.div`
   display: flex;
   justify-content: center;
-}
 `;
 
 const ActivityItem = styled.div`
@@ -443,7 +442,6 @@ const ClubIntroduction = styled.div`
   width: 337px;
   height: 520px;
   box-shadow: 0px 4px 20px 3px rgba(0, 0, 0, 0.05);
-}
 `;
 
 const Activity = styled.div`
@@ -471,7 +469,6 @@ const Activity = styled.div`
     line-height: normal;
     leading-trim: both;
   }
-}
 `;
 
 const Recruitment = styled.div`
@@ -483,7 +480,7 @@ const Recruitment = styled.div`
   width: 861px;
   height: 310px;
   flex-shrink: 0;
-    h3 {
+  h3 {
     text-align: left;
     vertical-align: middle;
     margin-top: 15px;
@@ -497,7 +494,6 @@ const Recruitment = styled.div`
     line-height: normal;
     leading-trim: both;
   }
-}
 `;
 
 const ClubExplain = styled.div`
@@ -505,7 +501,6 @@ const ClubExplain = styled.div`
   flex-direction: column;
   align-items: center;
   text-align: center;
-}
 `;
 
 const Intro = styled.div`
@@ -523,7 +518,6 @@ const Intro = styled.div`
     font-weight: 500;
     line-height: normal;
   }
-}
 `;
 const Logo = styled.img`
   border-radius: 10px;
@@ -568,7 +562,6 @@ const Wrapper = styled.div`
     margin-left: 7px;
     margin-top: 7px;
   }
-}
 `;
 
 const Details = styled.div`
@@ -653,5 +646,4 @@ const DownWrapper = styled.div`
     display: flex;
     flex-wrap: wrap;
   }
-}
 `;
