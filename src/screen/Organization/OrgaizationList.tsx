@@ -27,8 +27,8 @@ const OrganizationList = () => {
       .get('api/group')
       .then((response) => {
         console.log(response);
-        if (response.data) {
-          setSampleData2(response.data);
+        if (response.data.data) {
+          setSampleData2(response.data.data);
         } else {
           console.error('Application list data not available:', response.data);
         }
@@ -36,165 +36,16 @@ const OrganizationList = () => {
       .catch((error) => {
         console.error('Error fetching application history:', error);
       });
-  });
+  }, []);
 
-  // 가상의 클럽 데이터
-  const sampleData: OrganizationProps[] = [
-    {
-      id: '1',
-      name: '과일 러버',
-      imageUrl: 'club1.jpg',
-      establishedYear: 2023,
-      numberOfMember: '34명',
-      activityTitle: [
-        '전 세계 각국의 과일들을 찾아보기',
-        '전 세계 각국의 과일들을 찾아보기',
-        '전 세계 각국의 과일들을 찾아보기'
-      ],
-      activityContent: [
-        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
-        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
-        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.'
-      ],
-      isRecruit: true,
-      campus: '인문캠퍼스',
-      largeCategory: '동아리',
-      mediumCategory: '중앙동아리',
-      smallCategory: '',
-      subCategory: '',
-      relationMajor: ['경영학과'],
-      relatedTag: ['디자인/미디어', '경영/컨설팅/마케팅', '정치/사회/법률'],
-      introduction:
-        '안녕하세요, 저희는 과일 러버 소모임 과일 러버단 입니다. 저희의 과일 사랑은 무한합니다. 사실 저는 수박만 좋아합니다. 다른 거를 좋아하기 위한 소모임 입니다.',
-      presidentEmail: 'hgd@mju.ac.kr',
-      isApprove: true
-    },
-    {
-      id: '2',
-      name: 'Co.Ad',
-      imageUrl: 'club1.jpg',
-      establishedYear: 2023,
-      numberOfMember: '34명',
-      activityTitle: [
-        '전 세계 각국의 과일들을 찾아보기',
-        '전 세계 각국의 과일들을 찾아보기',
-        '전 세계 각국의 과일들을 찾아보기'
-      ],
-      activityContent: [
-        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
-        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
-        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.'
-      ],
-      isRecruit: true,
-      campus: '인문캠퍼스',
-      largeCategory: '동아리',
-      mediumCategory: '준동아리',
-      smallCategory: '',
-      subCategory: '',
-      relationMajor: ['경영학과'],
-      relatedTag: ['디자인/미디어', '경영/컨설팅/마케팅', '정치/사회/법률'],
-      introduction:
-        '안녕하세요, 저희는 과일 러버 소모임 과일 러버단 입니다. 저희의 과일 사랑은 무한합니다. 사실 저는 수박만 좋아합니다. 다른 거를 좋아하기 위한 소모임 입니다.',
-      presidentEmail: 'hgd@mju.ac.kr',
-      isApprove: true
-    },
-    {
-      id: '101',
-      name: '시그널',
-      imageUrl: 'club1.jpg',
-      establishedYear: 2023,
-      numberOfMember: '34명',
-      activityTitle: [
-        '전 세계 각국의 과일들을 찾아보기',
-        '전 세계 각국의 과일들을 찾아보기',
-        '전 세계 각국의 과일들을 찾아보기'
-      ],
-      activityContent: [
-        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
-        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
-        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.'
-      ],
-      isRecruit: true,
-      campus: '인문캠퍼스',
-      largeCategory: '학생단체',
-      mediumCategory: '학과 학생회',
-      smallCategory: '경영대학',
-      subCategory: '경영정보학과',
-      relationMajor: ['경영정보학과'],
-      relatedTag: ['경영/컨설팅/마케팅', '정치/사회/법률'],
-      introduction:
-        '안녕하세요, 저희는 과일 러버 소모임 과일 러버단 입니다. 저희의 과일 사랑은 무한합니다. 사실 저는 수박만 좋아합니다. 다른 거를 좋아하기 위한 소모임 입니다.',
-      presidentEmail: 'hgd@mju.ac.kr',
-      isApprove: true
-    },
-    {
-      id: '102',
-      name: '공:존',
-      imageUrl: 'club1.jpg',
-      establishedYear: 2023,
-      numberOfMember: '34명',
-      activityTitle: [
-        '전 세계 각국의 과일들을 찾아보기',
-        '전 세계 각국의 과일들을 찾아보기',
-        '전 세계 각국의 과일들을 찾아보기'
-      ],
-      activityContent: [
-        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
-        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
-        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.'
-      ],
-      isRecruit: true,
-      campus: '인문캠퍼스',
-      largeCategory: '학생단체',
-      mediumCategory: '총동아리연합회',
-      smallCategory: '',
-      subCategory: '',
-      relationMajor: [''],
-      relatedTag: ['디자인/미디어', '경영/컨설팅/마케팅', '정치/사회/법률'],
-      introduction:
-        '안녕하세요, 저희는 과일 러버 소모임 과일 러버단 입니다. 저희의 과일 사랑은 무한합니다. 사실 저는 수박만 좋아합니다. 다른 거를 좋아하기 위한 소모임 입니다.',
-      presidentEmail: 'hgd@mju.ac.kr',
-      isApprove: true
-    },
-    {
-      id: '103',
-      name: 'MOVE',
-      imageUrl: 'club1.jpg',
-      establishedYear: 2023,
-      numberOfMember: '34명',
-      activityTitle: [
-        '전 세계 각국의 과일들을 찾아보기',
-        '전 세계 각국의 과일들을 찾아보기',
-        '전 세계 각국의 과일들을 찾아보기'
-      ],
-      activityContent: [
-        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
-        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.',
-        '저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.저희는 전 세계 각국의 과일들을 찾아보는 것입니다.'
-      ],
-      isRecruit: true,
-      campus: '인문캠퍼스',
-      largeCategory: '학생단체',
-      mediumCategory: '단과대학 학생회',
-      smallCategory: '경영대학',
-      subCategory: '',
-      relationMajor: ['경영학과', '경영정보학과', '국제통상학과'],
-      relatedTag: [''],
-      introduction:
-        '안녕하세요, 저희는 과일 러버 소모임 과일 러버단 입니다. 저희의 과일 사랑은 무한합니다. 사실 저는 수박만 좋아합니다. 다른 거를 좋아하기 위한 소모임 입니다.',
-      presidentEmail: 'hgd@mju.ac.kr',
-      isApprove: true
-    }
-  ];
-
-  const sampleClubData: OrganizationProps[] = sampleData.filter(
+  const sampleClubData: OrganizationProps[] = sampleData2.filter(
     (item) =>
       item.largeCategory === '동아리' ||
       item.largeCategory === '소모임' ||
       item.largeCategory === '학회'
   );
 
-  const sampleStudentCouncilData: OrganizationProps[] = sampleData.filter(
+  const sampleStudentCouncilData: OrganizationProps[] = sampleData2.filter(
     (item) => item.largeCategory === '학생단체'
   );
 

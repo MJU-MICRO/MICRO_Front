@@ -4,7 +4,7 @@ import level_one from '../../assets/level-one.svg';
 import level_two from '../../assets/level-two.svg';
 import arrow from '../../assets/arrow.svg';
 import toggle from '../../assets/toggle-up.svg';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Introduction from '../../component/Organization/apply/Introduction';
 import SelectDate from '../../component/Organization/apply/SelectDate';
 import SelectMemberCount from '../../component/Organization/apply/SelectMemberCount';
@@ -52,6 +52,7 @@ function CreateOrganizationFirst() {
       [field]: value
     }));
   };
+  const location = useLocation();
   const handleClubNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newName = event.target.value;
     setClubName(newName);
@@ -75,9 +76,10 @@ function CreateOrganizationFirst() {
   const handleDateChange = (date: Date | null) => {
     handleInputChange('establishedYear', date ? date.getFullYear() : 0);
   };
-  const handleMemberCountChange = (member: number | null) => {
-    handleInputChange('numberOfMember', member || '');
+  const handleMemberCountChange = (member: string) => {
+    handleInputChange('numberOfMember', member);
     console.log(member);
+    console.log(typeof member);
   };
   const handleClassificationChange = (
     classification: string,
@@ -105,8 +107,14 @@ function CreateOrganizationFirst() {
   const handleImgUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setSelectedFile(event.target.files[0]);
+
+      // 파일을 로컬 스토리지에 저장
+      const fileReader = new FileReader();
+      fileReader.onload = (e) => {
+        localStorage.setItem('selectedFile', e.target?.result as string);
+      };
+      fileReader.readAsDataURL(event.target.files[0]);
     }
-    console.log(selectedFile);
   };
   const handleTempSave = () => {
     console.log('임시저장');

@@ -7,8 +7,11 @@ const UploadIcon = styled.img`
   vertical-align: middle;
   margin-right: 8px;
 `;
+interface StyledFileInputProps {
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+}
 
-const Preview = ({ onChange }) => {
+function Preview({ onChange }: StyledFileInputProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const imgRef = useRef<HTMLInputElement>(null);
 
@@ -22,12 +25,12 @@ const Preview = ({ onChange }) => {
     const files = event.target.files;
     if (files && files.length > 0) {
       const file = files[0];
+      console.log(file);
       setSelectedFile(file);
     } else {
       setSelectedFile(null);
     }
-    onChange(event);
-    console.log(selectedFile);
+    onChange(event); // 다른 처리를 하시려면 여기에 추가
   };
 
   return (
@@ -52,7 +55,7 @@ const Preview = ({ onChange }) => {
       </Wrapper>
     </ImageUploadWrapper>
   );
-};
+}
 
 export default Preview;
 

@@ -4,15 +4,16 @@ import Select from 'react-select';
 import { customStyles } from './ApplyCommonStyle';
 
 interface SelectMemberCountProps {
-  onChange: (count: number | null) => void;
+  onChange: (count: string) => void;
 }
 
 function SelectMemberCount({ onChange }: SelectMemberCountProps) {
-  const [selectedCount, setSelectedCount] = useState<number | null>(null);
+  const [selectedCount, setSelectedCount] = useState<string | null>('');
 
   const handleCountChange = (selectedOption: any) => {
-    setSelectedCount(selectedOption.value);
-    onChange(selectedOption.value);
+    const selectedValue = selectedOption.value.toString(); // Convert to string
+    setSelectedCount(selectedValue);
+    onChange(selectedValue);
   };
 
   const countOptions = Array.from({ length: 100 }, (_, index) => ({

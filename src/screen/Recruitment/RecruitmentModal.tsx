@@ -75,8 +75,8 @@ const RecruitmentModal = ({
             />
           )}
           <ModalBody>
-            <ImgCarousel selectedRecruitmentId={selectedRecruitment.id} />
             <Title>{selectedRecruitment.title}</Title>
+            <ImgCarousel selectedRecruitmentId={selectedRecruitment.id} />
             <Description>
               <SubTitle>모집 설명글</SubTitle>
               <Content>{selectedRecruitment.description}</Content>

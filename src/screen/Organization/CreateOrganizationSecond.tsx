@@ -11,13 +11,27 @@ import {
   SaveButton
 } from '../../component/Organization/apply/ApplyCommonStyle';
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 function CreateOrganizationSecond() {
   const [activityTitles, setActivityTitles] = useState(['', '', '']);
   const [activityContents, setActivityContents] = useState(['', '', '']);
   const location = useLocation();
   const organization = location.state;
-
+  const selectedFileData = localStorage.getItem('selectedFile');
+  const selectedFile = selectedFileData
+    ? dataURItoBlob(selectedFileData)
+    : null;
+  function dataURItoBlob(dataURI: string) {
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
+  }
   const handleTitleChange = (index: number, value: string) => {
     if (value.length <= 40) {
       const newTitles = [...activityTitles];
@@ -68,26 +82,56 @@ function CreateOrganizationSecond() {
     //     console.error('Error saving data:', error);
     //   });
   };
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log('제출');
     console.log(organization);
-    // const userEmail = localStorage.getItem('userEmail');
-    //
-    // // Prepare the data to send to the temporary save API
-    // const dataToSend = {
-    //   organization: organization,
-    //   userEmail: userEmail
-    // };
-    //
-    // // Send data to the temporary save API
-    // axios
-    //   .post('https://api.example.org/temp-save', dataToSend)
-    //   .then((response) => {
-    //     console.log('Temporary save successful:', response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error saving data:', error);
-    //   });
+    console.log(organization.numberOfMember);
+    const dto = {
+      groupName: organization.name,
+      logoImageUrl: '',
+      establishedYear: organization.establishedYear,
+      numOfMember: organization.numberOfMember,
+      introduction: organization.introduction,
+      relationMajor: organization.relationMajor,
+      relatedTag: organization.relatedTag,
+      activityTitle: activityTitles,
+      activityContent: activityContents,
+      campus: organization.campus,
+      largeCategory: organization.largeCategory,
+      mediumCategory: organization.mediumCategory,
+      smallCategory: organization.smallCategory,
+      subCategory: organization.subCategory
+    };
+    console.log(dto);
+    console.log(selectedFile);
+    const formData = new FormData();
+    formData.append(
+      'dto',
+      new Blob([JSON.stringify(dto)], { type: 'application/json' })
+    ); // Application data as JSON
+    formData.append('file', selectedFile as Blob);
+    try {
+      const response = await axios.put(
+        'https://nolmyong.com/api/group/apply',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data' // 올바른 Content-Type 설정
+          }
+        }
+      );
+
+      if (response.status === 200) {
+        console.log('Application submitted successfully');
+        // 성공 처리를 위한 로직 추가
+      } else {
+        console.error('Application submission failed');
+        // 실패 처리를 위한 로직 추가
+      }
+    } catch (error) {
+      const err = error as Error;
+      console.error('폼 제출 오류:', err.message);
+    }
   };
   return (
     <BackGround>
