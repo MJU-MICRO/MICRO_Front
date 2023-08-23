@@ -5,14 +5,16 @@ import toggleIcon_up from '../assets/toggle-up.svg';
 import toggleIcon_down from '../assets/toggle-down.svg';
 import reset_Icon from '../assets/reset.svg';
 import '../App.css';
+import SelectMajorSidebar from './Organization/SelectMajorSidebar';
+import { ActionMeta } from 'react-select';
 
 interface SidebarProps {
   selectedInterest: string | null;
-  selectedRelationMajor: string | null;
+  selectedRelationMajor: string[];
   selectedClassification: string | null;
   selectedCampus: string | null;
   setSelectedInterest: (interest: string | null) => void;
-  setSelectedRelationMajor: (major: string | null) => void;
+  setSelectedRelationMajor: (major: string[]) => void;
   setSelectedClassification: (classification: string | null) => void;
   setSelectedCampus: (campus: string | null) => void;
 }
@@ -33,29 +35,51 @@ const Sidebar: React.FC<SidebarProps> = ({
   const [showCampusOptions, setShowCampusOptions] = useState(false);
   const resetAllOptions = () => {
     setSelectedInterest(null);
-    setSelectedRelationMajor(null);
+    setSelectedRelationMajor([]);
     setSelectedClassification(null);
     setSelectedCampus(null);
   };
 
   const isAnyOptionSelected =
     selectedInterest !== null ||
-    selectedRelationMajor !== null ||
+    selectedRelationMajor.length > 0 ||
     selectedClassification !== null ||
     selectedCampus !== null;
   const sidebarRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (sidebarRef.current) {
-      const sidebarHeight = 70 + calculateExpandedOptionsHeight();
-      sidebarRef.current.style.height = `${sidebarHeight}px`;
+      const sidebarHeight =
+        70 +
+        calculateExpandedOptionsHeight() +
+        calculateSelectedMajorsHeight(selectedRelationMajor.length);
+
+      // Add a condition to check if the calculated height exceeds a certain limit
+      const maxHeight = window.innerHeight - 70; // Adjust this value as needed
+      if (sidebarHeight > maxHeight) {
+        sidebarRef.current.style.height = `${maxHeight}px`;
+      } else {
+        sidebarRef.current.style.height = `${sidebarHeight}px`;
+      }
     }
   }, [
     showInterestOptions,
     showMajorOptions,
     showOrganizationOptions,
-    showCampusOptions
+    showCampusOptions,
+    selectedRelationMajor,
+    sidebarRef.current
   ]);
 
+  // ... (이하 코드 동일)
+
+  const calculateSelectedMajorsHeight = (numMajors) => {
+    // Calculate the height based on the number of selected majors
+    const numLines = Math.ceil(numMajors / 2);
+    const lineHeight = 36; // Height of each major option
+    const marginBottom = 5; // Margin between major options
+    const totalHeight = numLines * (lineHeight + marginBottom);
+    return totalHeight;
+  };
   const calculateExpandedOptionsHeight = () => {
     let height = 135;
     if (showInterestOptions) height += 300;
@@ -111,8 +135,8 @@ const Sidebar: React.FC<SidebarProps> = ({
             경제/금융
           </InterestOption>
           <InterestOption
-            onClick={() => setSelectedInterest('디자인/미디어')}
-            active={selectedInterest === '디자인/미디어'}>
+            onClick={() => setSelectedInterest('디자인/사진')}
+            active={selectedInterest === '디자인/사진'}>
             디자인/미디어
           </InterestOption>
           <InterestOption
@@ -149,10 +173,17 @@ const Sidebar: React.FC<SidebarProps> = ({
       </SidebarOptionText>
       {showMajorOptions && (
         <>
-          <MajorSearch>
-            <input type='text' placeholder={'학과 검색하기'} />
-            <img src={searchIcon} className='search-icon' alt='Search' />
-          </MajorSearch>
+          <SelectMajorSidebar
+            selectedMajors={selectedRelationMajor}
+            onChange={(majors) => setSelectedRelationMajor(majors)}
+          />
+          {selectedRelationMajor.length > 0 && (
+            <div>
+              {selectedRelationMajor.map((major) => (
+                <SelectedMajor key={major}>{major}</SelectedMajor>
+              ))}
+            </div>
+          )}
         </>
       )}
       <BorderLine></BorderLine>
@@ -223,6 +254,27 @@ interface SidebarOptionProps {
   active: boolean;
 }
 
+const SelectedMajor = styled.span`
+  margin-left: 18px;
+  border-radius: 15px;
+  display: inline-block;
+  border: 0.8px solid #d8d8d8;
+  padding-left: 12px;
+  padding-right: 12px;
+  height: 30px;
+  font-family: 'GmarketSansMedium';
+  font-size: 16px;
+  justify-content: space-around;
+  flex-shrink: 0;
+  text-align: center;
+  margin-bottom: 5px;
+  margin-left: 9px;
+  cursor: pointer;
+  line-height: 30px;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: rgba(0, 0, 0, 0.95);
+`;
+
 const SidebarBackground = styled.div`
   border-radius: 10px;
   background: #fff;
@@ -230,12 +282,11 @@ const SidebarBackground = styled.div`
   margin-left: 60px;
   padding: 20px;
   width: 256px;
-  height: 710px;
+  height: 3000px;
   flex-shrink: 0;
   box-shadow: 0px 4px 30px 3px rgba(42, 114, 255, 0.25);
   transition: height 0.3s ease;
   overflow: hidden;
-}
 `;
 
 const SidebarOptionText = styled.div`
@@ -312,7 +363,7 @@ const InterestOption = styled.div<SidebarOptionProps>`
 
 const OrganizationOption = styled.div<SidebarOptionProps>`
   margin-left: 18px;
-  border-radius: 11px;
+  border-radius: 15px;
   border: 0.8px solid #d8d8d8;
   margin-bottom: 5px;
   padding: 5px;
@@ -408,12 +459,11 @@ const MajorSearch = styled.div`
     fill: rgba(0, 0, 0, 0.5);
     width: 17.778px;
     height: 17.256px;
-    margin-left: 108px;
     margin-right: 13px;
   }
 
   input {
-    width: 91px;
+    width: 196px;
     height: 16px;
     padding-left: 0.7rem;
     font-size: 15px;

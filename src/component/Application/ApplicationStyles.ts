@@ -107,13 +107,18 @@ export const BasicInfoText = styled.div`
   padding-bottom: 0.5rem;
 `;
 
+export const BasicInfoAsterisk = styled.span`
+  color: red;
+`;
+
 export const BasicInput = styled.input`
-  width: 16rem;
+  width: 14.5rem;
   height: 2.0625rem;
   flex-shrink: 0;
   border-radius: 0.625rem;
   border: 1px solid #dbdbdf;
   background: #fff;
+  padding-left: 0.6rem;
 
   color: #000;
   leading-trim: both;
@@ -126,13 +131,14 @@ export const BasicInput = styled.input`
 `;
 
 export const BasicInfoSelect = styled.select`
-  width: 16rem;
+  width: 15.5rem;
   height: 2.3rem;
   flex-shrink: 0;
   border-radius: 0.625rem;
   border: 1px solid #dbdbdf;
   background: #fff;
   cursor: pointer;
+  padding-left: 0.5rem;
 
   color: #000;
   leading-trim: both;
@@ -157,7 +163,7 @@ export const NoticeContainer = styled.div`
 
 export const NoticeTitle = styled.h1`
   font-size: 1.5rem;
-  font-weight: 500;
+  font-weight: bolder;
   line-height: normal;
   color: #000000;
   opacity: 100%;
@@ -166,7 +172,7 @@ export const NoticeTitle = styled.h1`
 
 export const NoticeText = styled.p`
   font-size: 0.875rem;
-  font-weight: 300;
+  font-weight: light;
   line-height: normal;
   color: #000000;
   opacity: 100%;

@@ -2,10 +2,10 @@ import React from 'react';
 import { TextContainer, StyledTextarea } from './ApplicationStyles';
 import { TextareaProps } from './ApplicationProps';
 
-const Textarea: React.FC<TextareaProps> = ({ name, value, onChange }) => {
+const Textarea: React.FC<TextareaProps> = ({ value, onChange }) => {
   return (
     <TextContainer>
-      <StyledTextarea name={name} value={value} onChange={onChange} wrap='on' />
+      <StyledTextarea value={value} onChange={onChange} wrap='on' />
     </TextContainer>
   );
 };
