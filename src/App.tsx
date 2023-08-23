@@ -11,9 +11,9 @@ import StudentCouncilDetail from './screens/Organization/StudentCouncilDetail';
 import CreateOrganizationFirst from './screens/Organization/CreateOrganizationFirst';
 import CreateRecruitment from './screens/Recruitment/CreateRecruitment';
 import CreateOrganizationSecond from './screens/Organization/CreateOrganizationSecond';
-import Setting from 'screens/UserSetting/user/Setting';
+import Setting from './screens/UserSetting/User/Setting';
 import ApplicationManagement from 'screens/applicationManagement/ApplicationManagement';
-import MyProfile from 'screens/UserSetting/user/MyProfile';
+import MyProfile from './screens/UserSetting/User/MyProfile';
 import OrganizationSetting from 'screens/UserSetting/organization/OrganizationSetting';
 import { AuthProvider } from 'contexts/AuthContext';
 
