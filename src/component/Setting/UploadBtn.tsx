@@ -26,12 +26,17 @@ const UploadBtn = ({
     }
   };
 
+  const setImgDefaultHandler = () => {
+    setUploadedImageUrl('');
+  };
+
   return (
     <Wrapper>
       <ProfileImg
         src={uploadedImageUrl || defaultProfileImg}
         division={division}
         alt='img'
+        onClick={setImgDefaultHandler}
       />
       <div>
         <input
@@ -64,6 +69,12 @@ const ProfileImg = styled.img<{ division: string }>`
   border-radius: ${(props) => (props.division === 'user' ? '50%' : '0.625rem')};
   object-fit: cover;
   margin-right: 1.25rem;
+  &:hover {
+    opacity: 0.5;
+    background-color: black;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
 `;
 const Button = styled.button`
   cursor: pointer;

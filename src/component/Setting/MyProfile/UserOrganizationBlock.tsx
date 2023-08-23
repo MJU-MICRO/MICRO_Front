@@ -15,18 +15,26 @@ const UserOrganizationBlock = () => {
   const userOrganizations = approvedGroups.filter(
     (group) => group.presidentId === user.id
   );
-
+  console.log(userOrganizations);
   return (
     <Container>
+      {' '}
       <Header>나의 단체</Header>
-      <GroupContainer>
-        {userOrganizations.map((group, index) => (
-          <Group key={index}>
-            <img src={img} alt='img' />
-            <GroupName>{group.groupName}</GroupName>
-          </Group>
-        ))}
-      </GroupContainer>
+      {userOrganizations.length === 0 ? (
+        <NoOrganization> 나의 단체가 없어요. 😥</NoOrganization>
+      ) : (
+        <>
+          {' '}
+          <GroupContainer>
+            {userOrganizations.map((group, index) => (
+              <Group key={index}>
+                <img src={img} alt='img' />
+                <GroupName>{group.groupName}</GroupName>
+              </Group>
+            ))}
+          </GroupContainer>
+        </>
+      )}
     </Container>
   );
 };
@@ -78,4 +86,12 @@ const Group = styled.div`
   align-items: center;
   margin-right: 1rem;
   margin-bottom: 1rem;
+`;
+
+const NoOrganization = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  height: 5rem;
 `;
