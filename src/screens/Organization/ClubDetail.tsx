@@ -4,26 +4,24 @@ import axios from 'axios';
 import styled from 'styled-components';
 import img from '../../assets/img.svg';
 import { OrganizationProps } from '../../component/Organization/OrganizationProps';
+import { RecruitmentProps } from '../../component/recruitment/RecruitmentProps';
 import StudentCouncilRecruitmentCard from '../../component/recruitment/StudentCouncilRecruitmentCard';
 import ClubRecruitmentCard from '../../component/recruitment/ClubRecruitmentCard';
-import { RecruitmentProps } from '../../component/recruitment/RecruitmentProps';
 import RecruitmentModal from '../Recruitment/RecruitmentModal';
 import downArrow from '../../assets/downArrow.svg';
 import UpArrow from '../../assets/UpArrow.svg';
-import defaultHeart from '../../assets/defaultHeart.svg';
 import FillHeart from '../../assets/FillHeart.svg';
-function StudentCouncilDetail() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+import defaultHeart from '../../assets/defaultHeart.svg';
+
+function ClubDetail() {
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { id } = useParams<{ id: string }>();
-  const [studentCouncilDatalist, setStudentCouncilDatalist] = useState<
-    OrganizationProps[]
-  >([]);
+  const [clubDatalist, setClubDatalist] = useState<OrganizationProps[]>([]);
   const [recruitmentDatalist, setRecruitmentDatalist] = useState<
     RecruitmentProps[]
   >([]);
-  const [studentCouncilData, setStudentCouncilData] =
-    useState<OrganizationProps | null>(null);
+  const [clubData, setClubData] = useState<OrganizationProps | null>(null);
   const [recruitmentData, setRecruitmentData] =
     useState<RecruitmentProps | null>(null);
   const toggleBookmark = async () => {
@@ -58,7 +56,7 @@ function StudentCouncilDetail() {
       .then((response) => {
         console.log(response);
         if (response.data.data) {
-          setStudentCouncilDatalist(response.data.data);
+          setClubDatalist(response.data.data);
         } else {
           console.error('Application list data not available:', response.data);
         }
@@ -84,9 +82,9 @@ function StudentCouncilDetail() {
   }, []);
   useEffect(() => {
     // Find the club that matches the id from the URL parameter
-    const foundClub = studentCouncilData
-      ? studentCouncilData
-      : studentCouncilDatalist.find((club) => club.id === id);
+    const foundClub = clubData
+      ? clubData
+      : clubDatalist.find((club) => club.id === id);
     const filteredRecruitments =
       recruitmentDatalist.filter((recruitment) => recruitment.groupId === id) ||
       [];
@@ -100,14 +98,14 @@ function StudentCouncilDetail() {
     const latestRecruitment = sortedRecruitments[0];
 
     if (foundClub && latestRecruitment) {
-      setStudentCouncilData(foundClub);
+      setClubData(foundClub);
       setRecruitmentData(latestRecruitment);
     } else {
       console.error(`Club with id ${id} not found.`);
     }
-  }, [id, studentCouncilData, recruitmentData]);
+  }, [id, clubData, recruitmentData]);
 
-  if (!studentCouncilData) {
+  if (!clubData) {
     return <div>Loading...</div>;
   }
   const openModal = () => {
@@ -117,7 +115,6 @@ function StudentCouncilDetail() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
   return (
     <BackGround>
       <ClubIntroduction>
@@ -128,67 +125,57 @@ function StudentCouncilDetail() {
             onClick={toggleBookmark}
           />
           <Logo src={img} alt='로고 이미지' />
-          <h3>{studentCouncilData.name}</h3>
-          <Classification>{studentCouncilData.largeCategory}</Classification>
-          <Details> {studentCouncilData.introduction} </Details>
+          <h3>{clubData.name}</h3>
+          <Classification>{clubData.mediumCategory}</Classification>
+          <Details> {clubData.introduction} </Details>
           <BorderLine></BorderLine>
         </Intro>
         <Wrapper>
           <div>
-            <h3>설립연도</h3> <p>{studentCouncilData.establishedYear}년</p>
+            <h3>설립연도</h3> <p>{clubData.establishedYear}년</p>
           </div>
           <div>
-            <h3>상세분류</h3> <p>{studentCouncilData.mediumCategory}</p>
+            <h3>회원 수</h3> <p>{clubData.numberOfMember}</p>
           </div>
         </Wrapper>
-        <Wrapper>
+        <DownWrapper>
+          <h3>관련 분야</h3>
           <div>
-            <h3>소속대학</h3>
-            {studentCouncilData.smallCategory != '' && (
-              <p>{studentCouncilData.smallCategory}</p>
-            )}
-            {studentCouncilData.smallCategory == '' && <p>-</p>}
+            {clubData.relatedTag.map((tag, index) => (
+              <InterestTag key={index}>{tag}</InterestTag>
+            ))}
           </div>
-          <div>
-            <h3>소속학과</h3>
-            {studentCouncilData.subCategory != '' && (
-              <p>{studentCouncilData.subCategory}</p>
-            )}
-            {studentCouncilData.subCategory == '' && <p>-</p>}
-          </div>
-        </Wrapper>
+        </DownWrapper>
       </ClubIntroduction>
       <ClubExplain>
         <Activity>
           <h3>주요 활동</h3>
-          {studentCouncilData.activityTitle.map((title, index) => (
+          {clubData.activityTitle.map((title, index) => (
             <ActivityItem key={index}>
               <span>{title}</span>
-              <div>{studentCouncilData.activityContent[index]}</div>
+              <div>{clubData.activityContent[index]}</div>
               <BorderLine2></BorderLine2>
             </ActivityItem>
           ))}
         </Activity>
         <Recruitment>
-          <h3>{studentCouncilData.name}의 모집공고</h3>
+          <h3>{clubData.name}의 모집공고</h3>
           <RecruitWrapper>
             <DateWrapper>
               <ArrowIcon1 src={downArrow} />
               <RecruitDate>{recruitmentData?.recruitmentStartDate}</RecruitDate>
               <ArrowIcon2 src={UpArrow} />
             </DateWrapper>
-            <CardContainer
-              key={studentCouncilData.id}
-              onClick={() => openModal()}>
+            <CardContainer key={clubData.id} onClick={() => openModal()}>
               {recruitmentData ? (
-                studentCouncilData.largeCategory === '학생단체' ? (
+                clubData.largeCategory === '학생단체' ? (
                   <StudentCouncilRecruitmentCard
-                    {...studentCouncilData}
+                    {...clubData}
                     recruitment={recruitmentData}
                   />
                 ) : (
                   <ClubRecruitmentCard
-                    {...studentCouncilData}
+                    {...clubData}
                     recruitment={recruitmentData}
                   />
                 )
@@ -205,17 +192,33 @@ function StudentCouncilDetail() {
         selectedRecruitmentId={recruitmentData?.id}
         selectedClubId={id}
         recruitmentData={recruitmentData}
-        clubData={studentCouncilData}
+        clubData={clubData}
       />
     </BackGround>
   );
 }
 
-export default StudentCouncilDetail;
-const Heart = styled.img`
-  margin-left: 290px;
-  width: 25px;
-  height: 21px;
+export default ClubDetail;
+const Intro = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  h3 {
+    margin-top: 20px;
+    font-family: 'GmarketSansMedium';
+    color: rgba(0, 0, 0, 0.8);
+    text-edge: cap;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+`;
+const Logo = styled.img`
+  border-radius: 10px;
+  width: 119px;
+  height: 115px;
 `;
 const ArrowIcon1 = styled.img`
   height: 100px;
@@ -266,10 +269,10 @@ const CardContainer = styled.div`
   border-radius: 10px;
   box-shadow: 0px 4px 20px 3px rgba(0, 0, 0, 0.05);
 `;
+
 const BackGround = styled.div`
   display: flex;
   justify-content: center;
-}
 `;
 
 const ActivityItem = styled.div`
@@ -307,9 +310,8 @@ const ClubIntroduction = styled.div`
   margin-left: 79px;
   padding: 20px;
   width: 337px;
-  height: 520px;
+  height: 557px;
   box-shadow: 0px 4px 20px 3px rgba(0, 0, 0, 0.05);
-}
 `;
 
 const Activity = styled.div`
@@ -337,7 +339,6 @@ const Activity = styled.div`
     line-height: normal;
     leading-trim: both;
   }
-}
 `;
 
 const Recruitment = styled.div`
@@ -347,9 +348,9 @@ const Recruitment = styled.div`
   margin-left: 90px;
   padding: 20px;
   width: 861px;
-  height: 310px;
+  height: 300px;
   flex-shrink: 0;
-    h3 {
+  h3 {
     text-align: left;
     vertical-align: middle;
     margin-top: 15px;
@@ -363,7 +364,6 @@ const Recruitment = styled.div`
     line-height: normal;
     leading-trim: both;
   }
-}
 `;
 
 const ClubExplain = styled.div`
@@ -371,30 +371,11 @@ const ClubExplain = styled.div`
   flex-direction: column;
   align-items: center;
   text-align: center;
-}
 `;
-
-const Intro = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  h3 {
-    margin-top: 20px;
-    font-family: 'GmarketSansMedium';
-    color: rgba(0, 0, 0, 0.8);
-    text-edge: cap;
-    font-size: 26px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-  }
-}
-`;
-const Logo = styled.img`
-  border-radius: 10px;
-  width: 119px;
-  height: 115px;
+const Heart = styled.img`
+  margin-left: 290px;
+  width: 25px;
+  height: 21px;
 `;
 const Wrapper = styled.div`
   display: flex;
@@ -434,63 +415,6 @@ const Wrapper = styled.div`
     margin-left: 7px;
     margin-top: 7px;
   }
-}
-`;
-
-const Details = styled.div`
-  text-align: left;
-  vertical-align: middle;
-  font-size: 16px;
-  font-family: 'GmarketSansLight';
-  line-height: auto;
-  color: #000000;
-  margin-left: 17px;
-  margin-right: 17px;
-  margin-bottom: 18.5px;
-  margin-top: 19px;
-`;
-
-const Classification = styled.div`
-  width: 70px;
-  height: 30px;
-  flex-shrink: 0;
-  border-radius: 10px;
-  background: rgba(52, 206, 174, 0.1);
-  color: #34ceae;
-  leading-trim: both;
-  text-edge: cap;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 32.5px;
-  align-items: center;
-  text-align: center;
-  font-family: 'GmarketSansMedium';
-  margin-top: 11px;
-`;
-
-const BorderLine = styled.hr`
-  stroke-width: 2px;
-  width: 305px;
-  flex-shrink: 0;
-  margin-left: 8px;
-  margin-right: 8px;
-  color: #dbdbdf;
-  border: none;
-  border-top: 1px solid #dbdbdf;
-`;
-
-const BorderLine2 = styled.hr`
-  stroke-width: 2px;
-  width: 840px;
-  flex-shrink: 0;
-  margin-left: 0px;
-  margin-right: 8px;
-  color: #dbdbdf;
-  border: none;
-  border-top: 1px solid #dbdbdf;
-  margin-top: 13px;
-  margin-bottom: 13px;
 `;
 
 const DownWrapper = styled.div`
@@ -519,5 +443,78 @@ const DownWrapper = styled.div`
     display: flex;
     flex-wrap: wrap;
   }
-}
+`;
+
+const InterestTag = styled.span`
+  position: relative;
+  margin-left: 9px;
+  margin-bottom: 3px;
+  border-radius: 15px;
+  background-color: #fff;
+  border: 1px solid #dbdbdf;
+  font-family: 'GmarketSansLight';
+  font-size: 10.8px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  padding: 5.3px;
+`;
+
+const Details = styled.div`
+  text-align: left;
+  vertical-align: middle;
+  font-size: 16px;
+  font-family: 'GmarketSansLight';
+  line-height: auto;
+  color: #000000;
+  margin-left: 17px;
+  margin-right: 17px;
+  margin-bottom: 18.5px;
+  margin-top: 19px;
+`;
+
+const Classification = styled.span`
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: rgba(52, 206, 174, 0.1);
+  color: #34ceae;
+  leading-trim: both;
+  padding-left: 7px;
+  padding-right: 7px;
+  text-edge: cap;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 32.5px;
+  align-items: center;
+  text-align: center;
+  font-family: 'GmarketSansMedium';
+  margin-top: 11px;
+  margin-right: 3px;
+  margin-left: 3px;
+`;
+
+const BorderLine = styled.hr`
+  stroke-width: 2px;
+  width: 305px;
+  flex-shrink: 0;
+  margin-left: 8px;
+  margin-right: 8px;
+  color: #dbdbdf;
+  border: none;
+  border-top: 1px solid #dbdbdf;
+`;
+
+const BorderLine2 = styled.hr`
+  stroke-width: 2px;
+  width: 840px;
+  flex-shrink: 0;
+  margin-left: 0px;
+  margin-right: 8px;
+  color: #dbdbdf;
+  border: none;
+  border-top: 1px solid #dbdbdf;
+  margin-top: 13px;
+  margin-bottom: 13px;
 `;

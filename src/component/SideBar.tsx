@@ -287,7 +287,6 @@ const SidebarBackground = styled.div`
   box-shadow: 0px 4px 30px 3px rgba(42, 114, 255, 0.25);
   transition: height 0.3s ease;
   overflow: hidden;
-}
 `;
 
 const SidebarOptionText = styled.div`
