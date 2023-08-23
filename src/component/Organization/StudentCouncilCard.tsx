@@ -14,29 +14,20 @@ import img from '../../assets/img.svg';
 import { OrganizationProps } from './OrganizationProps';
 
 function StudentCouncilCard({
-  id,
   name,
-  imageUrl,
-  establishedYear,
-  numberOfMember,
-  relationMajor,
-  relatedTag,
-  activityTitle,
-  activityContent,
   isRecruit,
   campus,
+  imageUrl,
   largeCategory,
   mediumCategory,
   smallCategory,
   subCategory,
-  presidentEmail,
-  isApprove,
   introduction
 }: OrganizationProps) {
   return (
     <CardContainer>
       <UpWrapper>
-        <LogoImage src={img} alt='로고 이미지' />
+        <LogoImage src={imageUrl} alt='로고 이미지' />
         <CardInfo>
           <Wrapper>
             <h3>{name}</h3>

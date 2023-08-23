@@ -1,5 +1,5 @@
 export interface OrganizationProps {
-  id: string;
+  id: number;
   name: string;
   imageUrl: string;
   establishedYear: number;
@@ -16,5 +16,5 @@ export interface OrganizationProps {
   mediumCategory: string;
   smallCategory: string;
   subCategory: string;
-  presidentEmail: string;
+  presidentId: number;
 }

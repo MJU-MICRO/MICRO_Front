@@ -29,14 +29,19 @@ const OrganizationList = () => {
         console.log(response);
         if (response.data.data) {
           setSampleData2(response.data.data);
+          console.log(sampleData2);
+          setClubData(sampleClubData);
+          console.log(clubData);
+          setStudentCouncilData(sampleStudentCouncilData);
+          console.log(studentCouncilData);
         } else {
-          console.error('Application list data not available:', response.data);
+          console.error(response.data.data);
         }
       })
       .catch((error) => {
         console.error('Error fetching application history:', error);
       });
-  }, []);
+  });
 
   const sampleClubData: OrganizationProps[] = sampleData2.filter(
     (item) =>
@@ -51,7 +56,9 @@ const OrganizationList = () => {
 
   useEffect(() => {
     setClubData(sampleClubData);
+    console.log(clubData);
     setStudentCouncilData(sampleStudentCouncilData);
+    console.log(studentCouncilData);
   }, []);
 
   // 클럽 데이터 필터링

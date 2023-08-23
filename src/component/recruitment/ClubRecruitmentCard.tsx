@@ -21,22 +21,14 @@ import { OrganizationProps } from '../Organization/OrganizationProps';
 import styled from 'styled-components';
 
 const ClubRecruitmentCard = ({
-  id,
   name,
   imageUrl,
   establishedYear,
   numberOfMember,
-  relationMajor,
   relatedTag,
-  activityTitle,
-  activityContent,
   isRecruit,
   campus,
-  largeCategory,
   mediumCategory,
-  smallCategory,
-  subCategory,
-  presidentEmail,
   introduction,
   recruitment
 }: OrganizationProps & { recruitment: RecruitmentProps }) => {
@@ -45,7 +37,7 @@ const ClubRecruitmentCard = ({
   return (
     <CardContainer>
       <UpWrapper>
-        <LogoImage src={img} alt='로고 이미지' />
+        <LogoImage src={imageUrl} alt='로고 이미지' />
         <CardInfo>
           <Wrapper>
             <SecondWrapper>

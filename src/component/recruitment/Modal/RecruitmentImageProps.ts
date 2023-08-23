@@ -1,6 +1,6 @@
 export interface RecruitmentImageProps {
-  id: string;
-  recruitmentId: string;
+  id: number;
+  recruitmentId: number;
   recruitmentImageUrl: string[];
   captions: string[];
 }

@@ -14,29 +14,18 @@ import img from '../../assets/img.svg';
 import { OrganizationProps } from './OrganizationProps';
 
 const ClubCard = ({
-  id,
   name,
-  imageUrl,
-  establishedYear,
-  numberOfMember,
-  relationMajor,
   relatedTag,
-  activityTitle,
-  activityContent,
+  imageUrl,
   isRecruit,
   campus,
-  largeCategory,
   mediumCategory,
-  smallCategory,
-  subCategory,
-  presidentEmail,
-  isApprove,
   introduction
 }: OrganizationProps) => {
   return (
     <CardContainer>
       <UpWrapper>
-        <LogoImage src={img} alt='로고 이미지' />
+        <LogoImage src={imageUrl} alt='로고 이미지' />
         <CardInfo>
           <Wrapper>
             <h3>{name}</h3>

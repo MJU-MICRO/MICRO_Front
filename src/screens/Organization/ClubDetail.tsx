@@ -16,7 +16,8 @@ import defaultHeart from '../../assets/defaultHeart.svg';
 function ClubDetail() {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { id } = useParams<{ id: string }>();
+  const params = useParams();
+  const id = Number(params.id);
   const [clubDatalist, setClubDatalist] = useState<OrganizationProps[]>([]);
   const [recruitmentDatalist, setRecruitmentDatalist] = useState<
     RecruitmentProps[]
@@ -51,19 +52,14 @@ function ClubDetail() {
     }
   };
   useEffect(() => {
-    axios
-      .get('api/group')
-      .then((response) => {
-        console.log(response);
-        if (response.data.data) {
-          setClubDatalist(response.data.data);
-        } else {
-          console.error('Application list data not available:', response.data);
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching application history:', error);
-      });
+    axios.get(`api/group/${id}`).then((response) => {
+      console.log(response);
+      if (response.data.data) {
+        setClubData(response.data.data);
+      } else {
+        console.error('Application list data not available:', response.data);
+      }
+    });
   }, []);
   useEffect(() => {
     axios
@@ -72,6 +68,7 @@ function ClubDetail() {
         console.log(response);
         if (response.data.data) {
           setRecruitmentDatalist(response.data.data);
+          console.log(recruitmentData);
         } else {
           console.error('Application list data not available:', response.data);
         }
@@ -81,10 +78,6 @@ function ClubDetail() {
       });
   }, []);
   useEffect(() => {
-    // Find the club that matches the id from the URL parameter
-    const foundClub = clubData
-      ? clubData
-      : clubDatalist.find((club) => club.id === id);
     const filteredRecruitments =
       recruitmentDatalist.filter((recruitment) => recruitment.groupId === id) ||
       [];
@@ -97,8 +90,8 @@ function ClubDetail() {
 
     const latestRecruitment = sortedRecruitments[0];
 
-    if (foundClub && latestRecruitment) {
-      setClubData(foundClub);
+    if (clubData && latestRecruitment) {
+      setClubData(clubData);
       setRecruitmentData(latestRecruitment);
     } else {
       console.error(`Club with id ${id} not found.`);

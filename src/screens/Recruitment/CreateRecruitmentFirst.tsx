@@ -47,7 +47,13 @@ const CreateRecruitmentFirst: React.FC = () => {
     // 여기에 폼 제출 시 수행할 로직을 추가
     // 서버로 데이터를 전송하는 등의 작업을 수행가능
   };
+  const [captions, setCaptions] = useState<string[]>(new Array(5).fill(''));
 
+  const handleCaptionChange = (index: number, value: string) => {
+    const updatedCaptions = [...captions];
+    updatedCaptions[index] = value;
+    setCaptions(updatedCaptions);
+  };
   // Group 정보
   const [groupData, setGroupData] = useState({
     logoImageUrl: img,
@@ -271,7 +277,7 @@ const CreateRecruitmentFirst: React.FC = () => {
               <BasicNoticeText>모집 설명글</BasicNoticeText>
               <RedAsterisk>*</RedAsterisk>
             </TextContainer>
-            <ContentInput
+            <ActiveContentInput
               name='description'
               value={description}
               onChange={handleDescriptionChange}
@@ -385,6 +391,12 @@ const CreateRecruitmentFirst: React.FC = () => {
                       marginRight: '1rem'
                     }}
                   />
+                  <CaptionInput
+                    placeholder='이곳에 설명을 작성해주세요.'
+                    value={captions[index]}
+                    onChange={(e) => handleCaptionChange(index, e.target.value)}
+                    maxLength={20}
+                  />
                   <RemoveButton
                     onClick={() => handleRemovePhoto(index)}
                     xmlns='http://www.w3.org/2000/svg'
@@ -396,6 +408,7 @@ const CreateRecruitmentFirst: React.FC = () => {
                     }}>
                     <path d='M14.4086 9.99915L18.7045 5.71268C18.8926 5.52453 18.9983 5.26935 18.9983 5.00326C18.9983 4.73718 18.8926 4.482 18.7045 4.29385C18.5164 4.1057 18.2612 4 17.9952 4C17.7291 4 17.474 4.1057 17.2859 4.29385L13 8.59031L8.71414 4.29385C8.52602 4.1057 8.27087 4 8.00483 4C7.73878 4 7.48363 4.1057 7.29551 4.29385C7.10739 4.482 7.0017 4.73718 7.0017 5.00326C7.0017 5.26935 7.10739 5.52453 7.29551 5.71268L11.5914 9.99915L7.29551 14.2856C7.20187 14.3785 7.12755 14.489 7.07683 14.6108C7.02611 14.7325 7 14.8631 7 14.995C7 15.1269 7.02611 15.2575 7.07683 15.3793C7.12755 15.501 7.20187 15.6116 7.29551 15.7044C7.38839 15.7981 7.49888 15.8724 7.62062 15.9232C7.74236 15.9739 7.87294 16 8.00483 16C8.13671 16 8.26729 15.9739 8.38903 15.9232C8.51077 15.8724 8.62127 15.7981 8.71414 15.7044L13 11.408L17.2859 15.7044C17.3787 15.7981 17.4892 15.8724 17.611 15.9232C17.7327 15.9739 17.8633 16 17.9952 16C18.1271 16 18.2576 15.9739 18.3794 15.9232C18.5011 15.8724 18.6116 15.7981 18.7045 15.7044C18.7981 15.6116 18.8724 15.501 18.9232 15.3793C18.9739 15.2575 19 15.1269 19 14.995C19 14.8631 18.9739 14.7325 18.9232 14.6108C18.8724 14.489 18.7981 14.3785 18.7045 14.2856L14.4086 9.99915Z' />
                   </RemoveButton>
+                  <></>
                 </div>
               ))}
             </ImageContainer>
@@ -412,7 +425,7 @@ const CreateRecruitmentFirst: React.FC = () => {
       </Level>
       <Next>
         <SaveButton onClick={handleSaveButtonClick}>임시저장</SaveButton>
-        <Link to={'./CreateRecruitmentSecond'}>
+        <Link to={'/createRecruitmentSecond'}>
           <NextButton>
             <div>추가 정보</div> <img src={arrow} />
           </NextButton>
@@ -603,4 +616,22 @@ const Guide = styled.div`
   color: #000000;
   opacity: 100%;
   padding-bottom: 0.3rem;
+`;
+
+const CaptionInput = styled.input`
+  width: 100%;
+  height: 1.2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  font-family: GmarketSansLight;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+  border: none;
+  outline: none;
 `;

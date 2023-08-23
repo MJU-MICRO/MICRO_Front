@@ -1,8 +1,8 @@
 import { OrganizationProps } from '../Organization/OrganizationProps';
 
 export interface RecruitmentProps {
-  id: string;
-  groupId: string;
+  id: number;
+  groupId: number;
   title: string;
   content: string;
   description: string;

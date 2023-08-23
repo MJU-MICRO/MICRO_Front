@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import check_box from '../../assets/check-box.svg';
 import level_one_2 from '../../assets/level_one_2.svg';
 import level_two_2 from '../../assets/level_two_2.svg';
-import arrow from '../../assets/arrow.svg';
-
+import recycleBin from '../../assets/recycleBin.svg';
+import box from '../../assets/box.svg';
 import {
   RecruitmentContainer,
   RecruitmentContainer2,
@@ -19,6 +19,7 @@ import {
   RedAsterisk,
   QuestionAddBtn
 } from '../../component/CreateRecruitment/CreateRecruitmentStyles';
+import SelectCount from '../../component/Organization/apply/SelectCount';
 
 type QuestionType = 'long' | 'short' | 'checkbox';
 
@@ -29,71 +30,82 @@ interface Question {
 
 const CreateRecruitmentSecond: React.FC = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
+  const [characterNum, setCharacterNum] = useState<number[]>([]);
 
-  // 새로운 질문을 추가하는 함수
   const handleAddQuestion = () => {
-    // 새로운 질문을 생성하고 기존 질문 배열에 추가
     const newQuestion: Question = {
       title: '',
-      type: 'long' // 초기 값으로 장문형 선택
+      type: 'long'
     };
     const updatedQuestions = [...questions, newQuestion];
     setQuestions(updatedQuestions);
+
+    const newCharacterNum = [...characterNum, 0]; // 새로운 질문의 글자 수를 0으로 초기화
+    setCharacterNum(newCharacterNum);
   };
 
-  // 질문 제목 변경 핸들러
   const handleQuestionTitleChange = (index: number, title: string) => {
     const updatedQuestions = [...questions];
     updatedQuestions[index].title = title;
     setQuestions(updatedQuestions);
   };
 
-  // 질문 유형 변경 핸들러
-  const handleQuestionTypeChange = (index: number, type: QuestionType) => {
-    const updatedQuestions = [...questions];
-    updatedQuestions[index].type = type;
-    setQuestions(updatedQuestions);
+  const handleCountChange = (index: number, value: number) => {
+    const updatedCharacterNum = [...characterNum];
+    updatedCharacterNum[index] = value;
+    setCharacterNum(updatedCharacterNum);
   };
+  const handleDeleteQuestion = (index: number) => {
+    const updatedQuestions = [...questions];
+    updatedQuestions.splice(index, 1); // Remove the question at the specified index
+    setQuestions(updatedQuestions);
 
+    const updatedCharacterNum = [...characterNum];
+    updatedCharacterNum.splice(index, 1); // Remove the corresponding characterNum entry
+    setCharacterNum(updatedCharacterNum);
+  };
   return (
     <BackGround>
-      <QuestionAddBtn onClick={handleAddQuestion}>
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          width='40'
-          height='40'
-          viewBox='0 0 40 40'
-          fill='none'>
-          <g clip-path='url(#clip0_601_29)'>
-            <path
-              d='M20.0011 38.5714C30.258 38.5714 38.5725 30.2569 38.5725 20C38.5725 9.7433 30.258 1.42859 20.0011 1.42859C9.7444 1.42859 1.42969 9.7433 1.42969 20C1.42969 30.2569 9.7444 38.5714 20.0011 38.5714Z'
-              stroke='#32A9EB'
-              stroke-width='3'
-              stroke-linecap='round'
-              stroke-linejoin='round'
-            />
-            <path
-              d='M20 11.4286V28.5714'
-              stroke='#32A9EB'
-              stroke-width='3'
-              stroke-linecap='round'
-              stroke-linejoin='round'
-            />
-            <path
-              d='M11.4297 20H28.5725'
-              stroke='#32A9EB'
-              stroke-width='3'
-              stroke-linecap='round'
-              stroke-linejoin='round'
-            />
-          </g>
-          <defs>
-            <clipPath id='clip0_601_29'>
-              <rect width='40' height='40' fill='white' />
-            </clipPath>
-          </defs>
-        </svg>
-      </QuestionAddBtn>
+      <Wrapper>
+        <QuestionAddBtn onClick={handleAddQuestion}>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            width='40'
+            height='40'
+            viewBox='0 0 40 40'
+            fill='none'>
+            <g clip-path='url(#clip0_601_29)'>
+              <path
+                d='M20.0011 38.5714C30.258 38.5714 38.5725 30.2569 38.5725 20C38.5725 9.7433 30.258 1.42859 20.0011 1.42859C9.7444 1.42859 1.42969 9.7433 1.42969 20C1.42969 30.2569 9.7444 38.5714 20.0011 38.5714Z'
+                stroke='#32A9EB'
+                stroke-width='3'
+                stroke-linecap='round'
+                stroke-linejoin='round'
+              />
+              <path
+                d='M20 11.4286V28.5714'
+                stroke='#32A9EB'
+                stroke-width='3'
+                stroke-linecap='round'
+                stroke-linejoin='round'
+              />
+              <path
+                d='M11.4297 20H28.5725'
+                stroke='#32A9EB'
+                stroke-width='3'
+                stroke-linecap='round'
+                stroke-linejoin='round'
+              />
+            </g>
+            <defs>
+              <clipPath id='clip0_601_29'>
+                <rect width='40' height='40' fill='white' />
+              </clipPath>
+            </defs>
+          </svg>
+        </QuestionAddBtn>
+        <img src={box} />
+      </Wrapper>
       <Introduction>
         <NoticeTitle>모집 공고 등록하기</NoticeTitle>
         <SubtitleContainer>
@@ -123,76 +135,6 @@ const CreateRecruitmentSecond: React.FC = () => {
             </BasicNoticeTextLight>
           </TextContainer>
         </RecruitmentContainer2>
-        {/* <QustionContainer>
-          <InnerContainer>
-            <QuestionTitleInput
-              name='questionTitle'
-              type='text'
-              placeholder='질문 제목을 작성해주세요.'
-            />
-            <QuestionSelect>
-              <option>장문형</option>
-              <option>단답형</option>
-              <option>체크박스</option>
-            </QuestionSelect>
-          </InnerContainer>
-          <InnerContainer>
-            <QuestionTitle>장문형 텍스트</QuestionTitle>
-          </InnerContainer>
-        </QustionContainer> */}
-
-        {/* {questions.map((question, index) => (
-          <InnerContainer key={index}>
-            <QuestionTitleInput
-              name={`questionTitle_${index}`}
-              type='text'
-              placeholder='질문 제목을 작성해주세요.'
-              value={question.title}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                handleQuestionTitleChange(index, event.target.value)
-              }
-            />
-            <QuestionSelect
-              value={question.type}
-              onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
-                handleQuestionTypeChange(
-                  index,
-                  event.target.value as QuestionType
-                )
-              }>
-              <option value='long'>장문형</option>
-              <option value='short'>단답형</option>
-              <option value='checkbox'>체크박스</option>
-            </QuestionSelect>
-            {question.type === 'long' && (
-              <QuestionTitle>장문형 텍스트</QuestionTitle>
-            )}
-            {question.type === 'short' && (
-              <QuestionTitle>단답형 텍스트</QuestionTitle>
-            )}
-            {question.type === 'checkbox' && (
-              <QuestionTitle>체크박스</QuestionTitle>
-            )}
-          </InnerContainer>
-        ))} */}
-        <QustionContainer>
-          <InnerContainer>
-            <QuestionTitleInput
-              name='questionTitle'
-              type='text'
-              placeholder='질문 제목을 작성해주세요.'
-            />
-            <QuestionSelect>
-              <option>장문형</option>
-              <option>단답형</option>
-              <option>체크박스</option>
-            </QuestionSelect>
-          </InnerContainer>
-          <InnerContainer>
-            <QuestionTitle>장문형 텍스트</QuestionTitle>
-          </InnerContainer>
-        </QustionContainer>
-        {/*  */}
         {questions.map((question, index) => (
           <QustionContainer>
             <InnerContainer key={index}>
@@ -205,21 +147,15 @@ const CreateRecruitmentSecond: React.FC = () => {
                   handleQuestionTitleChange(index, event.target.value)
                 }
               />
-              <QuestionSelect
-                value={question.type}
-                onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
-                  handleQuestionTypeChange(
-                    index,
-                    event.target.value as QuestionType
-                  )
-                }>
-                <option value='long'>장문형</option>
-                <option value='short'>단답형</option>
-                <option value='checkbox'>체크박스</option>
-              </QuestionSelect>
-              {question.type === 'long' && <span>장문형 텍스트</span>}
-              {question.type === 'short' && <span>단답형 텍스트</span>}
-              {question.type === 'checkbox' && <span>체크박스</span>}
+              <SelectCount
+                onChange={
+                  (value: number) => handleCountChange(index, value) // 선택한 글자 수 변경 시 해당 함수 호출
+                }
+              />
+              <Recycle
+                src={recycleBin}
+                onClick={() => handleDeleteQuestion(index)} // Call delete function on click
+              />
             </InnerContainer>
           </QustionContainer>
         ))}
@@ -237,7 +173,20 @@ const CreateRecruitmentSecond: React.FC = () => {
 };
 
 export default CreateRecruitmentSecond;
-
+const Wrapper = styled.div`
+  position: fixed;
+  top: 350px;
+  left: 1400px;
+  display: flex;
+  flex-direction: row;
+  z-index: 100;
+`;
+const Recycle = styled.img`
+  width: 25px;
+  height: 25px;
+  margin-bottom: 8px;
+  margin-left: 12px;
+`;
 const Board = styled.div`
   display: flex;
   flex-direction: column;

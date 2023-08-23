@@ -27,7 +27,7 @@ import axios from 'axios';
 
 function CreateOrganizationFirst() {
   const [organization, setOrganization] = useState<OrganizationProps>({
-    id: '',
+    id: 0,
     name: '',
     imageUrl: '',
     establishedYear: 0,
@@ -43,7 +43,7 @@ function CreateOrganizationFirst() {
     mediumCategory: '',
     smallCategory: '',
     subCategory: '',
-    presidentEmail: '',
+    presidentId: 0,
     isApprove: false
   });
   const handleInputChange = (field: keyof OrganizationProps, value: any) => {

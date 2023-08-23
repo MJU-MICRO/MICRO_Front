@@ -20,22 +20,14 @@ import { RecruitmentProps } from '../RecruitmentProps';
 import { OrganizationProps } from '../../Organization/OrganizationProps';
 
 const ModalIntroductionClub = ({
-  id,
   name,
   imageUrl,
   establishedYear,
   numberOfMember,
-  relationMajor,
   relatedTag,
-  activityTitle,
-  activityContent,
   isRecruit,
   campus,
-  largeCategory,
   mediumCategory,
-  smallCategory,
-  subCategory,
-  presidentEmail,
   introduction,
   recruitment
 }: OrganizationProps & { recruitment: RecruitmentProps }) => {
@@ -44,7 +36,7 @@ const ModalIntroductionClub = ({
   return (
     <CardContainer>
       <UpWrapper>
-        <LogoImage src={img} alt='로고 이미지' />
+        <LogoImage src={imageUrl} alt='로고 이미지' />
         <CardInfo>
           <Wrapper>
             <SecondWrapper>

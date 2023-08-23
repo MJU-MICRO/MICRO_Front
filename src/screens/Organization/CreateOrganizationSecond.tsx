@@ -236,7 +236,7 @@ const ActivityContent = styled.textarea`
     top: 12px;
     left: 12px;
     padding: 0;
-    color: rgba(0, 0, 0, 0.2);
+    color: rgba(0, 0, 0, 0.4);
     pointer-events: none;
   }
 `;

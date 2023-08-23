@@ -15,7 +15,8 @@ import FillHeart from '../../assets/FillHeart.svg';
 function StudentCouncilDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
-  const { id } = useParams<{ id: string }>();
+  const params = useParams();
+  const id = Number(params.id);
   const [studentCouncilDatalist, setStudentCouncilDatalist] = useState<
     OrganizationProps[]
   >([]);
@@ -54,11 +55,11 @@ function StudentCouncilDetail() {
   };
   useEffect(() => {
     axios
-      .get('api/group')
+      .get(`api/group/${id}`)
       .then((response) => {
         console.log(response);
         if (response.data.data) {
-          setStudentCouncilDatalist(response.data.data);
+          setStudentCouncilData(response.data.data);
         } else {
           console.error('Application list data not available:', response.data);
         }

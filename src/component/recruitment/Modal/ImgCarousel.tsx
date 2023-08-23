@@ -63,7 +63,7 @@ const ImgCarousel = ({ selectedRecruitmentId }) => {
             className={centerIndex === index ? 'centered' : ''}
             marginLeft={getMarginLeft()}>
             <ImageWrapper className={centerIndex === index ? 'centered' : ''}>
-              <Image src={img} alt={`Image ${index}`} />
+              <Image src={imageUrl} alt={`Image ${index}`} />
               <Caption>{selectedImage.captions[index]}</Caption>
             </ImageWrapper>
           </CarouselItem>
@@ -87,7 +87,7 @@ const CustomSlider = styled(Slider)`
   }
 
   .slick-center {
-    transform: scale(1.2);
+    transform: scale(1.1);
     filter: blur(0);
     z-index: 1;
   }
@@ -129,6 +129,10 @@ const Image = styled.img`
 
 const Caption = styled.div`
   text-align: center;
+  font-size: 13px;
+  font-style: normal;
+  font-family: 'GmarketSansLight';
+  margin-top: 9px;
 `;
 
 export default ImgCarousel;

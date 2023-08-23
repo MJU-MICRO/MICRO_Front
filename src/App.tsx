@@ -9,13 +9,14 @@ import SignUp from './screens/SignUp';
 import ClubDetail from './screens/Organization/ClubDetail';
 import StudentCouncilDetail from './screens/Organization/StudentCouncilDetail';
 import CreateOrganizationFirst from './screens/Organization/CreateOrganizationFirst';
-import CreateRecruitment from './screens/Recruitment/CreateRecruitment';
+import CreateRecruitmentFirst from './screens/Recruitment/CreateRecruitmentFirst';
 import CreateOrganizationSecond from './screens/Organization/CreateOrganizationSecond';
 import Setting from './screens/UserSetting/User/Setting';
 import ApplicationManagement from 'screens/applicationManagement/ApplicationManagement';
 import MyProfile from './screens/UserSetting/User/MyProfile';
 import OrganizationSetting from 'screens/UserSetting/organization/OrganizationSetting';
 import { AuthProvider } from 'contexts/AuthContext';
+import CreateRecruitmentSecond from './screens/Recruitment/CreateRecruitmentSecond';
 
 function App() {
   return (
@@ -34,7 +35,14 @@ function App() {
             path='/CreateOrganizationSecond'
             element={<CreateOrganizationSecond />}
           />
-          <Route path='/createRecruitment' element={<CreateRecruitment />} />
+          <Route
+            path='/createRecruitmentFirst'
+            element={<CreateRecruitmentFirst />}
+          />
+          <Route
+            path='/createRecruitmentSecond'
+            element={<CreateRecruitmentSecond />}
+          />
           <Route path='/club/:id' element={<ClubDetail />} />
           <Route
             path='/studentCouncil/:id'
