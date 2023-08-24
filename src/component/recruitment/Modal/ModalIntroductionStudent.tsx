@@ -24,7 +24,7 @@ const ModalIntroductionStudent = ({
   groupName,
   imageUrl,
   establishedYear,
-  numberOfMember,
+  numOfMember,
   recruit,
   campus,
   largeCategory,
@@ -40,7 +40,7 @@ const ModalIntroductionStudent = ({
   return (
     <CardContainer>
       <UpWrapper>
-        <LogoImage src={imageUrl} alt='로고 이미지' />
+        <LogoImage src={img} alt='로고 이미지' />
         <CardInfo>
           <Wrapper>
             <SecondWrapper>
@@ -55,7 +55,7 @@ const ModalIntroductionStudent = ({
             </Status>
           </Wrapper>
           <p>
-            {campus} · {establishedYear}년 개설 · 회원 수 {numberOfMember}
+            {campus} · {establishedYear}년 개설 · 회원 수 {numOfMember}
           </p>
           <InterestTag>{mediumCategory}</InterestTag>
           {smallCategory != '' && subCategory == '' && (

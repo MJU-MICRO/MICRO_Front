@@ -31,7 +31,7 @@ function CreateOrganizationFirst() {
     groupName: '',
     imageUrl: '',
     establishedYear: 0,
-    numberOfMember: '',
+    numOfMember: '',
     introduction: '',
     relationMajor: [],
     relatedTag: [],
@@ -77,7 +77,7 @@ function CreateOrganizationFirst() {
     handleInputChange('establishedYear', date ? date.getFullYear() : 0);
   };
   const handleMemberCountChange = (member: string) => {
-    handleInputChange('numberOfMember', member);
+    handleInputChange('numOfMember', member);
     console.log(member);
     console.log(typeof member);
   };
@@ -142,7 +142,7 @@ function CreateOrganizationFirst() {
       organization.groupName &&
       organization.introduction &&
       organization.establishedYear &&
-      organization.numberOfMember &&
+      organization.numOfMember &&
       organization.campus &&
       organization.largeCategory &&
       organization.mediumCategory &&

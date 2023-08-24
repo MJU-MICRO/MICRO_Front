@@ -16,12 +16,12 @@ import defaultHeart from '../../assets/defaultHeart.svg';
 function ClubDetail() {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const params = useParams();
-  const id = Number(params.id);
-  const [clubDatalist, setClubDatalist] = useState<OrganizationProps[]>([]);
   const [recruitmentDatalist, setRecruitmentDatalist] = useState<
     RecruitmentProps[]
   >([]);
+  const params = useParams<{ id: string }>();
+  const id = Number(params.id);
+  const [clubDatalist, setClubDatalist] = useState<OrganizationProps[]>([]);
   const [clubData, setClubData] = useState<OrganizationProps | null>(null);
   const [recruitmentData, setRecruitmentData] =
     useState<RecruitmentProps | null>(null);
@@ -53,42 +53,63 @@ function ClubDetail() {
   };
   useEffect(() => {
     axios
-      .get('/recruitments')
+      .get('https://nolmyong.com/api/group')
       .then((response) => {
         if (response.data.data) {
-          setRecruitmentDatalist(response.data.data);
-          console.log(recruitmentData);
+          setClubDatalist(response.data.data);
         } else {
-          console.error('Application list data not available:', response.data);
+          console.error(response.data.data);
         }
       })
       .catch((error) => {
-        console.error('Error fetching application history:', error);
+        console.error('Error fetching group data:', error);
+      });
+    axios
+      .get(`https://nolmyong.com/api/group${id}`)
+      .then((response) => {
+        if (response.data.data) {
+          setClubData(response.data.data);
+        } else {
+          console.error(response.data.data);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching group data:', error);
+      });
+    axios
+      .get('https://nolmyong.com/recruitments')
+      .then((response) => {
+        if (response.data.data) {
+          setRecruitmentDatalist(response.data.data);
+        } else {
+          console.error('Recruitment data not available:', response.data);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching recruitment data:', error);
       });
   }, []);
-  useEffect(() => {
-    const foundClub = clubData
-      ? clubData
-      : clubDatalist.find((club) => club.id === id);
-    console.log(foundClub);
-    const filteredRecruitments =
-      recruitmentDatalist.filter((recruitment) => recruitment.groupId === id) ||
-      [];
 
+  useEffect(() => {
+    const foundClub = clubDatalist.find((club) => club.id === id);
+
+    const filteredRecruitments = recruitmentDatalist.filter(
+      (recruitment) => recruitment.groupId === id
+    );
     const sortedRecruitments = filteredRecruitments.sort(
       (a: RecruitmentProps, b: RecruitmentProps) =>
-        new Date(b.startDateTime).getTime() - new Date(a.endDateTime).getTime()
+        new Date(b.startDateTime).getTime() -
+        new Date(a.startDateTime).getTime()
     );
 
     const latestRecruitment = sortedRecruitments[0];
 
     if (foundClub && latestRecruitment) {
-      setClubData(foundClub);
       setRecruitmentData(latestRecruitment);
     } else {
       console.error(`Club with id ${id} not found.`);
     }
-  }, [id, clubData, recruitmentData]);
+  }, [id, clubDatalist, recruitmentDatalist]);
 
   if (!clubData) {
     return <div>Loading...</div>;
@@ -120,28 +141,36 @@ function ClubDetail() {
             <h3>설립연도</h3> <p>{clubData.establishedYear}년</p>
           </div>
           <div>
-            <h3>회원 수</h3> <p>{clubData.numberOfMember}</p>
+            <h3>회원 수</h3> <p>{clubData.numOfMember}</p>
           </div>
         </Wrapper>
         <DownWrapper>
           <h3>관련 분야</h3>
           <div>
-            {clubData.relatedTag.map((tag, index) => (
-              <InterestTag key={index}>{tag}</InterestTag>
-            ))}
+            {clubData && clubData.relatedTag ? (
+              clubData.relatedTag.map((tag, index) => (
+                <InterestTag key={index}>{tag}</InterestTag>
+              ))
+            ) : (
+              <p>Loading related tags...</p>
+            )}
           </div>
         </DownWrapper>
       </ClubIntroduction>
       <ClubExplain>
         <Activity>
           <h3>주요 활동</h3>
-          {clubData.activityTitle.map((title, index) => (
-            <ActivityItem key={index}>
-              <span>{title}</span>
-              <div>{clubData.activityContent[index]}</div>
-              <BorderLine2></BorderLine2>
-            </ActivityItem>
-          ))}
+          {clubData && clubData.activityTitle && clubData.activityContent ? (
+            clubData.activityTitle.map((title, index) => (
+              <ActivityItem key={index}>
+                <span>{title}</span>
+                <div>{clubData.activityContent[index]}</div>
+                <BorderLine2></BorderLine2>
+              </ActivityItem>
+            ))
+          ) : (
+            <p>Loading activity data...</p>
+          )}
         </Activity>
         <Recruitment>
           <h3>{clubData.groupName}의 모집공고</h3>
