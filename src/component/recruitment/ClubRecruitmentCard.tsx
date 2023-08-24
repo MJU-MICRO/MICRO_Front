@@ -24,7 +24,7 @@ const ClubRecruitmentCard = ({
   groupName,
   imageUrl,
   establishedYear,
-  numberOfMember,
+  numOfMember,
   relatedTag,
   recruit,
   campus,
@@ -38,7 +38,7 @@ const ClubRecruitmentCard = ({
   return (
     <CardContainer>
       <UpWrapper>
-        <LogoImage src={imageUrl} alt='로고 이미지' />
+        <LogoImage src={img} alt='로고 이미지' />
         <CardInfo>
           <Wrapper>
             <SecondWrapper>
@@ -54,7 +54,7 @@ const ClubRecruitmentCard = ({
           </Wrapper>
           <DownWrapper>
             <p>
-              {campus} · {establishedYear}년 개설 · 회원 수 {numberOfMember}
+              {campus} · {establishedYear}년 개설 · 회원 수 {numOfMember}
             </p>
             {relatedTag.map((tag, index) => (
               <InterestTag key={index}>{tag}</InterestTag>

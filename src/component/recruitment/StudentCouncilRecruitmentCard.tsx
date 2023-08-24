@@ -24,7 +24,7 @@ const StudentCouncilRecruitmentCard = ({
   groupName,
   imageUrl,
   establishedYear,
-  numberOfMember,
+  numOfMember,
   recruit,
   campus,
   largeCategory,
@@ -41,7 +41,7 @@ const StudentCouncilRecruitmentCard = ({
   return (
     <CardContainer>
       <UpWrapper>
-        <LogoImage src={imageUrl} alt='로고 이미지' />
+        <LogoImage src={img} alt='로고 이미지' />
         <CardInfo>
           <Wrapper>
             <SecondWrapper>
@@ -57,7 +57,7 @@ const StudentCouncilRecruitmentCard = ({
           </Wrapper>
           <DownWrapper>
             <p>
-              {campus} · {establishedYear}년 개설 · 회원 수 {numberOfMember}
+              {campus} · {establishedYear}년 개설 · 회원 수 {numOfMember}
             </p>
             <Tag>
               <InterestTag>{mediumCategory}</InterestTag>

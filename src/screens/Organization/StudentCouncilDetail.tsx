@@ -55,57 +55,63 @@ function StudentCouncilDetail() {
   };
   useEffect(() => {
     axios
-      .get(`api/group/${id}`)
+      .get('https://nolmyong.com/api/group')
       .then((response) => {
-        console.log(response);
+        if (response.data.data) {
+          setStudentCouncilDatalist(response.data.data);
+        } else {
+          console.error(response.data.data);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching group data:', error);
+      });
+    axios
+      .get(`https://nolmyong.com/api/group/${id}`)
+      .then((response) => {
         if (response.data.data) {
           setStudentCouncilData(response.data.data);
         } else {
-          console.error('Application list data not available:', response.data);
+          console.error(response.data.data);
         }
       })
       .catch((error) => {
-        console.error('Error fetching application history:', error);
+        console.error('Error fetching group data:', error);
       });
-  }, []);
-  useEffect(() => {
     axios
-      .get('/recruitments')
+      .get('https://nolmyong.com/recruitments')
       .then((response) => {
-        console.log(response);
         if (response.data.data) {
           setRecruitmentDatalist(response.data.data);
         } else {
-          console.error('Application list data not available:', response.data);
+          console.error('Recruitment data not available:', response.data);
         }
       })
       .catch((error) => {
-        console.error('Error fetching application history:', error);
+        console.error('Error fetching recruitment data:', error);
       });
   }, []);
-  useEffect(() => {
-    // Find the club that matches the id from the URL parameter
-    const foundClub = studentCouncilData
-      ? studentCouncilData
-      : studentCouncilDatalist.find((club) => club.id === id);
-    const filteredRecruitments =
-      recruitmentDatalist.filter((recruitment) => recruitment.groupId === id) ||
-      [];
 
+  useEffect(() => {
+    const foundClub = studentCouncilDatalist.find((club) => club.id === id);
+
+    const filteredRecruitments = recruitmentDatalist.filter(
+      (recruitment) => recruitment.groupId === id
+    );
     const sortedRecruitments = filteredRecruitments.sort(
       (a: RecruitmentProps, b: RecruitmentProps) =>
-        new Date(b.startDateTime).getTime() - new Date(a.endDateTime).getTime()
+        new Date(b.startDateTime).getTime() -
+        new Date(a.startDateTime).getTime()
     );
 
     const latestRecruitment = sortedRecruitments[0];
 
     if (foundClub && latestRecruitment) {
-      setStudentCouncilData(foundClub);
       setRecruitmentData(latestRecruitment);
     } else {
       console.error(`Club with id ${id} not found.`);
     }
-  }, [id, studentCouncilData, recruitmentData]);
+  }, [id, studentCouncilDatalist, recruitmentDatalist]);
 
   if (!studentCouncilData) {
     return <div>Loading...</div>;
@@ -161,13 +167,16 @@ function StudentCouncilDetail() {
       <ClubExplain>
         <Activity>
           <h3>주요 활동</h3>
-          {studentCouncilData.activityTitle.map((title, index) => (
-            <ActivityItem key={index}>
-              <span>{title}</span>
-              <div>{studentCouncilData.activityContent[index]}</div>
-              <BorderLine2></BorderLine2>
-            </ActivityItem>
-          ))}
+          {studentCouncilData &&
+            studentCouncilData.activityTitle &&
+            studentCouncilData.activityContent &&
+            studentCouncilData.activityTitle.map((title, index) => (
+              <ActivityItem key={index}>
+                <span>{title}</span>
+                <div>{studentCouncilData.activityContent[index]}</div>
+                <BorderLine2></BorderLine2>
+              </ActivityItem>
+            ))}
         </Activity>
         <Recruitment>
           <h3>{studentCouncilData.groupName}의 모집공고</h3>
