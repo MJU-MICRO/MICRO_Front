@@ -28,7 +28,7 @@ function StudentCouncilCard({
   return (
     <CardContainer>
       <UpWrapper>
-        <LogoImage src={imageUrl} alt='로고 이미지' />
+        <LogoImage src={img} alt='로고 이미지' />
         <CardInfo>
           <Wrapper>
             <Name>{groupName}</Name>

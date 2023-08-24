@@ -3,7 +3,7 @@ export interface OrganizationProps {
   groupName: string;
   imageUrl: string;
   establishedYear: number;
-  numberOfMember: string;
+  numOfMember: string;
   introduction: string;
   relationMajor: string[];
   relatedTag: string[];

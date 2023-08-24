@@ -23,7 +23,7 @@ const ModalIntroductionClub = ({
   groupName,
   imageUrl,
   establishedYear,
-  numberOfMember,
+  numOfMember,
   relatedTag,
   recruit,
   campus,
@@ -52,7 +52,7 @@ const ModalIntroductionClub = ({
             </Status>
           </Wrapper>
           <p>
-            {campus} · {establishedYear}년 개설 · 회원 수 {numberOfMember}
+            {campus} · {establishedYear}년 개설 · 회원 수 {numOfMember}
           </p>
           {relatedTag.map((tag, index) => (
             <InterestTag key={index}>{tag}</InterestTag>
