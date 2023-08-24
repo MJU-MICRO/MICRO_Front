@@ -19,7 +19,7 @@ interface MyApplicationListProps {
   subCategory: string;
   presidentEmail: string;
   recruitment: RecruitmentProps;
-  id: number;
+  id: string;
   userId: number;
   recruitmentId: number;
   answers: string[];

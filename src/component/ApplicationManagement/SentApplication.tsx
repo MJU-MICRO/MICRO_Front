@@ -37,10 +37,9 @@ const SentApplication = () => {
   return (
     <div>
       <Header>보낸 지원서</Header>
-      {applicationList.map((application) => (
+      {/* {applicationList.map((application) => (
         <ClubRecruitmentCard
           key={application.id}
-          id={application.id.toString()}
           name={application.name}
           imageUrl={application.imageUrl}
           establishedYear={application.establishedYear}
@@ -59,8 +58,9 @@ const SentApplication = () => {
           subCategory={application.subCategory}
           presidentEmail={application.presidentEmail}
           recruitment={application.recruitment}
+          id={application.id.toString()}
         />
-      ))}
+      ))} */}
     </div>
   );
 };
