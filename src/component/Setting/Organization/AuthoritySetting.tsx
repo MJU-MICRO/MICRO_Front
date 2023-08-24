@@ -1,8 +1,33 @@
-import React from 'react';
+import axios from 'axios';
+import UserProps from '../../../interfaces/UserProps';
+import { useAuth } from 'contexts/AuthContext';
+import { GroupDetail } from 'interfaces/GroupDetailProps';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import img from '../../../assets/img.svg';
+interface DefaultSettingProps {
+  groupId: number;
+}
+const OrganizationAuthoritySetting = ({ groupId }: DefaultSettingProps) => {
+  const { user } = useAuth();
+  const [groupData, setGroupData] = useState<GroupDetail | null>(null);
 
-const OrganizationAuthoritySetting = () => {
+  useEffect(() => {
+    const fetchGroupData = async () => {
+      try {
+        const response = await axios.get(
+          `https://nolmyong.com/api/group/${groupId}`
+        );
+        setGroupData(response.data.data);
+        console.log(response.data.data);
+      } catch (error) {
+        console.log('Error fetching group data:', error);
+      }
+    };
+
+    fetchGroupData();
+  }, [groupId]);
+
   return (
     <Container>
       <Header>단체 관리자 설정</Header> <Line />
@@ -16,10 +41,10 @@ const OrganizationAuthoritySetting = () => {
           </div>
         </ContentDes>
         <Content>
-          <ManagerImg src={img} alt='img' />
+          <ManagerImg src={user?.profileImageUrl} alt='img' />
           <Manager>
-            <Name>이보현</Name>
-            <Email>leebohuyn49</Email>
+            <Name>{user?.name}</Name>
+            <Email>{user?.email}</Email>
           </Manager>
         </Content>
       </ContentWrapper>
@@ -36,7 +61,7 @@ const OrganizationAuthoritySetting = () => {
       <ContentWrapper>
         <ContentHeader>관리자 이메일 아이디</ContentHeader>
         <ButtonWrapper>
-          <ContentInput placeholder='leebohyun49' />
+          <ContentInput placeholder={user?.email} />
           <ManagerChangeBtn>관리자 변경하기</ManagerChangeBtn>
         </ButtonWrapper>
       </ContentWrapper>

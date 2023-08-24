@@ -22,7 +22,7 @@ const UserDataBlock = () => {
       <UserProfileContainer>
         <UserProfileImg>
           <img
-            src={user?.profileImageUrl ? UserProfileImg : defaultImg}
+            src={user?.profileImageUrl ? user?.profileImageUrl : defaultImg}
             alt='userImg'
           />
         </UserProfileImg>
@@ -75,8 +75,13 @@ const UserProfileContainer = styled.div`
   margin-bottom: 1.5rem;
 `;
 const UserProfileImg = styled.div`
-  width: 100px;
-  height: 100px;
+  img {
+    width: 6.25rem;
+    height: 6.25rem;
+
+    border-radius: 50%;
+  }
+
   object-fit: cover;
   margin-bottom: 1.5rem;
 `;

@@ -1,10 +1,12 @@
 import { useAuth } from 'contexts/AuthContext';
 import { useApprovedGroups } from 'contexts/GroupContext';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import img from '../../../assets/img.svg';
 
 const UserOrganizationBlock = () => {
+  const history = useNavigate();
   const approvedGroups = useApprovedGroups();
   const { user } = useAuth();
 
@@ -16,6 +18,10 @@ const UserOrganizationBlock = () => {
     (group) => group.presidentId === user.id
   );
   console.log(userOrganizations);
+
+  const navigateToOrganizationSetting = (group) => {
+    history(`/organizationSetting/${group.id}`);
+  };
   return (
     <Container>
       {' '}
@@ -27,7 +33,9 @@ const UserOrganizationBlock = () => {
           {' '}
           <GroupContainer>
             {userOrganizations.map((group, index) => (
-              <Group key={index}>
+              <Group
+                key={index}
+                onClick={() => navigateToOrganizationSetting(group.id)}>
                 <img src={img} alt='img' />
                 <GroupName>{group.groupName}</GroupName>
               </Group>
@@ -86,6 +94,14 @@ const Group = styled.div`
   align-items: center;
   margin-right: 1rem;
   margin-bottom: 1rem;
+  cursor: pointer;
+
+  border-radius: 1rem;
+  padding: 0.5rem;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+  }
 `;
 
 const NoOrganization = styled.div`

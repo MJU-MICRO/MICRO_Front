@@ -18,6 +18,7 @@ import OrganizationSetting from 'screens/UserSetting/organization/OrganizationSe
 import { AuthProvider } from 'contexts/AuthContext';
 import { ApprovedGroupsProvider } from 'contexts/GroupContext';
 import ApplicationManagement from 'screens/ApplicationManagement/ApplicationManagement';
+import DefaultSetting from 'component/Setting/Organization/DefaultSetting';
 
 function App() {
   return (
@@ -47,7 +48,7 @@ function App() {
             <Route path='/setting' element={<Setting />} />
             <Route path='/myProfile' element={<MyProfile />} />
             <Route
-              path='/organizationSetting'
+              path='/organizationSetting/:groupId'
               element={<OrganizationSetting />}
             />
             {/* <Route

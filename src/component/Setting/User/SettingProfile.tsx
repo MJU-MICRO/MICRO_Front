@@ -8,7 +8,7 @@ import axios from 'axios';
 
 const SettingProfile = () => {
   const { user, accessToken } = useAuth();
-  const [uploadedImageUrl, setUploadedImageUrl] = useState('');
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<File | null>(null);
   const [introText, setIntroText] = useState('');
   const [name, setName] = useState('');
   const [major, setMajor] = useState('');
@@ -22,27 +22,31 @@ const SettingProfile = () => {
     }
   };
 
-  const handleImageUpload = (imageUrl: string) => {
+  const handleImageUpload = (imageUrl: File) => {
     setUploadedImageUrl(imageUrl);
   };
 
   const userProfileChangeHandler = async () => {
     try {
-      const requestBody = {
-        dto: {
-          name: name,
-          major: major,
-          introduction: introText
-        },
-        file: uploadedImageUrl || ''
+      const formData = new FormData();
+
+      const dto = {
+        name: name,
+        major: major,
+        introduction: introText
       };
 
+      if (uploadedImageUrl !== null) {
+        formData.append('file', uploadedImageUrl, 'image.png');
+      }
+      formData.append('dto', JSON.stringify(dto));
       const response = await axios.patch(
         'https://nolmyong.com/api/user/my',
-        requestBody,
+        formData,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'multipart/form-data'
           }
         }
       );

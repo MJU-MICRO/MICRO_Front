@@ -1,18 +1,81 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import UploadBtn from '../UploadBtn';
-import img from '../../../assets/img.svg';
+import img from '../../../assets/userDefaultImg.svg';
 import styled from 'styled-components';
 import DateImg from '../../../assets/DateImg.svg';
-import ToggleDown from '../../../assets/toggle-down.svg';
-import ToggleUp from '../../../assets/toggle-up.svg';
+
 import MajorPlusBtn from '../../../assets/MajorPlus.svg';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import SelectTags from './SelectMenu/SelectTags';
+import SelectMajors from './SelectMenu/SelectMajors';
+import RelatedTagsSelect from 'component/Organization/apply/RelatedTagsSelect';
+import SelectCampus from './SelectMenu/SelectCampus';
+import SelectDivision from './SelectMenu/SelectDivision';
+import SelectDivisionDetail from './SelectMenu/SelectDivisionDetail';
+import { GroupDetail } from 'interfaces/GroupDetailProps';
+import axios from 'axios';
+interface DefaultSettingProps {
+  groupId: number;
+}
+const DefaultSetting = ({ groupId }: DefaultSettingProps) => {
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<File | null>(null);
 
-const DefaultSetting = () => {
-  const [uploadedImageUrl, setUploadedImageUrl] = useState('');
-
-  const handleImageUpload = (imageUrl: string) => {
+  const handleImageUpload = (imageUrl: File) => {
     setUploadedImageUrl(imageUrl);
   };
+
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
+  const [selectedMajors, setSelectedMajors] = useState<string[]>([]);
+
+  const selectMajorHandler = (selectedMajors: string[]) => {
+    setSelectedMajors(selectedMajors);
+  };
+
+  const [selectTags, setSelectTags] = useState<string[]>([]);
+  const selectTagHandler = (selectTags: string[]) => {
+    setSelectTags(selectTags);
+  };
+
+  const [selectCampus, setSelectCampus] = useState<string[]>([]);
+  const selectCampusHandler = (selectCampus: string[]) => {
+    setSelectCampus(selectCampus);
+  };
+  const [selectDivision, setselectDivision] = useState('');
+  const selectDivisionHandler = (selectDivision: string) => {
+    setselectDivision(selectDivision);
+    console.log(selectDivision);
+  };
+  const [selectDivisionDetail, setselectDivisionDetail] = useState<string[]>(
+    []
+  );
+  const selectDivisionDetailHandler = (selectDivisionDetail: string[]) => {
+    setselectDivisionDetail(selectDivisionDetail);
+  };
+
+  const [groupData, setGroupData] = useState<GroupDetail | null>(null);
+
+  useEffect(() => {
+    const fetchGroupData = async () => {
+      try {
+        const response = await axios.get(
+          `https://nolmyong.com/api/group/${groupId}`
+        );
+        setGroupData(response.data.data);
+        console.log(response.data.data);
+      } catch (error) {
+        console.log('Error fetching group data:', error);
+      }
+    };
+
+    fetchGroupData();
+  }, [groupId]);
+
   return (
     <Container>
       <Header>단체 기본 정보</Header>
@@ -25,7 +88,7 @@ const DefaultSetting = () => {
           <UploadBtn
             defaultProfileImg={img}
             onImageUpload={handleImageUpload}
-            division='user'
+            division=''
           />
         </ImgSettingContent>
       </ImgSettingContainer>
@@ -33,9 +96,9 @@ const DefaultSetting = () => {
         <SectionFlex>
           <div>
             <SectionHeader>
-              단체명 <Asterisk>*</Asterisk>{' '}
+              단체명 <Asterisk>*</Asterisk>
             </SectionHeader>
-            <SectionInput placeholder='하아' />
+            <SectionInput placeholder={groupData?.groupName} />
           </div>
 
           <div>
@@ -43,7 +106,12 @@ const DefaultSetting = () => {
               설립일 <Asterisk>*</Asterisk>
             </SectionHeader>
             <SectionFlex>
-              <SectionInput placeholder='하아' />
+              <CustomDatePicker
+                selected={selectedDate}
+                onChange={handleDateChange} // 선택한 날짜를 업데이트하는 핸들러 함수
+                dateFormat='yyyy-MM-dd' // 날짜 형식 지정
+                placeholderText={groupData?.establishedYear.toString()}
+              />
               <DateBtn src={DateImg} alt='DateImg' />
             </SectionFlex>
           </div>
@@ -53,55 +121,60 @@ const DefaultSetting = () => {
         <SectionHeader>
           회원수 <Asterisk>*</Asterisk>
         </SectionHeader>
-        <SectionInput placeholder='하아' />
+        <SectionInput placeholder={groupData?.numOfMember} />
       </Section>
       <Section>
         <SectionHeader>
           단체 구분 <Asterisk>*</Asterisk>
         </SectionHeader>
         <SectionFlex>
-          <DivisionInput placeholder='하아' />
-          <ToggleBtn src={ToggleUp} alt='toggleDown' />
+          <SelectCampus
+            selectedTags={selectCampus}
+            onChange={selectCampusHandler}
+          />
+          <SelectDivision
+            selectedDivision={selectDivision}
+            onChange={selectDivisionHandler}
+          />
 
-          <DivisionInput placeholder='하아' />
-          <ToggleBtn src={ToggleUp} alt='toggleDown' />
-          <DivisionInput placeholder='하아' />
-          <ToggleBtn src={ToggleUp} alt='toggleDown' />
-          <DivisionInput placeholder='하아' />
-          <ToggleBtn src={ToggleUp} alt='toggleDown' />
-          <DivisionInput placeholder='하아' />
-          <ToggleBtn src={ToggleUp} alt='toggleDown' />
+          <SelectDivisionDetail
+            selectedDivisionDetail={selectDivisionDetail}
+            onChange={selectDivisionDetailHandler}
+          />
         </SectionFlex>
       </Section>
       <Section>
         <SectionHeader>
           관련 태그 최대 3개 <Asterisk>*</Asterisk>
         </SectionHeader>
-        <TagBtn>
-          <img src={MajorPlusBtn} alt='TagBtn' />
-          <div>추가하기</div>
-        </TagBtn>
+
+        <SelectTags selectedTags={selectTags} onChange={selectTagHandler} />
       </Section>
       <Section>
         <SectionHeader>
           관련 학과 최대 3개 <Asterisk>*</Asterisk>
         </SectionHeader>
-        <MajorInput placeholder='관련 학과를 선택해주세요.' />
+        <SelectMajorContainer>
+          <SelectMajors
+            selectedMajors={selectedMajors}
+            onChange={selectMajorHandler}
+          />
+        </SelectMajorContainer>
       </Section>
       <ActivityContainer>
         <ActivityHeader>단체 주요 활동 최대 3개</ActivityHeader>
         <ActivityContentWrapper>
           <ActivityContent>
-            <ContentName>1.활동</ContentName>
-            <ContentInfo>설명</ContentInfo>
+            <ContentName>1.{groupData?.activityTitle[0]}</ContentName>
+            <ContentInfo>{groupData?.activityContent[0]}</ContentInfo>
           </ActivityContent>
           <ActivityContent>
-            <ContentName>1.활동</ContentName>
-            <ContentInfo>설명</ContentInfo>
+            <ContentName>2.{groupData?.activityContent[1]}</ContentName>
+            <ContentInfo>{groupData?.activityContent[1]}</ContentInfo>
           </ActivityContent>
           <ActivityContent>
-            <ContentName>1.활동</ContentName>
-            <ContentInfo>설명</ContentInfo>
+            <ContentName>3.{groupData?.activityContent[2]}</ContentName>
+            <ContentInfo>{groupData?.activityContent[2]}</ContentInfo>
           </ActivityContent>
         </ActivityContentWrapper>
       </ActivityContainer>
@@ -110,6 +183,8 @@ const DefaultSetting = () => {
 };
 
 export default DefaultSetting;
+
+const SelectMajorContainer = styled.div``;
 
 const Container = styled.div``;
 const Header = styled.div`
@@ -149,7 +224,7 @@ const Asterisk = styled.h3`
 `;
 const ImgSettingContent = styled.div``;
 const Section = styled.div`
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -235,34 +310,6 @@ const DateBtn = styled.img`
   cursor: pointer;
 `;
 
-const ToggleBtn = styled.img`
-  position: relative;
-  left: -1.5rem;
-  cursor: pointer;
-`;
-
-const TagBtn = styled.div`
-  width: 6.3125rem;
-  height: 1.875rem;
-  border-radius: 0.625rem;
-  cursor: pointer;
-  border: 1px solid rgba(0, 143, 213, 0.7);
-  background: #fff;
-  color: rgba(0, 143, 213, 0.7);
-  font-family: Gmarket Sans TTF;
-  font-size: 0.875rem;
-  font-style: normal;
-  font-weight: 500;
-
-  display: flex;
-  align-items: center;
-
-  img {
-    margin-left: 0.3rem;
-    margin-right: 0.3rem;
-  }
-`;
-
 const MajorInput = styled.input`
   cursor: pointer;
   &::placeholder {
@@ -303,8 +350,9 @@ const ContentName = styled.div`
   line-height: normal;
   margin-bottom: 0.5rem;
 `;
-const ContentInfo = styled.div`
+const ContentInfo = styled.textarea`
   height: 6.75rem;
+  width: 100%;
   flex-shrink: 0;
   border-radius: 0.625rem;
   border: 1px solid #dbdbdf;
@@ -316,4 +364,39 @@ const ContentInfo = styled.div`
   font-weight: 300;
   line-height: 1.125rem; /* 128.571% */
   padding: 1.3rem;
+  resize: vertical;
+  overflow-x: hidden;
+  &:focus {
+    border: none;
+    outline: none;
+  }
+`;
+const CustomDatePicker = styled(DatePicker)`
+  font-family: Gmarket Sans TTF;
+  width: 16rem;
+  height: 1.8625rem;
+  border-radius: 0.625rem;
+  border: 1px solid #dbdbdf;
+  background: #fff;
+  padding-left: 1.06rem;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+    border: none;
+  }
+
+  /* 선택된 날짜 스타일 */
+  .react-datepicker__day--selected {
+    background-color: rgba(0, 143, 213, 0.7);
+    color: white;
+  }
+
+  /* 선택된 날짜 호버 스타일 */
+  .react-datepicker__day--selected:hover {
+    background-color: rgba(0, 143, 213, 0.7);
+  }
 `;

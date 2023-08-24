@@ -1,28 +1,43 @@
 import React from 'react';
 import styled from 'styled-components';
 import StatusBlock from '../StatusBlock';
+import DotButton from './DotButtn';
+import { RecruitmentData } from 'interfaces/RecruitmentData';
 
-const Post = () => {
+interface PostProps {
+  recruitmentData: RecruitmentData[];
+}
+const Post = ({ recruitmentData }: PostProps) => {
   return (
-    <Container>
-      <Section>
-        <Header>사람을 구한다.</Header>
-        <StatusBlock status='recruitTrue' />
-      </Section>
-      <Section>
-        <Content>내용</Content>
-      </Section>
-      <Section>
-        <Date>2023.05.23</Date>
-      </Section>
-    </Container>
+    <>
+      {recruitmentData.map((data, index) => (
+        <>
+          {' '}
+          <DotButton context='temporary' />
+          <Container key={index}>
+            <Section>
+              <Header>{data.title}</Header>
+              <StatusBlock
+                status={data.submit ? 'recruitTrue' : 'recruitFalse'}
+              />
+            </Section>
+            <Section>
+              <Content>{data.content}</Content>
+            </Section>
+            <Section>
+              <Date>{data.startDateTime}</Date>
+            </Section>
+          </Container>
+        </>
+      ))}
+    </>
   );
 };
 
 export default Post;
 
 const Container = styled.div`
-  width: 36.625rem;
+  width: 38.625rem;
   height: 6.75rem;
   border-radius: 0.9375rem;
   background: #fff;
