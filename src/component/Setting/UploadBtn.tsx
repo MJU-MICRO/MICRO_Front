@@ -4,7 +4,7 @@ import uploadBtnImg from '../../assets/upload.svg';
 
 interface UploadBtnProps {
   defaultProfileImg: string;
-  onImageUpload: (imageUrl: string) => void;
+  onImageUpload: (imageFile: File) => void;
   division: string;
 }
 
@@ -16,14 +16,17 @@ const UploadBtn = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState('');
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setUploadedImageUrl(imageUrl);
-      onImageUpload(imageUrl);
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files?.[0];
+    if (selectedFile) {
+      onImageUpload(selectedFile);
+      const imageUrl = URL.createObjectURL(selectedFile); // Get the URL of the selected image
+      setUploadedImageUrl(imageUrl); // Update the state with the image URL
     }
+  };
+
+  const setImgDefaultHandler = () => {
+    setUploadedImageUrl('');
   };
 
   return (
@@ -32,6 +35,7 @@ const UploadBtn = ({
         src={uploadedImageUrl || defaultProfileImg}
         division={division}
         alt='img'
+        onClick={setImgDefaultHandler}
       />
       <div>
         <input
@@ -39,7 +43,7 @@ const UploadBtn = ({
           accept='image/*'
           ref={inputRef}
           style={{ display: 'none' }}
-          onChange={handleImageUpload}
+          onChange={handleFileUpload}
         />
         <Button onClick={() => inputRef.current?.click()}>
           <UploadBtnImg src={uploadBtnImg} alt='uploadBtnImg' />
@@ -59,11 +63,17 @@ const Wrapper = styled.div`
 `;
 
 const ProfileImg = styled.img<{ division: string }>`
-  width: ${(props) => (props.division === 'user' ? '5rem' : '8.46331rem')};
-  height: ${(props) => (props.division === 'user' ? '5rem' : '7.5rem')};
+  width: ${(props) => (props.division === 'user' ? '5rem' : '5.46331rem')};
+  height: ${(props) => (props.division === 'user' ? '5rem' : '5.5rem')};
   border-radius: ${(props) => (props.division === 'user' ? '50%' : '0.625rem')};
   object-fit: cover;
   margin-right: 1.25rem;
+  &:hover {
+    opacity: 0.5;
+    background-color: black;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
 `;
 const Button = styled.button`
   cursor: pointer;

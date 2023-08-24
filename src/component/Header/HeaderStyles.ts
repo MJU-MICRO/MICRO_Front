@@ -260,9 +260,7 @@ export const PostWrapper = styled.div`
   }
   img {
     width: 1rem;
-    height: 0.8rem;
-
-    margin-left: 1.6rem;
+    height: 1rem;
   }
 
   h2 {
@@ -275,14 +273,6 @@ export const PostWrapper = styled.div`
   }
 `;
 
-export const UserProfileImg = styled.img`
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  position: relative;
-  cursor: pointer;
-`;
-
 export const UserWrapper = styled.div`
   background-color: red6;
   display: flex;
@@ -291,16 +281,15 @@ export const UserWrapper = styled.div`
   li {
     display: flex;
     align-items: center;
-    img {
-      width: 2.25rem;
-      height: 1.375rem;
-      stroke-width: 2px;
-      stroke: rgba(0, 0, 0, 0.6);
-      margin-right: 1.5rem;
-    }
   }
 `;
-
+export const UserProfileImg = styled.img`
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+`;
 export const IconWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -313,10 +302,6 @@ export const IconWrapper = styled.div`
     transition: fill 0.3s ease-in-out;
     background-color: rgba(200, 200, 200, 0.3);
     border-radius: 50%;
-  }
-
-  img {
-    padding-left: 1.4rem;
   }
 `;
 

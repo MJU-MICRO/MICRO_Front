@@ -9,10 +9,11 @@
   "plugins": ["@typescript-eslint"],
   "rules": {
     // 코드 스타일과 관련된 규칙
-    "indent": ["error", 2], // 들여쓰기 2칸
+    "indent": "off",
     "quotes": ["error", "single"], // 작은따옴표 사용
     "semi": ["error", "always"], // 세미콜론 필수
     "comma-dangle": "off",
+    "no-unused-expressions": "off", // 비활성화
 
     // TypeScript 관련 규칙
     "@typescript-eslint/explicit-function-return-type": "off", // 함수 반환 타입 명시하지 않아도 됨

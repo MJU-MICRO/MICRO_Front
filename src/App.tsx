@@ -11,57 +11,61 @@ import StudentCouncilDetail from './screens/Organization/StudentCouncilDetail';
 import CreateOrganizationFirst from './screens/Organization/CreateOrganizationFirst';
 import CreateRecruitmentFirst from './screens/Recruitment/CreateRecruitmentFirst';
 import CreateOrganizationSecond from './screens/Organization/CreateOrganizationSecond';
-import Setting from './screens/UserSetting/User/Setting';
-import ApplicationManagement from 'screens/applicationManagement/ApplicationManagement';
-import MyProfile from './screens/UserSetting/User/MyProfile';
-import Application from './screens/Application/Application';
+import Setting from 'screens/UserSetting/user/Setting';
+import ApplicationManagement from 'screens/ApplicationManagement/ApplicationManagement';
+import MyProfile from 'screens/UserSetting/user/MyProfile';
 import OrganizationSetting from 'screens/UserSetting/organization/OrganizationSetting';
 import { AuthProvider } from 'contexts/AuthContext';
+import { ApprovedGroupsProvider } from 'contexts/GroupContext';
+import DefaultSetting from 'component/Setting/Organization/DefaultSetting';
 import CreateRecruitmentSecond from './screens/Recruitment/CreateRecruitmentSecond';
+import Application from 'screens/Application/Application';
 
 function App() {
   return (
     <Router>
       <AuthProvider>
-        <Header />
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/application' element={<Application />} />
-          <Route path='/recruitmentList' element={<RecruitmentList />} />
-          <Route path='/organizationList' element={<OrganizationList />} />
-          <Route
-            path='/CreateOrganizationFirst'
-            element={<CreateOrganizationFirst />}
-          />
-          <Route
-            path='/CreateOrganizationSecond'
-            element={<CreateOrganizationSecond />}
-          />
-          <Route
-            path='/createRecruitmentFirst'
-            element={<CreateRecruitmentFirst />}
-          />
-          <Route
-            path='/createRecruitmentSecond'
-            element={<CreateRecruitmentSecond />}
-          />
-          <Route path='/club/:id' element={<ClubDetail />} />
-          <Route
-            path='/studentCouncil/:id'
-            element={<StudentCouncilDetail />}
-          />
-          <Route path='/signUp' element={<SignUp />} />
-          <Route path='/setting' element={<Setting />} />
-          <Route path='/myProfile' element={<MyProfile />} />
-          <Route
-            path='/organizationSetting'
-            element={<OrganizationSetting />}
-          />
-          <Route
-            path='/applicationManagement'
-            element={<ApplicationManagement />}
-          />
-        </Routes>
+        <ApprovedGroupsProvider>
+          <Header />
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/application' element={<Application />} />
+            <Route path='/recruitmentList' element={<RecruitmentList />} />
+            <Route path='/organizationList' element={<OrganizationList />} />
+            <Route
+              path='/CreateOrganizationFirst'
+              element={<CreateOrganizationFirst />}
+            />
+            <Route
+              path='/CreateOrganizationSecond'
+              element={<CreateOrganizationSecond />}
+            />
+            <Route
+              path='/createRecruitmentFirst'
+              element={<CreateRecruitmentFirst />}
+            />
+            <Route
+              path='/createRecruitmentSecond'
+              element={<CreateRecruitmentSecond />}
+            />
+            <Route path='/club/:id' element={<ClubDetail />} />
+            <Route
+              path='/studentCouncil/:id'
+              element={<StudentCouncilDetail />}
+            />
+            <Route path='/signUp' element={<SignUp />} />
+            <Route path='/setting' element={<Setting />} />
+            <Route path='/myProfile' element={<MyProfile />} />
+            <Route
+              path='/organizationSetting/:groupId'
+              element={<OrganizationSetting />}
+            />
+            <Route
+              path='/applicationManagement'
+              element={<ApplicationManagement />}
+            />
+          </Routes>
+        </ApprovedGroupsProvider>
       </AuthProvider>
     </Router>
   );

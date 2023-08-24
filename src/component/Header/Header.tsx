@@ -2,15 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import Search from './Search';
-import application from '../../assets/Header/application.svg';
-import message from '../../assets/Header/message.svg';
-import recruitmentImg from '../../assets/Header/recruitmentImg.svg';
-import organizationImg from '../../assets/Header/organizationImg.svg';
-import arrowRight from '../../assets/Header/arrow-right.svg';
+import application from '../../assets/header/application.svg';
+import message from '../../assets/header/message.svg';
+import recruitmentImg from '../../assets/header/recruitmentImg.svg';
+import organizationImg from '../../assets/header/organizationImg.svg';
+import arrowRight from '../../assets/header/arrow-right.svg';
 import Modal from 'component/Common/Modal';
 import { useAuth } from 'contexts/AuthContext';
 import * as Styled from './HeaderStyles';
-import newPost from '../../assets/Header/newPost.svg';
+import newPost from '../../assets/header/newPost.svg';
 import ProfileMenu from './ProfileMenu';
 
 const Header = () => {
@@ -63,7 +63,7 @@ const Header = () => {
     try {
       await login(email, password);
       if (localStorage.getItem('accessToken') !== null) {
-        console.log('유저 정보', user);
+        console.log('유저', user);
         closeModal();
       }
     } catch (error) {
@@ -167,7 +167,7 @@ const Header = () => {
               <Styled.UserWrapper>
                 <li>
                   <NavLink
-                    to='/applicationManagment'
+                    to='/applicationManagement'
                     onMouseEnter={() => setApplicationHovered(true)}
                     onMouseLeave={() => setApplicationHovered(false)}>
                     <Styled.IconWrapper>

@@ -22,7 +22,7 @@ const UserDataBlock = () => {
       <UserProfileContainer>
         <UserProfileImg>
           <img
-            src={user?.profileImageUrl ? UserProfileImg : defaultImg}
+            src={user?.profileImageUrl ? user?.profileImageUrl : defaultImg}
             alt='userImg'
           />
         </UserProfileImg>
@@ -61,7 +61,6 @@ const EditButton = styled.div`
   padding: 0.3rem;
   border-radius: 50%;
   cursor: pointer;
-
   &:hover {
     background-color: rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease-in-out;
@@ -76,8 +75,13 @@ const UserProfileContainer = styled.div`
   margin-bottom: 1.5rem;
 `;
 const UserProfileImg = styled.div`
-  width: 100px;
-  height: 100px;
+  img {
+    width: 6.25rem;
+    height: 6.25rem;
+
+    border-radius: 50%;
+  }
+
   object-fit: cover;
   margin-bottom: 1.5rem;
 `;
@@ -92,7 +96,6 @@ const UserName = styled.div`
 `;
 const UserEmail = styled.div`
   color: rgba(0, 0, 0, 0.5);
-
   font-family: Gmarket Sans TTF;
   font-size: 10px;
   font-style: normal;
@@ -120,7 +123,6 @@ const InfoHeader = styled.div`
 `;
 const InfoContent = styled.div`
   color: #000;
-
   font-family: GmarketSansLight;
   font-size: 14px;
   font-style: normal;

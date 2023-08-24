@@ -65,7 +65,7 @@ function ClubDetail() {
         console.error('Error fetching group data:', error);
       });
     axios
-      .get(`https://nolmyong.com/api/group${id}`)
+      .get(`https://nolmyong.com/api/group/${id}`)
       .then((response) => {
         if (response.data.data) {
           setClubData(response.data.data);

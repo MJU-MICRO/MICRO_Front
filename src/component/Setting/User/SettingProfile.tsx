@@ -1,16 +1,64 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import uploadImg from '../../../assets/upload.svg';
-import img from '../../../assets/img.svg';
+import userDefaultImg from '../../../assets/userDefaultImg.svg';
 import UploadBtn from 'component/Setting/UploadBtn';
 import { useAuth } from 'contexts/AuthContext';
+import axios from 'axios';
 
 const SettingProfile = () => {
-  const { user } = useAuth();
-  const [uploadedImageUrl, setUploadedImageUrl] = useState('');
+  const { user, accessToken } = useAuth();
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<File | null>(null);
+  const [introText, setIntroText] = useState('');
+  const [name, setName] = useState('');
+  const [major, setMajor] = useState('');
+  const [nameError, setNameError] = useState(false);
+  const [majorError, setMajorError] = useState(false);
+  const maxIntroLength = 100;
+  const handleIntroChange = (event) => {
+    const newText = event.target.value;
+    if (newText.length <= maxIntroLength) {
+      setIntroText(newText);
+    }
+  };
 
-  const handleImageUpload = (imageUrl: string) => {
+  const handleImageUpload = (imageUrl: File) => {
     setUploadedImageUrl(imageUrl);
+  };
+
+  const userProfileChangeHandler = async () => {
+    try {
+      const formData = new FormData();
+
+      const dto = {
+        name: name,
+        major: major,
+        introduction: introText
+      };
+
+      if (uploadedImageUrl !== null) {
+        formData.append('file', uploadedImageUrl, 'image.png');
+      }
+      formData.append('dto', JSON.stringify(dto));
+      const response = await axios.patch(
+        'https://nolmyong.com/api/user/my',
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      );
+
+      console.log('user/my 사용자 프로필 수정 성공', response.data);
+    } catch (error) {
+      console.log('user/my 사용자 프로필 수정 실패', error);
+    }
+  };
+
+  const passwordChangeHandler = () => {
+    console.log('dd');
   };
 
   return (
@@ -20,40 +68,49 @@ const SettingProfile = () => {
         <ContentWrapper>
           <ContentName>프로필 사진</ContentName>
           <UploadBtn
-            defaultProfileImg={user?.profileImageUrl || img}
+            defaultProfileImg={user?.profileImageUrl || userDefaultImg}
             onImageUpload={handleImageUpload}
             division='user'
           />
           <Content>
             <ContentName>
-              이름<Asterisk>*</Asterisk>
+              이름
+              <Asterisk>*</Asterisk>
             </ContentName>
-            <ContentInput />
+            <ContentInput
+              placeholder={user?.name}
+              onChange={(e) => setName(e.target.value)}
+              value={name}
+              isError={nameError}
+            />
           </Content>
-          <Content>
-            <ContentName>
-              전화번호<Asterisk>*</Asterisk>
-            </ContentName>
-            <ContentInput />
-          </Content>
-          <Content>
-            <ContentName>
-              학번<Asterisk>*</Asterisk>
-            </ContentName>
-            <ContentInput />
-          </Content>
+
           <Content>
             <ContentName>
               학과<Asterisk>*</Asterisk>
             </ContentName>
-            <ContentToggle></ContentToggle>
+            <ContentInput
+              placeholder={user?.major}
+              onChange={(e) => setMajor(e.target.value)}
+              value={major}
+              isError={majorError}
+            />
           </Content>
+
           <Content>
             <ContentName>한 줄 소개</ContentName>
-            <ContentInput />
+            <ContentIntroInput
+              placeholder={user?.introduction}
+              value={introText}
+              onChange={handleIntroChange}
+              maxLength={maxIntroLength}
+            />
           </Content>
         </ContentWrapper>
       </Wrapper>
+      <ProfileChagneBtn onClick={userProfileChangeHandler}>
+        변경한 내용 저장하기
+      </ProfileChagneBtn>
       <Line />
       <Wrapper>
         <Header>비밀번호 재설정</Header>
@@ -70,6 +127,9 @@ const SettingProfile = () => {
           </Content>
         </ContentWrapper>
       </Wrapper>
+      <PasswordChangeHBtn onClick={passwordChangeHandler}>
+        비밀번호 변경하기
+      </PasswordChangeHBtn>
       <SecessionWrapper>탈퇴하기</SecessionWrapper>
     </>
   );
@@ -127,12 +187,16 @@ const ContentName = styled.div`
   line-height: normal;
   margin-bottom: 0.5rem;
 `;
-const ContentInput = styled.input`
+interface ContentInputProps {
+  isError?: boolean; // isError prop의 타입을 boolean으로 지정
+}
+
+const ContentInput = styled.input<ContentInputProps>`
   font-family: Gmarket Sans TTF;
   width: 16rem;
   height: 1.8625rem;
   border-radius: 0.625rem;
-  border: 1px solid #dbdbdf;
+  border: 1px solid ${(props) => (props.isError ? 'red' : '#dbdbdf')};
   background: #fff;
   padding-left: 1.06rem;
   color: rgba(0, 0, 0, 0.6);
@@ -178,4 +242,63 @@ const SecessionWrapper = styled.div`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+`;
+
+const ContentIntroInput = styled.textarea`
+  font-family: Gmarket Sans TTF;
+  width: 39.4375rem;
+  height: 3.8625rem;
+  border-radius: 0.625rem;
+  border: 1px solid #dbdbdf;
+  background: #fff;
+  padding: 0.8125rem 1.06rem;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  resize: vertical; /* Allow vertical resizing */
+  white-space: pre-wrap; /* Allow line breaks */
+  line-height: 1.4; /* Increase line height for readability */
+
+  &:focus {
+    outline: none;
+    border: none;
+  }
+`;
+
+const ProfileChagneBtn = styled.div`
+  width: fit-content;
+  border-radius: 2rem;
+  border: 0.5px solid rgba(50, 169, 235, 1);
+  padding: 0.6rem;
+  color: #32a9eb;
+  font-family: Gmarket Sans TTF;
+  font-size: 0.8rem;
+  font-style: normal;
+  font-weight: 500;
+  margin-left: auto;
+  margin-top: 1rem;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(50, 169, 235, 0.05);
+    transition: all 0.3s ease-in-out;
+  }
+`;
+
+const PasswordChangeHBtn = styled.div`
+  width: fit-content;
+  border-radius: 2rem;
+  border: 0.5px solid rgba(255, 0, 0, 0.6);
+  padding: 0.6rem;
+  color: rgba(255, 0, 0, 0.6);
+  font-family: Gmarket Sans TTF;
+  font-size: 0.8rem;
+  font-style: normal;
+  font-weight: 500;
+  margin-left: auto;
+  margin-top: 1rem;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(255, 0, 0, 0.05);
+    transition: all 0.3s ease-in-out;
+  }
 `;
