@@ -40,7 +40,6 @@ const SentApplication = () => {
       {/* {applicationList.map((application) => (
         <ClubRecruitmentCard
           key={application.id}
-          name={application.name}
           imageUrl={application.imageUrl}
           establishedYear={application.establishedYear}
           numberOfMember={application.numberOfMember}
@@ -49,16 +48,17 @@ const SentApplication = () => {
           relatedTag={application.relatedTag}
           activityTitle={application.activityTitle}
           activityContent={application.activityContent}
-          isRecruit={application.isRecruit}
           isApprove={application.isApprove}
           campus={application.campus}
           largeCategory={application.largeCategory}
           mediumCategory={application.mediumCategory}
           smallCategory={application.smallCategory}
           subCategory={application.subCategory}
-          presidentEmail={application.presidentEmail}
           recruitment={application.recruitment}
           id={application.id.toString()}
+          name={''}
+          isRecruit={false}
+          presidentEmail={''}
         />
       ))} */}
     </div>
