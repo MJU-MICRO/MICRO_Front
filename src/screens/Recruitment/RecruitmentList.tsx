@@ -135,7 +135,9 @@ const RecruitmentList = () => {
               return (
                 <CardContainer
                   key={club.id}
-                  onClick={() => openModal(matchingRecruitment.id, club.id)}>
+                  onClick={() =>
+                    openModal(matchingRecruitment.recruitmentId, club.id)
+                  }>
                   {club.largeCategory === '학생단체' ? (
                     <StudentCouncilRecruitmentCard
                       {...club}

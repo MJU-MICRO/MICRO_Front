@@ -60,8 +60,9 @@ export const Status = styled.div`
   align-items: center;
   text-align: center;
   margin-top: 15px;
-  margin-left: 115px;
   font-family: 'GmarketSansMedium';
+  margin-left: auto;
+  margin-right: 12px;
 `;
 
 export const Details = styled.div`
@@ -76,7 +77,17 @@ export const Details = styled.div`
   margin-bottom: 41px;
   margin-top: 17px;
 `;
-
+export const Name = styled.div`
+  width: 200px;
+  margin-top: 31px;
+  font-family: 'GmarketSansMedium';
+  color: rgba(0, 0, 0, 0.8);
+  text-edge: cap;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+`;
 export const InterestTag = styled.span`
   position: relative;
   margin-right: 7px;
@@ -93,7 +104,8 @@ export const InterestTag = styled.span`
 
 export const Wrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  justify-content: flex-start;
+  width: 280px;
 `;
 
 export const UpWrapper = styled.div`

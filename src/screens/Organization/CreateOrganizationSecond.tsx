@@ -10,7 +10,7 @@ import {
   Level,
   SaveButton
 } from '../../component/Organization/apply/ApplyCommonStyle';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 function CreateOrganizationSecond() {
@@ -20,9 +20,10 @@ function CreateOrganizationSecond() {
   const organization = location.state;
   const selectedFileData = localStorage.getItem('selectedFile');
   const selectedFile = selectedFileData
-    ? dataURItoBlob(selectedFileData)
+    ? dataURItoFile(selectedFileData, 'filename.jpg')
     : null;
-  function dataURItoBlob(dataURI: string) {
+
+  function dataURItoFile(dataURI: string, filename: string): File {
     const byteString = atob(dataURI.split(',')[1]);
     const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
     const ab = new ArrayBuffer(byteString.length);
@@ -30,7 +31,8 @@ function CreateOrganizationSecond() {
     for (let i = 0; i < byteString.length; i++) {
       ia[i] = byteString.charCodeAt(i);
     }
-    return new Blob([ab], { type: mimeString });
+    const blob = new Blob([ab], { type: mimeString });
+    return new File([blob], filename, { type: mimeString });
   }
   const handleTitleChange = (index: number, value: string) => {
     if (value.length <= 40) {
@@ -87,8 +89,7 @@ function CreateOrganizationSecond() {
     console.log(organization);
     console.log(organization.numberOfMember);
     const dto = {
-      groupName: organization.name,
-      logoImageUrl: '',
+      groupName: organization.groupName,
       establishedYear: organization.establishedYear,
       numOfMember: organization.numberOfMember,
       introduction: organization.introduction,
@@ -104,34 +105,33 @@ function CreateOrganizationSecond() {
     };
     console.log(dto);
     console.log(selectedFile);
+    console.log(localStorage.getItem('accessToken'));
     const formData = new FormData();
+    const token = localStorage.getItem('accessToken');
     formData.append(
       'dto',
       new Blob([JSON.stringify(dto)], { type: 'application/json' })
     ); // Application data as JSON
     formData.append('file', selectedFile as Blob);
-    try {
-      const response = await axios.put(
-        'https://nolmyong.com/api/group/apply',
-        formData,
+    axios
+      .post(
+        'api/group/apply',
+        formData, // Use the FormData object here
         {
           headers: {
-            'Content-Type': 'multipart/form-data' // 올바른 Content-Type 설정
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data' // Set the content type for FormData
           }
         }
-      );
-
-      if (response.status === 200) {
-        console.log('Application submitted successfully');
-        // 성공 처리를 위한 로직 추가
-      } else {
-        console.error('Application submission failed');
-        // 실패 처리를 위한 로직 추가
-      }
-    } catch (error) {
-      const err = error as Error;
-      console.error('폼 제출 오류:', err.message);
-    }
+      )
+      .then((response) => {
+        console.log(response);
+        alert('등록 되었습니다.');
+      })
+      .catch((error) => {
+        console.error('Error updating return status:', error);
+        alert('등록에 실패하였습니다.');
+      });
   };
   return (
     <BackGround>
@@ -164,7 +164,9 @@ function CreateOrganizationSecond() {
       </Level>
       <Next>
         <SaveButton onClick={handleTempSave}>임시저장</SaveButton>
-        <SubmitButton onClick={handleSubmit}>등록하기</SubmitButton>
+        <Link to={'/organizationList'}>
+          <SubmitButton onClick={handleSubmit}>등록하기</SubmitButton>
+        </Link>
       </Next>
     </BackGround>
   );

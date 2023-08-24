@@ -28,7 +28,7 @@ import axios from 'axios';
 function CreateOrganizationFirst() {
   const [organization, setOrganization] = useState<OrganizationProps>({
     id: 0,
-    name: '',
+    groupName: '',
     imageUrl: '',
     establishedYear: 0,
     numberOfMember: '',
@@ -37,7 +37,7 @@ function CreateOrganizationFirst() {
     relatedTag: [],
     activityTitle: [],
     activityContent: [],
-    isRecruit: false,
+    recruit: false,
     campus: '',
     largeCategory: '',
     mediumCategory: '',
@@ -56,7 +56,7 @@ function CreateOrganizationFirst() {
   const handleClubNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newName = event.target.value;
     setClubName(newName);
-    handleInputChange('name', newName);
+    handleInputChange('groupName', newName);
     console.log(newName);
   };
 
@@ -137,6 +137,27 @@ function CreateOrganizationFirst() {
     //     console.error('Error saving data:', error);
     //   });
   };
+  function areRequiredFieldsFilled(organization) {
+    return (
+      organization.groupName &&
+      organization.introduction &&
+      organization.establishedYear &&
+      organization.numberOfMember &&
+      organization.campus &&
+      organization.largeCategory &&
+      organization.mediumCategory &&
+      organization.smallCategory &&
+      organization.subCategory &&
+      organization.relatedTag.length > 0 &&
+      organization.imageUrl
+    );
+  }
+  const handleNextButtonClick = () => {
+    if (areRequiredFieldsFilled(organization)) {
+    } else {
+      alert('필수 항목을 모두 입력해주세요.');
+    }
+  };
   return (
     <BackGround>
       <Introduction></Introduction>
@@ -200,9 +221,8 @@ function CreateOrganizationFirst() {
         <img src={level_two} />
       </Level>
       <Next>
-        <SaveButton onClick={handleTempSave}>임시저장</SaveButton>
         <Link to='/CreateOrganizationSecond' state={organization}>
-          <NextButton>
+          <NextButton onClick={handleNextButtonClick}>
             <div>추가 정보</div> <img src={arrow} />
           </NextButton>
         </Link>

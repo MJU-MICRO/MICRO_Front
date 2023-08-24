@@ -1,17 +1,19 @@
 import { OrganizationProps } from '../Organization/OrganizationProps';
 
 export interface RecruitmentProps {
-  id: number;
+  recruitmentId: number;
   groupId: number;
   title: string;
   content: string;
   description: string;
-  applicationField: string[];
-  recruitmentStartDate: string;
-  recruitmentDeadline: string;
+  fields: string[];
+  startDateTime: string;
+  endDateTime: string;
   activePeriod: string;
   activePlace: string;
-  views: number;
   question: string[];
   characterLimit: number[];
+  captions: string[];
+  recruitmentImageUrl: string[];
+  questions: string[];
 }

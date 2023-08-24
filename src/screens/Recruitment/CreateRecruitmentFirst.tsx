@@ -39,8 +39,32 @@ import {
   DropzoneStyle,
   ImageContainer
 } from '../../component/CreateRecruitment/CreateRecruitmentStyles';
+import { RecruitmentProps } from '../../component/recruitment/RecruitmentProps';
 
 const CreateRecruitmentFirst: React.FC = () => {
+  const [recruitment, setRecruitment] = useState<RecruitmentProps>({
+    recruitmentId: 0,
+    groupId: 0,
+    title: '',
+    content: '',
+    description: '',
+    fields: [],
+    startDateTime: '',
+    endDateTime: '',
+    activePeriod: '',
+    activePlace: '',
+    question: [],
+    characterLimit: [],
+    captions: [],
+    recruitmentImageUrl: [],
+    questions: []
+  });
+  const handleInputChange = (field: keyof RecruitmentProps, value: any) => {
+    setRecruitment((prevOrganization) => ({
+      ...prevOrganization,
+      [field]: value
+    }));
+  };
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -79,6 +103,7 @@ const CreateRecruitmentFirst: React.FC = () => {
   const [recruitmentTitle, setRecruitmentTitle] = useState<string>('');
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRecruitmentTitle(event.target.value);
+    handleInputChange('title', recruitmentTitle);
   };
 
   // 설명글
@@ -87,6 +112,7 @@ const CreateRecruitmentFirst: React.FC = () => {
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setDescription(event?.target.value);
+    handleInputChange('description', description);
   };
 
   // 모집분야
@@ -130,16 +156,34 @@ const CreateRecruitmentFirst: React.FC = () => {
 
   const handleActivePeriodClick = (period: string) => {
     setSelectedPeriod(period);
+
+    // 선택한 기간에 따라 값을 설정하여 서버로 전송
+    let activePeriodValue: string;
+    if (period === '한 학기') {
+      activePeriodValue = 'SEMESTER';
+    } else if (period === '1년') {
+      activePeriodValue = 'YEAR';
+    } else if (period === '1년 이상') {
+      activePeriodValue = 'OVER_YEAR';
+    } else {
+      activePeriodValue = ''; // 기본값 설정
+    }
+    handleInputChange('activePeriod', activePeriodValue);
   };
 
   // 모집기간
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
-
+  const [activePlace, setActivePlace] = useState<string>('');
   const handleStartDateChange = (date: Date | null) => {
     setStartDate(date);
   };
-
+  const handleActivePlaceChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setActivePlace(event.target.value);
+    handleInputChange('title', recruitmentTitle);
+  };
   const handleEndDateChange = (date: Date | null) => {
     setEndDate(date);
   };
@@ -172,36 +216,14 @@ const CreateRecruitmentFirst: React.FC = () => {
 
   // 임시저장
   const handleSaveButtonClick = async () => {
-    try {
-      const savedData = {
-        recruitmentTitle,
-        description,
-        recruitmentFields,
-        activeContent,
-        selectedPeriod,
-        startDate,
-        endDate,
-        photos
-      };
-
-      const serverUrl = '';
-      const endpoint = '';
-
-      const response = await axios.post(serverUrl + endpoint, savedData);
-
-      console.log('서버 응답:', response.data);
-    } catch (error) {
-      console.error('서버 요청 실패:', error);
-    }
-
-    console.log('모집공고 제목: ' + recruitmentTitle);
-    console.log('설명글: ' + description);
-    console.log('모집분야: ' + recruitmentFields);
-    console.log('설명글' + description);
-    console.log('활동내용: ' + activeContent);
-    console.log('활동기간: ' + selectedPeriod);
-    console.log('모집기간: ' + startDate + '부터 ' + endDate + '까지');
-    console.log('사진: ' + photos);
+    handleInputChange('title', recruitmentTitle);
+    handleInputChange('fields', recruitmentFields);
+    handleInputChange('content', activeContent);
+    handleInputChange('description', description);
+    handleInputChange('startDateTime', startDate);
+    handleInputChange('endDateTime', endDate);
+    handleInputChange('activePlace', activePlace);
+    handleInputChange('captions', captions);
   };
 
   return (
@@ -271,7 +293,18 @@ const CreateRecruitmentFirst: React.FC = () => {
               placeholder='모집 공고 제목을 작성해주세요.'
             />
           </RecruitmentContainer>
-          {/* 설명글 */}
+          <RecruitmentContainer>
+            <TextContainer>
+              <BasicNoticeText>주요 활동 장소</BasicNoticeText>
+              <RedAsterisk>*</RedAsterisk>
+            </TextContainer>
+            <ActiveInput
+              type='text'
+              value={activePlace}
+              onChange={handleActivePlaceChange}
+              placeholder='주요 활동 장소를 작성해주세요.'
+            />
+          </RecruitmentContainer>
           <RecruitmentContainer>
             <TextContainer>
               <BasicNoticeText>모집 설명글</BasicNoticeText>
@@ -327,7 +360,6 @@ const CreateRecruitmentFirst: React.FC = () => {
               maxLength={500}
             />
           </RecruitmentContainer>
-          {/* 활동 기간 */}
           <RecruitmentContainer>
             <TextContainer>
               <BasicNoticeText>활동 기간</BasicNoticeText>
@@ -353,7 +385,6 @@ const CreateRecruitmentFirst: React.FC = () => {
               </ActivePeriodContainer>
             </ActivePeriodContainer>
           </RecruitmentContainer>
-          {/* 모집 기간 */}
           <RecruitmentContainer>
             <TextContainer>
               <BasicNoticeText>모집 기간</BasicNoticeText>
@@ -424,9 +455,11 @@ const CreateRecruitmentFirst: React.FC = () => {
         <img src={level_two} />
       </Level>
       <Next>
-        <SaveButton onClick={handleSaveButtonClick}>임시저장</SaveButton>
-        <Link to={'/createRecruitmentSecond'}>
-          <NextButton>
+        <Link
+          to={`/createRecruitmentSecond?photos=${encodeURIComponent(
+            JSON.stringify(photos)
+          )}&recruitment=${encodeURIComponent(JSON.stringify(recruitment))}`}>
+          <NextButton onClick={handleSaveButtonClick}>
             <div>추가 정보</div> <img src={arrow} />
           </NextButton>
         </Link>
@@ -436,7 +469,24 @@ const CreateRecruitmentFirst: React.FC = () => {
 };
 
 export default CreateRecruitmentFirst;
-
+const ActiveInput = styled.input`
+  width: 100%;
+  height: 1.2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  font-family: GmarketSansLight;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+  outline: none;
+  border: none;
+  border-bottom: 0.5px solid #dddddd;
+`;
 const Board = styled.div`
   display: flex;
   flex-direction: column;

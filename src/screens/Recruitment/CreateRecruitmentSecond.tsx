@@ -20,6 +20,10 @@ import {
   QuestionAddBtn
 } from '../../component/CreateRecruitment/CreateRecruitmentStyles';
 import SelectCount from '../../component/Organization/apply/SelectCount';
+import { Link, useLocation } from 'react-router-dom';
+import { OrganizationProps } from '../../component/Organization/OrganizationProps';
+import axios from 'axios';
+import { RecruitmentProps } from '../../component/recruitment/RecruitmentProps';
 
 type QuestionType = 'long' | 'short' | 'checkbox';
 
@@ -31,7 +35,12 @@ interface Question {
 const CreateRecruitmentSecond: React.FC = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [characterNum, setCharacterNum] = useState<number[]>([]);
-
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const photos = JSON.parse(queryParams.get('photos') || '[]') as File[];
+  const recruitment = JSON.parse(
+    queryParams.get('recruitment') || '{}'
+  ) as RecruitmentProps;
   const handleAddQuestion = () => {
     const newQuestion: Question = {
       title: '',
@@ -63,6 +72,97 @@ const CreateRecruitmentSecond: React.FC = () => {
     const updatedCharacterNum = [...characterNum];
     updatedCharacterNum.splice(index, 1); // Remove the corresponding characterNum entry
     setCharacterNum(updatedCharacterNum);
+  };
+  const save = () => {
+    const request = {
+      groupId: 0,
+      title: recruitment.title,
+      description: recruitment.description,
+      content: recruitment.content,
+      fields: recruitment.fields,
+      activityPeriod: recruitment.activePeriod,
+      startDateTime: recruitment.startDateTime,
+      endDateTime: recruitment.endDateTime,
+      fileDescriptions: recruitment.captions,
+      activePlace: recruitment.activePlace,
+      isSubmit: false,
+      questions: questions,
+      characterLimit: characterNum
+    };
+    console.log(request);
+    const formData = new FormData();
+    const token = localStorage.getItem('accessToken');
+    formData.append(
+      'dto',
+      new Blob([JSON.stringify(request)], { type: 'application/json' })
+    ); // Application data as JSON
+    photos.forEach((photo, index) => {
+      formData.append(`file[${index}]`, photo);
+    });
+    axios
+      .post(
+        'api/president/recruitment',
+        formData, // Use the FormData object here
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        alert('등록 되었습니다.');
+      })
+      .catch((error) => {
+        console.error('Error updating return status:', error);
+        alert('등록에 실패하였습니다.');
+      });
+  };
+
+  const submit = () => {
+    const request = {
+      groupId: 0,
+      title: recruitment.title,
+      description: recruitment.description,
+      content: recruitment.content,
+      fields: recruitment.fields,
+      activityPeriod: recruitment.activePeriod,
+      startDateTime: recruitment.startDateTime,
+      endDateTime: recruitment.endDateTime,
+      fileDescriptions: recruitment.captions,
+      activePlace: recruitment.activePlace,
+      isSubmit: true,
+      questions: questions,
+      characterLimit: characterNum
+    };
+    console.log(request);
+    const formData = new FormData();
+    const token = localStorage.getItem('accessToken');
+    formData.append(
+      'dto',
+      new Blob([JSON.stringify(request)], { type: 'application/json' })
+    ); // Application data as JSON
+    photos.forEach((photo, index) => {
+      formData.append(`file[${index}]`, photo);
+    });
+    axios
+      .post(
+        'api/president/recruitment',
+        formData, // Use the FormData object here
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        alert('등록 되었습니다.');
+      })
+      .catch((error) => {
+        console.error('Error updating return status:', error);
+        alert('등록에 실패하였습니다.');
+      });
   };
   return (
     <BackGround>
@@ -165,8 +265,10 @@ const CreateRecruitmentSecond: React.FC = () => {
         <img src={level_two_2} />
       </Level>
       <Next>
-        <SaveButton>임시저장</SaveButton>
-        <SubmitButton>등록하기</SubmitButton>
+        <Link to={'/recruitmentList'}>
+          <SaveButton onClick={save}>임시저장</SaveButton>
+          <SubmitButton onClick={submit}>등록하기</SubmitButton>
+        </Link>
       </Next>
     </BackGround>
   );

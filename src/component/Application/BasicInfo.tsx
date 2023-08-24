@@ -19,7 +19,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
   setApplication,
   supportField,
   setSupportField,
-  recruitment,
+  fields,
   isAttending,
   setIsAttending,
   isSubmit,
@@ -84,13 +84,11 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
               id='supportField'
               value={supportField}
               onChange={changeFieldHandler}>
-              {recruitment.applicationField.map(
-                (field: string, index: number) => (
-                  <option key={index} value={field}>
-                    {field}
-                  </option>
-                )
-              )}
+              {fields.map((field: string, index: number) => (
+                <option key={index} value={field}>
+                  {field}
+                </option>
+              ))}
             </BasicInfoSelect>
           </BasicInfoLabel>
         </InputContainer>

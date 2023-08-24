@@ -36,7 +36,7 @@ function StudentCouncilDetail() {
     try {
       if (newBookmarkStatus) {
         // Bookmark the group
-        await axios.post(
+        await axios.put(
           `/api/bookmark/${id}`,
           {},
           { headers: { Authorization: `Bearer ${token}` } }
@@ -44,7 +44,7 @@ function StudentCouncilDetail() {
         console.log('북마크 등록');
       } else {
         // Unbookmark the group
-        await axios.delete(`/api/bookmark/${id}`, {
+        await axios.put(`/api/bookmark/${id}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         console.log('북마크 해제');
@@ -94,8 +94,7 @@ function StudentCouncilDetail() {
 
     const sortedRecruitments = filteredRecruitments.sort(
       (a: RecruitmentProps, b: RecruitmentProps) =>
-        new Date(b.recruitmentStartDate).getTime() -
-        new Date(a.recruitmentStartDate).getTime()
+        new Date(b.startDateTime).getTime() - new Date(a.endDateTime).getTime()
     );
 
     const latestRecruitment = sortedRecruitments[0];
@@ -129,7 +128,7 @@ function StudentCouncilDetail() {
             onClick={toggleBookmark}
           />
           <Logo src={img} alt='로고 이미지' />
-          <h3>{studentCouncilData.name}</h3>
+          <h3>{studentCouncilData.groupName}</h3>
           <Classification>{studentCouncilData.largeCategory}</Classification>
           <Details> {studentCouncilData.introduction} </Details>
           <BorderLine></BorderLine>
@@ -171,11 +170,11 @@ function StudentCouncilDetail() {
           ))}
         </Activity>
         <Recruitment>
-          <h3>{studentCouncilData.name}의 모집공고</h3>
+          <h3>{studentCouncilData.groupName}의 모집공고</h3>
           <RecruitWrapper>
             <DateWrapper>
               <ArrowIcon1 src={downArrow} />
-              <RecruitDate>{recruitmentData?.recruitmentStartDate}</RecruitDate>
+              <RecruitDate>{recruitmentData?.startDateTime}</RecruitDate>
               <ArrowIcon2 src={UpArrow} />
             </DateWrapper>
             <CardContainer
@@ -203,7 +202,7 @@ function StudentCouncilDetail() {
       <RecruitmentModal
         isOpen={isModalOpen}
         onClose={closeModal}
-        selectedRecruitmentId={recruitmentData?.id}
+        selectedRecruitmentId={recruitmentData?.recruitmentId}
         selectedClubId={id}
         recruitmentData={recruitmentData}
         clubData={studentCouncilData}

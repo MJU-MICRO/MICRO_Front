@@ -52,20 +52,9 @@ function ClubDetail() {
     }
   };
   useEffect(() => {
-    axios.get(`api/group/${id}`).then((response) => {
-      console.log(response);
-      if (response.data.data) {
-        setClubData(response.data.data);
-      } else {
-        console.error('Application list data not available:', response.data);
-      }
-    });
-  }, []);
-  useEffect(() => {
     axios
       .get('/recruitments')
       .then((response) => {
-        console.log(response);
         if (response.data.data) {
           setRecruitmentDatalist(response.data.data);
           console.log(recruitmentData);
@@ -78,20 +67,23 @@ function ClubDetail() {
       });
   }, []);
   useEffect(() => {
+    const foundClub = clubData
+      ? clubData
+      : clubDatalist.find((club) => club.id === id);
+    console.log(foundClub);
     const filteredRecruitments =
       recruitmentDatalist.filter((recruitment) => recruitment.groupId === id) ||
       [];
 
     const sortedRecruitments = filteredRecruitments.sort(
       (a: RecruitmentProps, b: RecruitmentProps) =>
-        new Date(b.recruitmentStartDate).getTime() -
-        new Date(a.recruitmentStartDate).getTime()
+        new Date(b.startDateTime).getTime() - new Date(a.endDateTime).getTime()
     );
 
     const latestRecruitment = sortedRecruitments[0];
 
-    if (clubData && latestRecruitment) {
-      setClubData(clubData);
+    if (foundClub && latestRecruitment) {
+      setClubData(foundClub);
       setRecruitmentData(latestRecruitment);
     } else {
       console.error(`Club with id ${id} not found.`);
@@ -118,7 +110,7 @@ function ClubDetail() {
             onClick={toggleBookmark}
           />
           <Logo src={img} alt='로고 이미지' />
-          <h3>{clubData.name}</h3>
+          <h3>{clubData.groupName}</h3>
           <Classification>{clubData.mediumCategory}</Classification>
           <Details> {clubData.introduction} </Details>
           <BorderLine></BorderLine>
@@ -152,11 +144,11 @@ function ClubDetail() {
           ))}
         </Activity>
         <Recruitment>
-          <h3>{clubData.name}의 모집공고</h3>
+          <h3>{clubData.groupName}의 모집공고</h3>
           <RecruitWrapper>
             <DateWrapper>
               <ArrowIcon1 src={downArrow} />
-              <RecruitDate>{recruitmentData?.recruitmentStartDate}</RecruitDate>
+              <RecruitDate>{recruitmentData?.startDateTime}</RecruitDate>
               <ArrowIcon2 src={UpArrow} />
             </DateWrapper>
             <CardContainer key={clubData.id} onClick={() => openModal()}>
@@ -182,7 +174,7 @@ function ClubDetail() {
       <RecruitmentModal
         isOpen={isModalOpen}
         onClose={closeModal}
-        selectedRecruitmentId={recruitmentData?.id}
+        selectedRecruitmentId={recruitmentData?.recruitmentId}
         selectedClubId={id}
         recruitmentData={recruitmentData}
         clubData={clubData}

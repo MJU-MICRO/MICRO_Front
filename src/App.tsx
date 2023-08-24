@@ -14,6 +14,7 @@ import CreateOrganizationSecond from './screens/Organization/CreateOrganizationS
 import Setting from './screens/UserSetting/User/Setting';
 import ApplicationManagement from 'screens/applicationManagement/ApplicationManagement';
 import MyProfile from './screens/UserSetting/User/MyProfile';
+import Application from './screens/Application/Application';
 import OrganizationSetting from 'screens/UserSetting/organization/OrganizationSetting';
 import { AuthProvider } from 'contexts/AuthContext';
 import CreateRecruitmentSecond from './screens/Recruitment/CreateRecruitmentSecond';
@@ -25,6 +26,7 @@ function App() {
         <Header />
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/application' element={<Application />} />
           <Route path='/recruitmentList' element={<RecruitmentList />} />
           <Route path='/organizationList' element={<OrganizationList />} />
           <Route

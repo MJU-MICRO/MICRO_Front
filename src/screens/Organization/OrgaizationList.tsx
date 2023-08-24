@@ -26,14 +26,12 @@ const OrganizationList = () => {
     axios
       .get('api/group')
       .then((response) => {
-        console.log(response);
         if (response.data.data) {
           setSampleData2(response.data.data);
-          console.log(sampleData2);
           setClubData(sampleClubData);
-          console.log(clubData);
           setStudentCouncilData(sampleStudentCouncilData);
-          console.log(studentCouncilData);
+          console.log(sampleClubData);
+          console.log(sampleStudentCouncilData);
         } else {
           console.error(response.data.data);
         }

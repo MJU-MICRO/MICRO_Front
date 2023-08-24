@@ -1,6 +1,6 @@
 export interface OrganizationProps {
   id: number;
-  name: string;
+  groupName: string;
   imageUrl: string;
   establishedYear: number;
   numberOfMember: string;
@@ -9,7 +9,7 @@ export interface OrganizationProps {
   relatedTag: string[];
   activityTitle: string[];
   activityContent: string[];
-  isRecruit: boolean;
+  recruit: boolean;
   isApprove: boolean;
   campus: string;
   largeCategory: string;

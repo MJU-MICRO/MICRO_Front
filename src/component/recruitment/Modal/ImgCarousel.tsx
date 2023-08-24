@@ -9,34 +9,15 @@ import axios from 'axios';
 interface CarouselItemProps {
   marginLeft: string;
 }
-const ImgCarousel = ({ selectedRecruitmentId }) => {
-  const [imageDatalist, setImageDatalist] = useState<RecruitmentImageProps[]>(
-    []
-  );
+const ImgCarousel = ({ selectedRecruitment }) => {
+  const [imageDatalist, setImageDatalist] = useState<string[]>([]);
+  const [captionlist, setCaptionlist] = useState<string[]>([]);
   useEffect(() => {
-    axios
-      .get('/recruitments/images')
-      .then((response) => {
-        console.log(response);
-        if (response.data.data) {
-          setImageDatalist(response.data.data);
-        } else {
-          console.error('Application list data not available:', response.data);
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching application history:', error);
-      });
+    setImageDatalist(selectedRecruitment.recruitmentImageUrl);
+    setCaptionlist(selectedRecruitment.captions);
   }, []);
-  const selectedImage = imageDatalist.find(
-    (image) => image.recruitmentId === selectedRecruitmentId
-  );
-
-  if (!selectedImage) {
-    return null; // 선택된 이미지가 없는 경우 처리
-  }
   const getMarginLeft = () => {
-    if (selectedImage.recruitmentImageUrl.length === 1) {
+    if (imageDatalist.length === 1) {
       return '283px';
     }
     return '83px';
@@ -47,7 +28,7 @@ const ImgCarousel = ({ selectedRecruitmentId }) => {
   const settings = {
     centerMode: true,
     centerPadding: '0',
-    slidesToShow: Math.min(2.4, selectedImage.recruitmentImageUrl.length), // 중앙에 표시할 슬라이드 개수 조절
+    slidesToShow: Math.min(2.4, imageDatalist.length), // 중앙에 표시할 슬라이드 개수 조절
     slidesToScroll: 1,
     slidesToTouch: true,
     focusOnSelect: true,
@@ -57,14 +38,14 @@ const ImgCarousel = ({ selectedRecruitmentId }) => {
   return (
     <CarouselWrapper>
       <CustomSlider {...settings}>
-        {selectedImage.recruitmentImageUrl.map((imageUrl, index) => (
+        {imageDatalist.map((imageUrl, index) => (
           <CarouselItem
             key={index}
             className={centerIndex === index ? 'centered' : ''}
             marginLeft={getMarginLeft()}>
             <ImageWrapper className={centerIndex === index ? 'centered' : ''}>
               <Image src={imageUrl} alt={`Image ${index}`} />
-              <Caption>{selectedImage.captions[index]}</Caption>
+              <Caption>{captionlist[index]}</Caption>
             </ImageWrapper>
           </CarouselItem>
         ))}

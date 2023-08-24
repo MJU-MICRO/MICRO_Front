@@ -21,11 +21,11 @@ import { OrganizationProps } from '../../Organization/OrganizationProps';
 import ModalIntroductionClub from './ModalIntroductionClub';
 
 const ModalIntroductionStudent = ({
-  name,
+  groupName,
   imageUrl,
   establishedYear,
   numberOfMember,
-  isRecruit,
+  recruit,
   campus,
   largeCategory,
   mediumCategory,
@@ -34,8 +34,9 @@ const ModalIntroductionStudent = ({
   introduction,
   recruitment
 }: OrganizationProps & { recruitment: RecruitmentProps }) => {
-  const daysRemaining = calculateDaysRemaining(recruitment.recruitmentDeadline);
+  const daysRemaining = calculateDaysRemaining(recruitment.endDateTime);
   const formattedDays = formatRemainingDays(daysRemaining);
+  const formattedActivePeriod = formatActivePeriod(recruitment.activePeriod);
   return (
     <CardContainer>
       <UpWrapper>
@@ -43,14 +44,14 @@ const ModalIntroductionStudent = ({
         <CardInfo>
           <Wrapper>
             <SecondWrapper>
-              <OrganizationName>{name}</OrganizationName>
+              <OrganizationName>{groupName}</OrganizationName>
               <Large>{largeCategory}</Large>
             </SecondWrapper>
-            <ActivePeriod activePeriod={recruitment.activePeriod}>
-              {recruitment.activePeriod}
+            <ActivePeriod activePeriod={formattedActivePeriod}>
+              {formattedActivePeriod}
             </ActivePeriod>
-            <Status isRecruit={isRecruit}>
-              {isRecruit ? formattedDays : '모집 종료'}
+            <Status isRecruit={recruit}>
+              {recruit ? formattedDays : '모집 종료'}
             </Status>
           </Wrapper>
           <p>
@@ -68,7 +69,17 @@ const ModalIntroductionStudent = ({
     </CardContainer>
   );
 };
-
+const formatActivePeriod = (activePeriod) => {
+  if (activePeriod === 'YEAR') {
+    return '1년 활동';
+  } else if (activePeriod === 'SEMESTER') {
+    return '학기 활동';
+  } else if (activePeriod === 'OVER_YEAR') {
+    return '1년 이상 활동';
+  } else {
+    return activePeriod; // Handle other cases
+  }
+};
 const calculateDaysRemaining = (deadline) => {
   const today = new Date();
   const targetDate = new Date(deadline);

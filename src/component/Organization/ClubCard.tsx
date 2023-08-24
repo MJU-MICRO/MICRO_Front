@@ -8,16 +8,17 @@ import {
   InterestTag,
   Wrapper,
   UpWrapper,
-  BorderLine
+  BorderLine,
+  Name
 } from './OrganizationCardStyles';
 import img from '../../assets/img.svg';
 import { OrganizationProps } from './OrganizationProps';
 
 const ClubCard = ({
-  name,
+  groupName,
   relatedTag,
   imageUrl,
-  isRecruit,
+  recruit,
   campus,
   mediumCategory,
   introduction
@@ -25,11 +26,11 @@ const ClubCard = ({
   return (
     <CardContainer>
       <UpWrapper>
-        <LogoImage src={imageUrl} alt='로고 이미지' />
+        <LogoImage src={img} alt='로고 이미지' />
         <CardInfo>
           <Wrapper>
-            <h3>{name}</h3>
-            {isRecruit && <Status>모집중</Status>}
+            <Name>{groupName}</Name>
+            {recruit && <Status>모집중</Status>}
           </Wrapper>
           <p>
             {campus} · {mediumCategory}
