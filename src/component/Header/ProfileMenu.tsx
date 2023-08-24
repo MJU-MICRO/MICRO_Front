@@ -1,19 +1,68 @@
 import { useAuth } from 'contexts/AuthContext';
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import myProfile from '../../assets/Header/myProfile.svg';
-import setting from '../../assets/Header/setting.svg';
-import organizationSetting from '../../assets/Header/organizationSetting.svg';
-import logoutImg from '../../assets/Header/Logout.svg';
+import myProfile from '../../assets/header/myProfile.svg';
+import setting from '../../assets/header/setting.svg';
+import organizationSetting from '../../assets/header/organizationSetting.svg';
+import logoutImg from '../../assets/header/Logout.svg';
+
+import Modal from 'component/Common/Modal';
+import { useApprovedGroups } from 'contexts/GroupContext';
+import { ApprovedGroup } from 'interfaces/ApprovedProps';
 
 const ProfileMenu = () => {
+  const [isOrganizationModalOpen, setIsOrganizationModalOpen] = useState(false);
   const { user, logout } = useAuth();
 
   const logoutHandler = () => {
     logout();
   };
+  const openOrganizationModal = () => {
+    setIsOrganizationModalOpen(true);
+  };
 
+  const closeOrganizationModal = () => {
+    setIsOrganizationModalOpen(false);
+  };
+
+  const OrganizationSelectModal = ({
+    closeModal
+  }: {
+    closeModal: () => void;
+  }) => {
+    const approvedGroups = useApprovedGroups();
+    const { user } = useAuth();
+    const matchingGroup = approvedGroups.find(
+      (group: ApprovedGroup) => group.presidentId === user?.id
+    );
+    const history = useNavigate();
+
+    const handleContainerClick = () => {
+      history(`/organizationSetting/${matchingGroup?.id}`);
+      closeModal(); // Close the modal
+    };
+
+    const children = matchingGroup ? (
+      <ModalContainer onClick={handleContainerClick}>
+        <img src={matchingGroup?.logoImageUrl} alt='groupLogo' />
+        <div>{matchingGroup?.groupName}</div>
+      </ModalContainer>
+    ) : (
+      <div>아직 나의 단체가 없어요. 🤗</div>
+    );
+
+    return (
+      <Modal
+        closeModal={closeModal}
+        width={'fit-content'}
+        height={'20rem'}
+        header={'나의 단체 선택하기'}
+        description={''}
+        children={children}
+      />
+    );
+  };
   return (
     <Container>
       <UserContainer>
@@ -38,12 +87,13 @@ const ProfileMenu = () => {
           </Menu>
         </NavLink>
 
-        <NavLink to='/organizationSetting'>
-          <Menu>
-            <MenuImg src={organizationSetting} alt='MenuImg' />
-            <div>단체 설정</div>
-          </Menu>
-        </NavLink>
+        <Menu onClick={openOrganizationModal}>
+          <MenuImg src={organizationSetting} alt='MenuImg' />
+          <div>단체 설정</div>
+        </Menu>
+        {isOrganizationModalOpen && (
+          <OrganizationSelectModal closeModal={closeOrganizationModal} />
+        )}
 
         <Menu onClick={logoutHandler}>
           <MenuImg src={logoutImg} alt='MenuImg' />
@@ -97,8 +147,9 @@ const Menu = styled.div`
   }
 `;
 const MenuImg = styled.img`
-  width: 0.9375rem;
-  height: 0.9375rem;
+  width: 1.3rem;
+  height: 1.3rem;
+  margin-right: 1rem;
 `;
 const UserContainer = styled.div`
   display: flex;
@@ -130,4 +181,16 @@ const UserEmail = styled.div`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+`;
+const ModalContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 2rem 10rem;
+  img {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
 `;

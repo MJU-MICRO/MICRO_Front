@@ -3,11 +3,12 @@ import AuthoritySetting from 'component/Setting/Organization/AuthoritySetting';
 import DefaultSetting from 'component/Setting/Organization/DefaultSetting';
 import PostSetting from 'component/Setting/Organization/PostSetting';
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 const OrganizationSetting = () => {
   const [activeMenuItem, setActiveMenuItem] = useState('defaultSetting');
-
+  const { groupId } = useParams();
   const handleMenuItemClick = (menuItem: string) => {
     setActiveMenuItem(menuItem);
   };
@@ -38,17 +39,18 @@ const OrganizationSetting = () => {
     <>
       {activeMenuItem === 'defaultSetting' && (
         <>
-          <DefaultSetting />
+          {' '}
+          <DefaultSetting groupId={groupId ? parseInt(groupId) : 0} />{' '}
         </>
       )}
       {activeMenuItem === 'postSetting' && (
         <>
-          <PostSetting />
+          <PostSetting groupId={groupId ? parseInt(groupId) : 0} />
         </>
       )}
       {activeMenuItem === 'authoritySetting' && (
         <>
-          <AuthoritySetting />
+          <AuthoritySetting groupId={groupId ? parseInt(groupId) : 0} />
         </>
       )}
     </>
@@ -70,12 +72,10 @@ const SideMenu = styled.div`
   text-align: right;
   margin-bottom: 0.8rem;
   cursor: pointer;
-
   &:hover {
     background-color: rgba(0, 0, 0, 0.03);
     border-radius: 0.1rem;
   }
-
   &.defaultSetting,
   &.postSetting,
   &.authoritySetting {

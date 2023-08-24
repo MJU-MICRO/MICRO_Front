@@ -32,7 +32,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [accessToken, setAccessToken] = useState<string | null>(
     localStorage.getItem('accessToken') || null
   );
-  const [refreshToken, setRefreshToken] = useState<string | null>(null);
+  const [refreshToken, setRefreshToken] = useState<string | null>(
+    localStorage.getItem('refreshToken') || null
+  );
   const [loading, setLoading] = useState(true);
 
   const login = async (email: string, password: string) => {
@@ -45,9 +47,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       const { accessToken, refreshToken } = response.data.data;
       localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
       setAccessToken(accessToken);
       setRefreshToken(refreshToken);
-      console.log('로그인 완료', response.data.data);
+      console.log('로그인 완료');
       if (localStorage.getItem('accessToken')) {
         axios
           .get('/api/user/my', {
@@ -150,8 +153,22 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  // 토큰을 로컬 스토리지에 저장하는 함수
+  const saveTokensToLocalStorage = (
+    accessToken: string,
+    refreshToken: string
+  ) => {
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+  };
+
   useEffect(() => {
-    getUserInfo();
+    // 액세스 토큰과 리프레시 토큰이 있는 경우에만 사용자 정보 불러오기 시도
+    if (accessToken && refreshToken) {
+      getUserInfo();
+    } else {
+      setLoading(false); // 토큰 없을 경우 로딩 완료 상태로 설정
+    }
   }, [setUser, accessToken]);
 
   // 새로고침 시 로그인 유지
