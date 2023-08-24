@@ -35,10 +35,7 @@ export interface BasicInfoProps {
   setIsAttending: React.Dispatch<React.SetStateAction<boolean>>;
   isSubmit: boolean;
   setIsSubmit: React.Dispatch<React.SetStateAction<boolean>>;
-  recruitment: {
-    applicationField: string[];
-    questions: string[];
-  };
+  fields: string[];
 }
 
 export interface ButtonsProps {

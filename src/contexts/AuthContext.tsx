@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             }
           })
           .then((response) => {
-            console.log('getUserAPI 요청');
+            console.log('getUserAPI 요청', response.data.data);
             setUser(response.data.data);
             setLoginError('');
             setLoading(false);
@@ -170,6 +170,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setLoading(false); // 토큰 없을 경우 로딩 완료 상태로 설정
     }
   }, [setUser, accessToken]);
+
+  // 새로고침 시 로그인 유지
+  useEffect(() => {
+    if (accessToken) {
+      getUserInfo();
+    } else {
+      setLoading(false);
+    }
+  }, [accessToken]);
 
   return (
     <AuthContext.Provider

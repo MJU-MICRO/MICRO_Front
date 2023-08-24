@@ -9,16 +9,17 @@ import SignUp from './screens/SignUp';
 import ClubDetail from './screens/Organization/ClubDetail';
 import StudentCouncilDetail from './screens/Organization/StudentCouncilDetail';
 import CreateOrganizationFirst from './screens/Organization/CreateOrganizationFirst';
-import CreateRecruitment from './screens/Recruitment/CreateRecruitment';
+import CreateRecruitmentFirst from './screens/Recruitment/CreateRecruitmentFirst';
 import CreateOrganizationSecond from './screens/Organization/CreateOrganizationSecond';
 import Setting from 'screens/UserSetting/user/Setting';
-
+import ApplicationManagement from 'screens/ApplicationManagement/ApplicationManagement';
 import MyProfile from 'screens/UserSetting/user/MyProfile';
 import OrganizationSetting from 'screens/UserSetting/organization/OrganizationSetting';
 import { AuthProvider } from 'contexts/AuthContext';
 import { ApprovedGroupsProvider } from 'contexts/GroupContext';
-import ApplicationManagement from 'screens/ApplicationManagement/ApplicationManagement';
 import DefaultSetting from 'component/Setting/Organization/DefaultSetting';
+import CreateRecruitmentSecond from './screens/Recruitment/CreateRecruitmentSecond';
+import Application from 'screens/Application/Application';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Header />
           <Routes>
             <Route path='/' element={<Home />} />
+            <Route path='/application' element={<Application />} />
             <Route path='/recruitmentList' element={<RecruitmentList />} />
             <Route path='/organizationList' element={<OrganizationList />} />
             <Route
@@ -38,7 +40,14 @@ function App() {
               path='/CreateOrganizationSecond'
               element={<CreateOrganizationSecond />}
             />
-            <Route path='/createRecruitment' element={<CreateRecruitment />} />
+            <Route
+              path='/createRecruitmentFirst'
+              element={<CreateRecruitmentFirst />}
+            />
+            <Route
+              path='/createRecruitmentSecond'
+              element={<CreateRecruitmentSecond />}
+            />
             <Route path='/club/:id' element={<ClubDetail />} />
             <Route
               path='/studentCouncil/:id'
@@ -51,10 +60,6 @@ function App() {
               path='/organizationSetting/:groupId'
               element={<OrganizationSetting />}
             />
-            {/* <Route
-              path='/applicationManagement'
-              element={<ApplicationManagement />}
-            /> */}
             <Route
               path='/applicationManagement'
               element={<ApplicationManagement />}

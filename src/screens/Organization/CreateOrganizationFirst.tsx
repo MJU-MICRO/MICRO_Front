@@ -4,7 +4,7 @@ import level_one from '../../assets/level-one.svg';
 import level_two from '../../assets/level-two.svg';
 import arrow from '../../assets/arrow.svg';
 import toggle from '../../assets/toggle-up.svg';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Introduction from '../../component/Organization/apply/Introduction';
 import SelectDate from '../../component/Organization/apply/SelectDate';
 import SelectMemberCount from '../../component/Organization/apply/SelectMemberCount';
@@ -27,8 +27,8 @@ import axios from 'axios';
 
 function CreateOrganizationFirst() {
   const [organization, setOrganization] = useState<OrganizationProps>({
-    id: '',
-    name: '',
+    id: 0,
+    groupName: '',
     imageUrl: '',
     establishedYear: 0,
     numberOfMember: '',
@@ -37,13 +37,13 @@ function CreateOrganizationFirst() {
     relatedTag: [],
     activityTitle: [],
     activityContent: [],
-    isRecruit: false,
+    recruit: false,
     campus: '',
     largeCategory: '',
     mediumCategory: '',
     smallCategory: '',
     subCategory: '',
-    presidentEmail: '',
+    presidentId: 0,
     isApprove: false
   });
   const handleInputChange = (field: keyof OrganizationProps, value: any) => {
@@ -52,10 +52,11 @@ function CreateOrganizationFirst() {
       [field]: value
     }));
   };
+  const location = useLocation();
   const handleClubNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newName = event.target.value;
     setClubName(newName);
-    handleInputChange('name', newName);
+    handleInputChange('groupName', newName);
     console.log(newName);
   };
 
@@ -75,9 +76,10 @@ function CreateOrganizationFirst() {
   const handleDateChange = (date: Date | null) => {
     handleInputChange('establishedYear', date ? date.getFullYear() : 0);
   };
-  const handleMemberCountChange = (member: number | null) => {
-    handleInputChange('numberOfMember', member || '');
+  const handleMemberCountChange = (member: string) => {
+    handleInputChange('numberOfMember', member);
     console.log(member);
+    console.log(typeof member);
   };
   const handleClassificationChange = (
     classification: string,
@@ -105,8 +107,14 @@ function CreateOrganizationFirst() {
   const handleImgUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setSelectedFile(event.target.files[0]);
+
+      // 파일을 로컬 스토리지에 저장
+      const fileReader = new FileReader();
+      fileReader.onload = (e) => {
+        localStorage.setItem('selectedFile', e.target?.result as string);
+      };
+      fileReader.readAsDataURL(event.target.files[0]);
     }
-    console.log(selectedFile);
   };
   const handleTempSave = () => {
     console.log('임시저장');
@@ -128,6 +136,27 @@ function CreateOrganizationFirst() {
     //   .catch((error) => {
     //     console.error('Error saving data:', error);
     //   });
+  };
+  function areRequiredFieldsFilled(organization) {
+    return (
+      organization.groupName &&
+      organization.introduction &&
+      organization.establishedYear &&
+      organization.numberOfMember &&
+      organization.campus &&
+      organization.largeCategory &&
+      organization.mediumCategory &&
+      organization.smallCategory &&
+      organization.subCategory &&
+      organization.relatedTag.length > 0 &&
+      organization.imageUrl
+    );
+  }
+  const handleNextButtonClick = () => {
+    if (areRequiredFieldsFilled(organization)) {
+    } else {
+      alert('필수 항목을 모두 입력해주세요.');
+    }
   };
   return (
     <BackGround>
@@ -192,9 +221,8 @@ function CreateOrganizationFirst() {
         <img src={level_two} />
       </Level>
       <Next>
-        <SaveButton onClick={handleTempSave}>임시저장</SaveButton>
         <Link to='/CreateOrganizationSecond' state={organization}>
-          <NextButton>
+          <NextButton onClick={handleNextButtonClick}>
             <div>추가 정보</div> <img src={arrow} />
           </NextButton>
         </Link>

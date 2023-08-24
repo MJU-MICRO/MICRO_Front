@@ -10,14 +10,30 @@ import {
   Level,
   SaveButton
 } from '../../component/Organization/apply/ApplyCommonStyle';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 function CreateOrganizationSecond() {
   const [activityTitles, setActivityTitles] = useState(['', '', '']);
   const [activityContents, setActivityContents] = useState(['', '', '']);
   const location = useLocation();
   const organization = location.state;
+  const selectedFileData = localStorage.getItem('selectedFile');
+  const selectedFile = selectedFileData
+    ? dataURItoFile(selectedFileData, 'filename.jpg')
+    : null;
 
+  function dataURItoFile(dataURI: string, filename: string): File {
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([ab], { type: mimeString });
+    return new File([blob], filename, { type: mimeString });
+  }
   const handleTitleChange = (index: number, value: string) => {
     if (value.length <= 40) {
       const newTitles = [...activityTitles];
@@ -68,26 +84,54 @@ function CreateOrganizationSecond() {
     //     console.error('Error saving data:', error);
     //   });
   };
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log('제출');
     console.log(organization);
-    // const userEmail = localStorage.getItem('userEmail');
-    //
-    // // Prepare the data to send to the temporary save API
-    // const dataToSend = {
-    //   organization: organization,
-    //   userEmail: userEmail
-    // };
-    //
-    // // Send data to the temporary save API
-    // axios
-    //   .post('https://api.example.org/temp-save', dataToSend)
-    //   .then((response) => {
-    //     console.log('Temporary save successful:', response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error saving data:', error);
-    //   });
+    console.log(organization.numberOfMember);
+    const dto = {
+      groupName: organization.groupName,
+      establishedYear: organization.establishedYear,
+      numOfMember: organization.numberOfMember,
+      introduction: organization.introduction,
+      relationMajor: organization.relationMajor,
+      relatedTag: organization.relatedTag,
+      activityTitle: activityTitles,
+      activityContent: activityContents,
+      campus: organization.campus,
+      largeCategory: organization.largeCategory,
+      mediumCategory: organization.mediumCategory,
+      smallCategory: organization.smallCategory,
+      subCategory: organization.subCategory
+    };
+    console.log(dto);
+    console.log(selectedFile);
+    console.log(localStorage.getItem('accessToken'));
+    const formData = new FormData();
+    const token = localStorage.getItem('accessToken');
+    formData.append(
+      'dto',
+      new Blob([JSON.stringify(dto)], { type: 'application/json' })
+    ); // Application data as JSON
+    formData.append('file', selectedFile as Blob);
+    axios
+      .post(
+        'api/group/apply',
+        formData, // Use the FormData object here
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data' // Set the content type for FormData
+          }
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        alert('등록 되었습니다.');
+      })
+      .catch((error) => {
+        console.error('Error updating return status:', error);
+        alert('등록에 실패하였습니다.');
+      });
   };
   return (
     <BackGround>
@@ -120,7 +164,9 @@ function CreateOrganizationSecond() {
       </Level>
       <Next>
         <SaveButton onClick={handleTempSave}>임시저장</SaveButton>
-        <SubmitButton onClick={handleSubmit}>등록하기</SubmitButton>
+        <Link to={'/organizationList'}>
+          <SubmitButton onClick={handleSubmit}>등록하기</SubmitButton>
+        </Link>
       </Next>
     </BackGround>
   );
@@ -192,7 +238,7 @@ const ActivityContent = styled.textarea`
     top: 12px;
     left: 12px;
     padding: 0;
-    color: rgba(0, 0, 0, 0.2);
+    color: rgba(0, 0, 0, 0.4);
     pointer-events: none;
   }
 `;

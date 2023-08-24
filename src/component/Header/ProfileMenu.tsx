@@ -2,10 +2,10 @@ import { useAuth } from 'contexts/AuthContext';
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import myProfile from '../../assets/header/myProfile.svg';
-import setting from '../../assets/header/setting.svg';
-import organizationSetting from '../../assets/header/organizationSetting.svg';
-import logoutImg from '../../assets/header/Logout.svg';
+import myProfile from '../../assets/Header/myProfile.svg';
+import setting from '../../assets/Header/setting.svg';
+import organizationSetting from '../../assets/Header/organizationSetting.svg';
+import logoutImg from '../../assets/Header/Logout.svg';
 
 import Modal from 'component/Common/Modal';
 import { useApprovedGroups } from 'contexts/GroupContext';
