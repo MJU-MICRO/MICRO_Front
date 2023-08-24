@@ -37,30 +37,6 @@ const SentApplication = () => {
   return (
     <div>
       <Header>보낸 지원서</Header>
-      {/* {applicationList.map((application) => (
-        <ClubRecruitmentCard
-          key={application.id}
-          imageUrl={application.imageUrl}
-          establishedYear={application.establishedYear}
-          numberOfMember={application.numberOfMember}
-          introduction={application.introduction}
-          relationMajor={application.relationMajor}
-          relatedTag={application.relatedTag}
-          activityTitle={application.activityTitle}
-          activityContent={application.activityContent}
-          isApprove={application.isApprove}
-          campus={application.campus}
-          largeCategory={application.largeCategory}
-          mediumCategory={application.mediumCategory}
-          smallCategory={application.smallCategory}
-          subCategory={application.subCategory}
-          recruitment={application.recruitment}
-          id={application.id.toString()}
-          name={''}
-          isRecruit={false}
-          presidentEmail={''}
-        />
-      ))} */}
     </div>
   );
 };
