@@ -313,7 +313,7 @@ const RecruitmentList = () => {
         </Introduction>
         <CardList>
           <ApplyCard>
-            <Link to={'/CreateOrganizationFirst'}>
+            <Link to={'/createRecruitmentFirst'}>
               <img src={plus_Icon} className='plus_Icon' alt='plus' />
               <div>우리 단체 모집 공고 등록하기</div>
               <p>단체를 등록하고 놀명뭐하니 학우들을 대상으로</p>

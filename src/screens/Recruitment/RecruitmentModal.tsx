@@ -20,6 +20,7 @@ import ModalIntroductionClub from '../../component/recruitment/Modal/ModalIntrod
 import scrollbar from '../../assets/scrollBar.svg';
 import ImgCarousel from '../../component/recruitment/Modal/ImgCarousel';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const ModalBody = styled.div`
   max-height: calc(100vh - 200px);
@@ -103,7 +104,9 @@ const RecruitmentModal = ({
               </PeriodWrapper>
             </Description2>
             {selectedClub.isRecruit ? (
-              <SupportButton>지원하기</SupportButton>
+              <Link to={'/application'}>
+                <SupportButton>지원하기</SupportButton>
+              </Link>
             ) : (
               <SupportButton
                 style={{
