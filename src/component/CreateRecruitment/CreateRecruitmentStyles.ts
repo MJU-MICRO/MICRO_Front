@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import DatePicker from 'react-datepicker';
 import '../../../src/App.css';
-
+import calender_icon from '../../assets/calendar-star.svg';
+import scrollbar2 from '../../assets/scrollbar2.svg';
 export const RecruitmentContainer = styled.div`
   width: 35rem;
   height: auto
@@ -44,7 +45,13 @@ export const BasicNoticeTitle = styled.span`
 `;
 
 export const BasicNoticeText = styled(BasicNoticeTitle)`
-  font-size: 0.9375rem;
+  text-align: left;
+  vertical-align: middle;
+  font-size: 14px;
+  font-family: 'GmarketSansMedium';
+  line-height: auto;
+  color: #000000;
+  margin-bottom: 6px;
 `;
 
 export const RedAsterisk = styled(BasicNoticeText)`
@@ -69,9 +76,9 @@ export const GroupName = styled.span`
 
 export const LogoImage = styled.img`
   border-radius: 10px;
-  width: 6.875rem;
-  height: 6.64394rem;
-  cursor: pointer;
+  height: 120px;
+  width: 120px;
+  margin-right: 11px;
 `;
 
 export const GroupLargeCategory = styled.span`
@@ -119,7 +126,7 @@ export const GroupIntroduce = styled.span`
   justify-content: center;
   color: rgba(0, 0, 0, 0.8);
   font-family: GmarketSansLight;
-  font-size: 0.875rem;
+  font-size: 13.3px;
   font-style: normal;
   font-weight: 300;
   line-height: normal;
@@ -149,6 +156,7 @@ export const TitleInput = styled.input`
   line-height: normal;
   padding-top: 0.7rem;
   padding-bottom: 0.7rem;
+  outline: none;
   border: none;
   border-bottom: 0.5px solid #dddddd;
 `;
@@ -166,6 +174,7 @@ export const ContentInput = styled.textarea`
   line-height: normal;
   padding: 0.5rem;
   resize: none;
+  outline: none;
 `;
 
 export const FieldContainer = styled.div`
@@ -207,7 +216,31 @@ export const FieldInput = styled(TitleInput)`
   margin-top: 1rem;
 `;
 
-export const ActiveContentInput = styled(ContentInput)``;
+export const ActiveContentInput = styled(ContentInput)`
+  width: 540px;
+  height: 72px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  border: 1px solid #dbdbdf;
+  background: #fafafa;
+  font-family: 'GmarketSansMedium';
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  padding: 12px 12px;
+  resize: none;
+  outline: none;
+  position: relative;
+  &::placeholder {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 0;
+    color: rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+  }
+`;
 
 export const ActivePeriodContainer = styled(FieldContainer)``;
 
@@ -237,7 +270,7 @@ export const ActivePeriodBtn = styled.button`
 export const DateContainer = styled(FieldContainer)``;
 
 export const SelectedDate = styled(DatePicker)`
-  width: 7.25rem;
+  width: 116px;
   color: rgba(0, 0, 0, 0.5);
   font-family: GmarketSansMedium;
   font-size: 0.9375rem;
@@ -247,6 +280,11 @@ export const SelectedDate = styled(DatePicker)`
   dateformat: yyyy-MM-dd;
   border: none;
   border-bottom: 1px solid #dbdbdf;
+  background-image: url(${calender_icon});
+  background-size: 17px;
+  background-repeat: no-repeat;
+  background-position: right center;
+  outline: none;
 `;
 
 export const DateText = styled.span`
@@ -256,11 +294,12 @@ export const DateText = styled.span`
   font-style: normal;
   font-weight: 500;
   line-height: 0.9625rem;
-  margin-right: 1.5rem;
+  margin-right: 15px;
+  margin-left: 10px;
 `;
 
 export const DropzoneStyle = styled.div`
-  width: 34.8125rem;
+  width: 520px;
   height: 4.4375rem;
   flex-shrink: 0;
   display: flex;
@@ -276,7 +315,7 @@ export const DropzoneStyle = styled.div`
   border-radius: 0.625rem;
   border: 1px dashed rgba(0, 0, 0, 0.4);
   background: #fafafa;
-  textalign: center;
+  text-align: center;
   padding: 20px;
   cursor: pointer;
   margin-top: 1rem;
@@ -286,6 +325,17 @@ export const ImageContainer = styled.div`
   margin-top: 1.3rem;
   overflow-x: auto;
   display: flex;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    height: 4px; /* Set width of the new custom scrollbar */
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    background-image: url(${scrollbar2});
+    background-repeat: no-repeat;
+    background-size: 134px 3px;
+    border-radius: 2px; /* Rounded corners for the thumb */
+  }
 `;
 
 export const RecruitmentContainer2 = styled(RecruitmentContainer)`
@@ -310,10 +360,12 @@ export const QustionContainer = styled.div`
   border-bottom: 0.1px solid #32a9eb;
   border-left: 5px solid #32a9eb;
   padding: 0.7rem;
+  margin-bottom: 13px;
 `;
 
 export const QuestionTitleInput = styled(TitleInput)`
   width: 22.50019rem;
+  outline: none;
 `;
 
 export const InnerContainer = styled.div`
@@ -366,11 +418,9 @@ export const QuestionAddBtn = styled.button`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  right: 5rem;
-  top: 20rem;
   background: white;
   border: none;
-  border-radius: 1rem;
+  border-radius: 10px;
   cursor: pointer;
+  margin-right: 4px;
 `;

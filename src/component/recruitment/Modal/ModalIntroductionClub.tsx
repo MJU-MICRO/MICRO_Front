@@ -20,27 +20,20 @@ import { RecruitmentProps } from '../RecruitmentProps';
 import { OrganizationProps } from '../../Organization/OrganizationProps';
 
 const ModalIntroductionClub = ({
-  id,
-  name,
+  groupName,
   imageUrl,
   establishedYear,
   numberOfMember,
-  relationMajor,
   relatedTag,
-  activityTitle,
-  activityContent,
-  isRecruit,
+  recruit,
   campus,
-  largeCategory,
   mediumCategory,
-  smallCategory,
-  subCategory,
-  presidentEmail,
   introduction,
   recruitment
 }: OrganizationProps & { recruitment: RecruitmentProps }) => {
-  const daysRemaining = calculateDaysRemaining(recruitment.recruitmentDeadline);
+  const daysRemaining = calculateDaysRemaining(recruitment.endDateTime);
   const formattedDays = formatRemainingDays(daysRemaining);
+  const formattedActivePeriod = formatActivePeriod(recruitment.activePeriod);
   return (
     <CardContainer>
       <UpWrapper>
@@ -48,14 +41,14 @@ const ModalIntroductionClub = ({
         <CardInfo>
           <Wrapper>
             <SecondWrapper>
-              <OrganizationName>{name}</OrganizationName>
+              <OrganizationName>{groupName}</OrganizationName>
               <Large>{mediumCategory}</Large>
             </SecondWrapper>
-            <ActivePeriod activePeriod={recruitment.activePeriod}>
-              {recruitment.activePeriod}
+            <ActivePeriod activePeriod={formattedActivePeriod}>
+              {formattedActivePeriod}
             </ActivePeriod>
-            <Status isRecruit={isRecruit}>
-              {isRecruit ? formattedDays : '모집 마감'}
+            <Status isRecruit={recruit}>
+              {recruit ? formattedDays : '모집 마감'}
             </Status>
           </Wrapper>
           <p>
@@ -70,6 +63,17 @@ const ModalIntroductionClub = ({
       <BorderLine></BorderLine>
     </CardContainer>
   );
+};
+const formatActivePeriod = (activePeriod) => {
+  if (activePeriod === 'YEAR') {
+    return '1년 활동';
+  } else if (activePeriod === 'SEMESTER') {
+    return '학기 활동';
+  } else if (activePeriod === 'OVER_YEAR') {
+    return '1년 이상 활동';
+  } else {
+    return activePeriod; // Handle other cases
+  }
 };
 const calculateDaysRemaining = (deadline) => {
   const today = new Date();

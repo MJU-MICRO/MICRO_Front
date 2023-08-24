@@ -21,42 +21,38 @@ import { OrganizationProps } from '../Organization/OrganizationProps';
 import styled from 'styled-components';
 
 const StudentCouncilRecruitmentCard = ({
-  id,
-  name,
+  groupName,
   imageUrl,
   establishedYear,
   numberOfMember,
-  relationMajor,
-  relatedTag,
-  activityTitle,
-  activityContent,
-  isRecruit,
+  recruit,
   campus,
   largeCategory,
   mediumCategory,
   smallCategory,
   subCategory,
-  presidentEmail,
   introduction,
   recruitment
 }: OrganizationProps & { recruitment: RecruitmentProps }) => {
-  const daysRemaining = calculateDaysRemaining(recruitment.recruitmentDeadline);
+  const daysRemaining = calculateDaysRemaining(recruitment.endDateTime);
   const formattedDays = formatRemainingDays(daysRemaining);
+  const formattedActivePeriod = formatActivePeriod(recruitment.activePeriod);
+
   return (
     <CardContainer>
       <UpWrapper>
-        <LogoImage src={img} alt='로고 이미지' />
+        <LogoImage src={imageUrl} alt='로고 이미지' />
         <CardInfo>
           <Wrapper>
             <SecondWrapper>
-              <OrganizationName>{name}</OrganizationName>
+              <OrganizationName>{groupName}</OrganizationName>
               <Large>{largeCategory}</Large>
             </SecondWrapper>
-            <ActivePeriod activePeriod={recruitment.activePeriod}>
-              {recruitment.activePeriod}
+            <ActivePeriod activePeriod={formattedActivePeriod}>
+              {formattedActivePeriod}
             </ActivePeriod>
-            <Status isRecruit={isRecruit}>
-              {isRecruit ? formattedDays : '모집 종료'}
+            <Status isRecruit={recruit}>
+              {recruit ? formattedDays : '모집 종료'}
             </Status>
           </Wrapper>
           <DownWrapper>
@@ -95,7 +91,17 @@ const calculateDaysRemaining = (deadline) => {
   const daysRemaining = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
   return daysRemaining;
 };
-
+const formatActivePeriod = (activePeriod) => {
+  if (activePeriod === 'YEAR') {
+    return '1년 활동';
+  } else if (activePeriod === 'SEMESTER') {
+    return '학기 활동';
+  } else if (activePeriod === 'OVER_YEAR') {
+    return '1년 이상 활동';
+  } else {
+    return activePeriod; // Handle other cases
+  }
+};
 const formatRemainingDays = (days) => {
   if (days === 1) {
     return '오늘 마감';

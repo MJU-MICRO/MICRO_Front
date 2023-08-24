@@ -2,10 +2,10 @@ import { useAuth } from 'contexts/AuthContext';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import myProfile from '../../assets/header/myProfile.svg';
-import setting from '../../assets/header/setting.svg';
-import organizationSetting from '../../assets/header/organizationSetting.svg';
-import logoutImg from '../../assets/header/Logout.svg';
+import myProfile from '../../assets/Header/myProfile.svg';
+import setting from '../../assets/Header/setting.svg';
+import organizationSetting from '../../assets/Header/organizationSetting.svg';
+import logoutImg from '../../assets/Header/Logout.svg';
 
 const ProfileMenu = () => {
   const { user, logout } = useAuth();

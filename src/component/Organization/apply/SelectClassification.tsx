@@ -194,7 +194,7 @@ function SelectClassification({ onChange }: SelectClassificationProps) {
     인문캠퍼스: ['디지털콘텐츠디자인학과', '융합소프트웨어학부'],
     자연캠퍼스: ['정보통신공학과']
   };
-
+  const [selectedOptionsIndex, setSelectedOptionsIndex] = useState<number>(0);
   const handleSelectChange = (
     option:
       | 'campus'
@@ -213,22 +213,42 @@ function SelectClassification({ onChange }: SelectClassificationProps) {
       setSelectedOptions((prevOptions) => ({
         ...prevOptions,
         organization: { value: '', label: '단체 선택' },
+        classification: { value: '', label: '상세 분류' },
         faculty: { value: '', label: '소속 대학' },
         department: { value: '', label: '학과 선택' }
       }));
-    } else if (option === 'faculty') {
-      let dynamicOptionValues: string[] = [];
-      if (selectedOption?.value === 'ICT융합대학') {
-        dynamicOptionValues =
-          ict융합대학Departments[selectedOptions.campus?.value || ''] || [];
-      } else {
-        dynamicOptionValues =
-          facultiesAndDepartments[selectedOptions.campus?.value || ''] || [];
-      }
+    } else if (option === 'organization') {
       setSelectedOptions((prevOptions) => ({
         ...prevOptions,
+        classification: { value: '', label: '상세 분류' },
+        faculty: { value: '', label: '소속 대학' },
         department: { value: '', label: '학과 선택' }
       }));
+    } else if (option === 'classification') {
+      setSelectedOptions((prevOptions) => ({
+        ...prevOptions,
+        faculty: { value: '', label: '소속 대학' },
+        department: { value: '', label: '학과 선택' }
+      }));
+
+      const selectedClassificationValue = selectedOption?.value || '';
+      if (
+        ['준동아리', '중앙동아리', '총학생회', '총동아리연합회'].includes(
+          selectedClassificationValue
+        )
+      ) {
+        setSelectedOptions((prevOptions) => ({
+          ...prevOptions,
+          faculty: {
+            value: selectedClassificationValue,
+            label: selectedClassificationValue
+          },
+          department: {
+            value: selectedClassificationValue,
+            label: selectedClassificationValue
+          }
+        }));
+      }
     }
   };
   const selectedCampusRef = useRef<string | null>(null);
@@ -314,6 +334,14 @@ function SelectClassification({ onChange }: SelectClassificationProps) {
             }
             components={{ DropdownIndicator }}
             styles={customStyles}
+            isDisabled={
+              (selectedOptionKey === 'faculty' ||
+                selectedOptionKey === 'department') &&
+              (selectedOptions.classification?.value === '준동아리' ||
+                selectedOptions.classification?.value === '중앙동아리' ||
+                selectedOptions.classification?.value === '총학생회' ||
+                selectedOptions.classification?.value === '총동아리연합회')
+            }
           />
         );
       })}
