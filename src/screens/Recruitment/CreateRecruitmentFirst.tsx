@@ -48,7 +48,7 @@ const CreateRecruitmentFirst: React.FC = () => {
     title: '',
     content: '',
     description: '',
-    fields: [],
+    applicationFields: [],
     startDateTime: '',
     endDateTime: '',
     activePeriod: '',
@@ -217,7 +217,7 @@ const CreateRecruitmentFirst: React.FC = () => {
   // 임시저장
   const handleSaveButtonClick = async () => {
     handleInputChange('title', recruitmentTitle);
-    handleInputChange('fields', recruitmentFields);
+    handleInputChange('applicationFields', recruitmentFields);
     handleInputChange('content', activeContent);
     handleInputChange('description', description);
     handleInputChange('startDateTime', startDate);
