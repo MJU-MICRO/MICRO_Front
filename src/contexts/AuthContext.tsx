@@ -146,20 +146,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       );
 
       localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
       setUser(null);
       navigate('/');
     } catch (error) {
       console.log('Logout error:', error);
     }
-  };
-
-  // 토큰을 로컬 스토리지에 저장하는 함수
-  const saveTokensToLocalStorage = (
-    accessToken: string,
-    refreshToken: string
-  ) => {
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
   };
 
   useEffect(() => {

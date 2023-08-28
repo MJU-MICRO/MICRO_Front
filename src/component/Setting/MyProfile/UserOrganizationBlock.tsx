@@ -22,7 +22,7 @@ const UserOrganizationBlock = () => {
     <Container>
       <Header>나의 단체</Header>
       {userOrganizations.length === 0 ? (
-        <NoOrganization> 나의 단체가 없어요. 😥</NoOrganization>
+        <NoOrganization> 나의 단체가 없어요 😥</NoOrganization>
       ) : (
         <>
           <GroupContainer>

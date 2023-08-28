@@ -29,7 +29,7 @@ const UserLikeBlock = () => {
   return (
     <>
       {groups.length === 0 ? (
-        <NoGroupContainer>아직 찜한 단체가 없어요 😊 </NoGroupContainer>
+        <NoGroupContainer> 찜한 단체가 없어요 😊 </NoGroupContainer>
       ) : (
         groups.map((group) => <GroupComponent key={group.id} group={group} />)
       )}
@@ -41,11 +41,8 @@ export default UserLikeBlock;
 
 const NoGroupContainer = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #000;
-  font-family: GmarketSansMedium;
-  margin-top: 2rem;
-  font-size: 1.125rem;
+  font-size: 0.9rem;
+  margin-top: 10rem;
 `;

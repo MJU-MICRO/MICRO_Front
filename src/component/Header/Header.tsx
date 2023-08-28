@@ -4,25 +4,25 @@ import styled from 'styled-components';
 import Search from './Search';
 import application from '../../assets/Header/application.svg';
 import message from '../../assets/Header/message.svg';
-import recruitmentImg from '../../assets/Header/recruitmentImg.svg';
-import organizationImg from '../../assets/Header/organizationImg.svg';
-import arrowRight from '../../assets/Header/arrow-right.svg';
 import Modal from 'component/Common/Modal';
 import { useAuth } from 'contexts/AuthContext';
 import * as Styled from './HeaderStyles';
 import newPost from '../../assets/Header/newPost.svg';
 import ProfileMenu from './ProfileMenu';
 import logo from '../../assets/logo.svg';
+import LoginModalContent from './LoginModalContent';
+import PostModalContent from './PostModalContent';
+
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPostModalOpen, setIsPostModalOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const headerRef = useRef<HTMLDivElement | null>(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [ApplicationHovered, setApplicationHovered] = useState(false);
   const [MessageHovered, setMessageHovered] = useState(false);
-  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-  const { user, login, loginError, getUserInfo, accessToken, loading } =
-    useAuth();
+  const { user, login, loginError } = useAuth();
 
   const openPostModal = () => {
     setIsPostModalOpen(true);
@@ -58,18 +58,11 @@ const Header = () => {
   const handleSearchInputChange = () => {
     console.log('hi');
   };
-  const StyledNavLink = styled(NavLink)`
-    .logo-image {
-      width: 120px;
-      height: auto;
-      margin-top: 5px;
-    }
-  `;
+
   const handleLogin = async () => {
     try {
       await login(email, password);
       if (localStorage.getItem('accessToken') !== null) {
-        console.log('유저', user);
         closeModal();
       }
     } catch (error) {
@@ -78,66 +71,39 @@ const Header = () => {
     }
   };
 
-  const postModalContent = (
-    <>
-      <Styled.PostModalContentWrapper>
-        <Styled.ContentWrapper>
-          <div>
-            <Styled.PostImg src={recruitmentImg} alt='recruitment' />
-            <Styled.PostText>모집 공고 올리기</Styled.PostText>
-          </div>
-          <Styled.LinkImg src={arrowRight} alt='arrowRight' />
-        </Styled.ContentWrapper>
-        <Styled.ContentWrapper>
-          <div>
-            <Styled.PostImg src={organizationImg} alt='organization' />
-            <Styled.PostText>단체 등록하기</Styled.PostText>
-          </div>
-          <Styled.LinkImg src={arrowRight} alt='arrowRight' />
-        </Styled.ContentWrapper>
-      </Styled.PostModalContentWrapper>
-    </>
-  );
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        isProfileMenuOpen &&
+        headerRef.current &&
+        !headerRef.current.contains(event.target as Node)
+      ) {
+        setIsProfileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      window.removeEventListener('click', handleOutsideClick);
+    };
+  }, [isProfileMenuOpen]);
 
   const modalContent = (
-    <>
-      <Styled.ModalWrapper>
-        <Styled.LoginBoxWrapper>
-          <Styled.LoginBox>
-            <h1>아이디</h1>
-            <input
-              placeholder='학교 이메일 아이디 입력'
-              value={email}
-              onChange={handleEmailChange}
-            />
-            <div>@mju.ac.kr</div>
-          </Styled.LoginBox>
-          <Styled.LoginBox>
-            <h1>비밀번호</h1>
-            <input
-              placeholder='비밀번호 입력'
-              type='password'
-              value={password}
-              onChange={handlePasswordChange}
-            />
-          </Styled.LoginBox>
-          {loginError && <Styled.ErrorBox>{loginError}</Styled.ErrorBox>}
-        </Styled.LoginBoxWrapper>
-
-        <Styled.Lines />
-        <Styled.ButtonBox>
-          <Styled.LoginButton onClick={handleLogin}>로그인</Styled.LoginButton>
-        </Styled.ButtonBox>
-        <Styled.JoinBox>
-          <h3>아직 회원이 아니신가요?</h3>
-          <h4>가입하기</h4>
-        </Styled.JoinBox>
-      </Styled.ModalWrapper>
-    </>
+    <LoginModalContent
+      email={email}
+      password={password}
+      handleEmailChange={handleEmailChange}
+      handlePasswordChange={handlePasswordChange}
+      loginError={loginError}
+      handleLogin={handleLogin}
+    />
   );
 
+  const postModalContent = <PostModalContent />;
+
   return (
-    <Styled.HeaderWrapper>
+    <Styled.HeaderWrapper ref={headerRef}>
       <Styled.HeaderUl>
         <Styled.HeaderLeft>
           <li>
@@ -268,3 +234,11 @@ const Header = () => {
 };
 
 export default Header;
+
+const StyledNavLink = styled(NavLink)`
+  .logo-image {
+    width: 120px;
+    height: auto;
+    margin-top: 5px;
+  }
+`;

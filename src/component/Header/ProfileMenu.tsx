@@ -18,6 +18,7 @@ const ProfileMenu = () => {
   const logoutHandler = () => {
     logout();
   };
+
   const openOrganizationModal = () => {
     setIsOrganizationModalOpen(true);
   };
@@ -40,7 +41,7 @@ const ProfileMenu = () => {
 
     const handleContainerClick = () => {
       history(`/organizationSetting/${matchingGroup?.id}`);
-      closeModal(); // Close the modal
+      closeModal();
     };
 
     const children = matchingGroup ? (
@@ -49,7 +50,7 @@ const ProfileMenu = () => {
         <div>{matchingGroup?.groupName}</div>
       </ModalContainer>
     ) : (
-      <div>아직 나의 단체가 없어요. 🤗</div>
+      <NoOrganization>아직 나의 단체가 없어요 🤗</NoOrganization>
     );
 
     return (
@@ -118,9 +119,10 @@ const Container = styled.div`
   width: 10.125rem;
   height: fit-content;
   border-radius: 0.625rem;
-  border: 0px solid rgba(0, 0, 0, 0);
+  background-color: rgba(255, 255, 255, 0.867);
 
   box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.1);
+  z-index: 100;
 `;
 const MenuContainer = styled.div`
   margin-top: 1rem;
@@ -193,4 +195,13 @@ const ModalContainer = styled.div`
     margin-top: 2rem;
     margin-bottom: 2rem;
   }
+`;
+
+const NoOrganization = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0rem 10rem;
 `;

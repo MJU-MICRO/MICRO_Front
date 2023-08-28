@@ -29,7 +29,7 @@ const UserApplicationBlock = () => {
   return (
     <>
       {groups.length === 0 ? (
-        <NoApplication>지원한 단체가 없어요 😣 </NoApplication>
+        <NoApplication> 지원한 단체가 없어요 😣 </NoApplication>
       ) : (
         // groups.map((group) => <GroupComponent key={group.id} group={group} />)
         groups.map((group) => (
@@ -46,11 +46,8 @@ export default UserApplicationBlock;
 
 const NoApplication = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #000;
-  font-family: GmarketSansMedium;
-  margin-top: 2rem;
-  font-size: 1.125rem;
+  font-size: 0.9rem;
+  margin-top: 10rem;
 `;
