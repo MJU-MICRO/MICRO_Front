@@ -13,6 +13,7 @@ import {
 } from './OrganizationCardStyles';
 import img from '../../assets/img.svg';
 import { OrganizationProps } from './OrganizationProps';
+import Default_img from '../../assets/userDefaultImg.svg';
 
 function StudentCouncilCard({
   groupName,
@@ -25,10 +26,11 @@ function StudentCouncilCard({
   subCategory,
   introduction
 }: OrganizationProps) {
+  const logoImageUrl = imageUrl || Default_img;
   return (
     <CardContainer>
       <UpWrapper>
-        <LogoImage src={img} alt='로고 이미지' />
+        <LogoImage src={logoImageUrl} alt='로고 이미지' />
         <CardInfo>
           <Wrapper>
             <Name>{groupName}</Name>

@@ -19,6 +19,7 @@ import img from '../../assets/img.svg';
 import { RecruitmentProps } from './RecruitmentProps';
 import { OrganizationProps } from '../Organization/OrganizationProps';
 import styled from 'styled-components';
+import Default_img from '../../assets/userDefaultImg.svg';
 
 const ClubRecruitmentCard = ({
   groupName,
@@ -35,10 +36,11 @@ const ClubRecruitmentCard = ({
   const daysRemaining = calculateDaysRemaining(recruitment.endDateTime);
   const formattedDays = formatRemainingDays(daysRemaining);
   const formattedActivePeriod = formatActivePeriod(recruitment.activePeriod);
+  const logoImageUrl = imageUrl || Default_img;
   return (
     <CardContainer>
       <UpWrapper>
-        <LogoImage src={img} alt='로고 이미지' />
+        <LogoImage src={logoImageUrl} alt='로고 이미지' />
         <CardInfo>
           <Wrapper>
             <SecondWrapper>

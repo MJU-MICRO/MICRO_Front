@@ -12,6 +12,7 @@ import downArrow from '../../assets/downArrow.svg';
 import UpArrow from '../../assets/UpArrow.svg';
 import defaultHeart from '../../assets/defaultHeart.svg';
 import FillHeart from '../../assets/FillHeart.svg';
+import Default_img from '../../assets/userDefaultImg.svg';
 function StudentCouncilDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -31,11 +32,12 @@ function StudentCouncilDetail() {
     useState<OrganizationProps | null>(null);
   const [recruitmentData, setRecruitmentData] =
     useState<RecruitmentProps | null>(null);
+  const logoImageUrl = studentCouncilData?.imageUrl || Default_img;
   const toggleBookmark = async () => {
     const newBookmarkStatus = !isBookmarked;
     setIsBookmarked(newBookmarkStatus);
 
-    const token = localStorage.getItem('userToken'); // Retrieve the user's token from local storage or another source
+    const token = localStorage.getItem('accessToken'); // Retrieve the user's token from local storage or another source
 
     try {
       if (newBookmarkStatus) {
@@ -48,9 +50,13 @@ function StudentCouncilDetail() {
         console.log('북마크 등록');
       } else {
         // Unbookmark the group
-        await axios.put(`/api/bookmark/${id}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        await axios.put(
+          `/api/bookmark/${id}`,
+          {},
+          {
+            headers: { Authorization: `Bearer ${token}` }
+          }
+        );
         console.log('북마크 해제');
       }
     } catch (error) {
@@ -151,7 +157,7 @@ function StudentCouncilDetail() {
             alt='Bookmark'
             onClick={toggleBookmark}
           />
-          <Logo src={img} alt='로고 이미지' />
+          <Logo src={logoImageUrl} alt='로고 이미지' />
           <h3>{studentCouncilData.groupName}</h3>
           <Classification>{studentCouncilData.largeCategory}</Classification>
           <Details> {studentCouncilData.introduction} </Details>

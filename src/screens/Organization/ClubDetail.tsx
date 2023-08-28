@@ -12,6 +12,7 @@ import downArrow from '../../assets/downArrow.svg';
 import UpArrow from '../../assets/UpArrow.svg';
 import FillHeart from '../../assets/FillHeart.svg';
 import defaultHeart from '../../assets/defaultHeart.svg';
+import Default_img from '../../assets/userDefaultImg.svg';
 
 function ClubDetail() {
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -33,12 +34,12 @@ function ClubDetail() {
     const newBookmarkStatus = !isBookmarked;
     setIsBookmarked(newBookmarkStatus);
 
-    const token = localStorage.getItem('userToken');
+    const token = localStorage.getItem('accessToken');
 
     try {
       if (newBookmarkStatus) {
         // Bookmark the group
-        await axios.post(
+        await axios.put(
           `/api/bookmark/${id}`,
           {},
           { headers: { Authorization: `Bearer ${token}` } }
@@ -46,9 +47,13 @@ function ClubDetail() {
         console.log('북마크 등록');
       } else {
         // Unbookmark the group
-        await axios.delete(`/api/bookmark/${id}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        await axios.put(
+          `/api/bookmark/${id}`,
+          {},
+          {
+            headers: { Authorization: `Bearer ${token}` }
+          }
+        );
         console.log('북마크 해제');
       }
     } catch (error) {
@@ -94,7 +99,7 @@ function ClubDetail() {
         console.error('Error fetching recruitment data:', error);
       });
   }, []);
-
+  const logoImageUrl = clubData?.imageUrl || Default_img;
   useEffect(() => {
     const foundClub = clubDatalist.find((club) => club.id === id);
 
@@ -106,7 +111,7 @@ function ClubDetail() {
         new Date(b.startDateTime).getTime() -
         new Date(a.startDateTime).getTime()
     );
-
+    const logoImageUrl = clubData?.imageUrl || Default_img;
     const latestRecruitment = sortedRecruitments[0];
     if (foundClub && latestRecruitment) {
       setRecruitmentData(latestRecruitment);
@@ -148,7 +153,7 @@ function ClubDetail() {
             alt='Bookmark'
             onClick={toggleBookmark}
           />
-          <Logo src={img} alt='로고 이미지' />
+          <Logo src={logoImageUrl} alt='로고 이미지' />
           <h3>{clubData.groupName}</h3>
           <Classification>{clubData.mediumCategory}</Classification>
           <Details> {clubData.introduction} </Details>

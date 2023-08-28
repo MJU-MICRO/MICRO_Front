@@ -11,7 +11,7 @@ import {
   BorderLine,
   Name
 } from './OrganizationCardStyles';
-import img from '../../assets/img.svg';
+import Default_img from '../../assets/userDefaultImg.svg';
 import { OrganizationProps } from './OrganizationProps';
 
 const ClubCard = ({
@@ -23,10 +23,11 @@ const ClubCard = ({
   mediumCategory,
   introduction
 }: OrganizationProps) => {
+  const logoImageUrl = imageUrl || Default_img;
   return (
     <CardContainer>
       <UpWrapper>
-        <LogoImage src={img} alt='로고 이미지' />
+        <LogoImage src={logoImageUrl} alt='로고 이미지' />
         <CardInfo>
           <Wrapper>
             <Name>{groupName}</Name>
