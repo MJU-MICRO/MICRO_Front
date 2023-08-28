@@ -1,68 +1,56 @@
 import axios from 'axios';
 import { useAuth } from 'contexts/AuthContext';
-import { ApprovedGroup } from 'interfaces/ApprovedProps';
+import AppliedGroupProps from 'interfaces/AppliedGroupProps';
 import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
-import OrganizationInfo from './OrganizationInfo';
+import GroupComponent from './GroupComponent';
 
 const UserApplicationBlock = () => {
-  const [appliedGroups, setAppliedGroups] = useState<ApprovedGroup[]>([]);
+  const [groups, setGroups] = useState<AppliedGroupProps[]>([]);
   const { accessToken } = useAuth();
 
   useEffect(() => {
-    fetchAppliedGroups();
+    axios
+      .get('https://nolmyong.com/api/application/userList', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+      .then((response) => {
+        if (response.data && response.data.data) {
+          setGroups(response.data.data);
+        }
+      })
+      .catch((error) => {
+        console.log('application/userList api 요청 실패', error);
+      });
   }, []);
 
-  const fetchAppliedGroups = async () => {
-    try {
-      const response = await axios.get(
-        'https://nolmyong.com/api/application/userList',
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`
-          }
-        }
-      );
-      const data = response.data.data;
-
-      setAppliedGroups(data);
-    } catch (error) {
-      console.log('/application/userList api get 실패', error);
-    }
-  };
-
   return (
-    <Container>
-      {appliedGroups.length === 0 ? (
-        <NoApplication>지원한 단체가 없어요. 😣 </NoApplication>
+    <>
+      {groups.length === 0 ? (
+        <NoApplication>지원한 단체가 없어요 😣 </NoApplication>
       ) : (
-        <>
-          {appliedGroups.map((group) => (
-            <OrganizationInfo group={group} />
-          ))}
-        </>
+        // groups.map((group) => <GroupComponent key={group.id} group={group} />)
+        groups.map((group) => (
+          <>
+            {group.answers} {group.passStatus}
+          </>
+        ))
       )}
-    </Container>
+    </>
   );
 };
 
 export default UserApplicationBlock;
 
-const Container = styled.div`
+const NoApplication = styled.div`
   display: flex;
-  align-items: center;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 44.75rem;
-
-  padding-bottom: 1rem;
-`;
-
-const NoApplication = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.9rem;
-  height: 5rem;
+  color: #000;
+  font-family: GmarketSansMedium;
+  margin-top: 2rem;
+  font-size: 1.125rem;
 `;

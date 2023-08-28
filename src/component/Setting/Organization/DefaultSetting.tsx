@@ -3,22 +3,17 @@ import UploadBtn from '../UploadBtn';
 import img from '../../../assets/userDefaultImg.svg';
 import styled from 'styled-components';
 import DateImg from '../../../assets/DateImg.svg';
-
-import MajorPlusBtn from '../../../assets/MajorPlus.svg';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import SelectTags from './SelectMenu/SelectTags';
 import SelectMajors from './SelectMenu/SelectMajors';
-import RelatedTagsSelect from 'component/Organization/apply/RelatedTagsSelect';
 import SelectCampus from './SelectMenu/SelectCampus';
 import SelectDivision from './SelectMenu/SelectDivision';
 import SelectDivisionDetail from './SelectMenu/SelectDivisionDetail';
 import { GroupDetail } from 'interfaces/GroupDetailProps';
 import axios from 'axios';
-interface DefaultSettingProps {
-  groupId: number;
-}
-const DefaultSetting = ({ groupId }: DefaultSettingProps) => {
+
+const DefaultSetting = ({ groupId }) => {
   const [uploadedImageUrl, setUploadedImageUrl] = useState<File | null>(null);
 
   const handleImageUpload = (imageUrl: File) => {

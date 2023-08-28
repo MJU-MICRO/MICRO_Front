@@ -9,7 +9,7 @@ import logoutImg from '../../assets/Header/Logout.svg';
 
 import Modal from 'component/Common/Modal';
 import { useApprovedGroups } from 'contexts/GroupContext';
-import { ApprovedGroup } from 'interfaces/ApprovedProps';
+import { ApprovedGroup } from 'interfaces/ApprovedGroupProps';
 
 const ProfileMenu = () => {
   const [isOrganizationModalOpen, setIsOrganizationModalOpen] = useState(false);

@@ -2,7 +2,7 @@ import axios from 'axios';
 import ClubRecruitmentCard from 'component/recruitment/ClubRecruitmentCard';
 import { useAuth } from 'contexts/AuthContext';
 import { useApprovedGroups } from 'contexts/GroupContext';
-import { ApprovedGroup } from 'interfaces/ApprovedProps';
+import { ApprovedGroup } from 'interfaces/ApprovedGroupProps';
 import MyApplicationListProps from 'interfaces/MyApplicationListProps';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
