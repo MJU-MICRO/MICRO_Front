@@ -1,37 +1,32 @@
 import axios from 'axios';
 import ClubRecruitmentCard from 'component/recruitment/ClubRecruitmentCard';
 import { useAuth } from 'contexts/AuthContext';
-import MyApplicationListProps from 'interfaces/MyApplicationListProps';
+import { UserSentApplicationProps } from 'interfaces/UserSentApplicationProps';
+
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { RecruitmentProps } from '../recruitment/RecruitmentProps';
 
 const SentApplication = () => {
   const { accessToken } = useAuth();
   const [applicationList, setApplicationList] = useState<
-    MyApplicationListProps[]
+    UserSentApplicationProps[]
   >([]);
 
   useEffect(() => {
-    const fetchApplicationList = async () => {
-      try {
-        const response = await axios.get(
-          'https://nolmyong.com/api/application/userList',
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`
-            }
-          }
-        );
-
+    axios
+      .get('https://nolmyong.com/api/application/userList', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+      .then((response) => {
         const applicationData = response.data.data;
         setApplicationList(applicationData);
-      } catch (error) {
-        console.log('Error fetching application list:', error);
-      }
-    };
-
-    fetchApplicationList();
+        console.log(applicationList);
+      })
+      .catch((error) => {
+        console.log('application/userList 호출 실패 ', error);
+      });
   }, [accessToken]);
 
   return (

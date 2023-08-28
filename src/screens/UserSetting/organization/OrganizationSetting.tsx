@@ -3,12 +3,14 @@ import AuthoritySetting from 'component/Setting/Organization/AuthoritySetting';
 import DefaultSetting from 'component/Setting/Organization/DefaultSetting';
 import PostSetting from 'component/Setting/Organization/PostSetting';
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 const OrganizationSetting = () => {
   const [activeMenuItem, setActiveMenuItem] = useState('defaultSetting');
   const { groupId } = useParams();
+  const location = useLocation();
+
   const handleMenuItemClick = (menuItem: string) => {
     setActiveMenuItem(menuItem);
   };
@@ -39,8 +41,7 @@ const OrganizationSetting = () => {
     <>
       {activeMenuItem === 'defaultSetting' && (
         <>
-          {' '}
-          <DefaultSetting groupId={groupId ? parseInt(groupId) : 0} />{' '}
+          <DefaultSetting groupId={groupId ? parseInt(groupId) : 0} />
         </>
       )}
       {activeMenuItem === 'postSetting' && (
@@ -83,3 +84,6 @@ const SideMenu = styled.div`
     border-left: 0.2rem solid #008fd5;
   }
 `;
+function useEffect(arg0: () => void, arg1: (string | History | undefined)[]) {
+  throw new Error('Function not implemented.');
+}

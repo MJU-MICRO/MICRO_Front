@@ -6,18 +6,19 @@ import myProfile from '../../assets/Header/myProfile.svg';
 import setting from '../../assets/Header/setting.svg';
 import organizationSetting from '../../assets/Header/organizationSetting.svg';
 import logoutImg from '../../assets/Header/Logout.svg';
-
+import Admin from '../../assets/Header/admin.svg';
 import Modal from 'component/Common/Modal';
 import { useApprovedGroups } from 'contexts/GroupContext';
-import { ApprovedGroup } from 'interfaces/ApprovedProps';
+import { ApprovedGroup } from 'interfaces/ApprovedGroupProps';
 
 const ProfileMenu = () => {
   const [isOrganizationModalOpen, setIsOrganizationModalOpen] = useState(false);
-  const { user, logout } = useAuth();
+  const { user, logout, isAdmin } = useAuth();
 
   const logoutHandler = () => {
     logout();
   };
+
   const openOrganizationModal = () => {
     setIsOrganizationModalOpen(true);
   };
@@ -40,7 +41,7 @@ const ProfileMenu = () => {
 
     const handleContainerClick = () => {
       history(`/organizationSetting/${matchingGroup?.id}`);
-      closeModal(); // Close the modal
+      closeModal();
     };
 
     const children = matchingGroup ? (
@@ -49,7 +50,7 @@ const ProfileMenu = () => {
         <div>{matchingGroup?.groupName}</div>
       </ModalContainer>
     ) : (
-      <div>아직 나의 단체가 없어요. 🤗</div>
+      <NoOrganization>아직 나의 단체가 없어요 🤗</NoOrganization>
     );
 
     return (
@@ -99,6 +100,12 @@ const ProfileMenu = () => {
           <MenuImg src={logoutImg} alt='MenuImg' />
           <div>로그아웃</div>
         </Menu>
+        {isAdmin && (
+          <Menu className='admin'>
+            <MenuImg src={Admin} alt='MenuImg' />
+            <div>관리자 화면 전환</div>
+          </Menu>
+        )}
       </MenuContainer>
     </Container>
   );
@@ -118,9 +125,10 @@ const Container = styled.div`
   width: 10.125rem;
   height: fit-content;
   border-radius: 0.625rem;
-  border: 0px solid rgba(0, 0, 0, 0);
+  background-color: rgba(255, 255, 255, 0.867);
 
   box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.1);
+  z-index: 100;
 `;
 const MenuContainer = styled.div`
   margin-top: 1rem;
@@ -131,12 +139,12 @@ const Menu = styled.div`
   font-size: 0.8125rem;
   font-style: normal;
   font-weight: 500;
-  line-height: normal;
   cursor: pointer;
-  border-radius: 0.5rem;
-  padding-top: 0.2rem;
-  padding-bottom: 0.2rem;
-  margin-bottom: 0.3rem;
+
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  padding-left: 0.3rem;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   width: 100%;
@@ -144,6 +152,11 @@ const Menu = styled.div`
   &:hover {
     background-color: rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease-in-out;
+  }
+
+  &.admin {
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
 `;
 const MenuImg = styled.img`
@@ -193,4 +206,13 @@ const ModalContainer = styled.div`
     margin-top: 2rem;
     margin-bottom: 2rem;
   }
+`;
+
+const NoOrganization = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0rem 10rem;
 `;

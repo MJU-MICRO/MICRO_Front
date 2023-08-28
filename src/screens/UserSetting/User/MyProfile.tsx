@@ -1,6 +1,6 @@
 import UserApplicationBlock from 'component/Setting/MyProfile/UserApplicationBlock';
 import UserDataBlock from 'component/Setting/MyProfile/UserDataBlock';
-import UserLikeBlock from 'component/Setting/MyProfile/UserLikeBlock';
+import UserLikeBlock from 'component/Setting/MyProfile/UserLIkeBlock';
 import UserOrganizationBlock from 'component/Setting/MyProfile/UserOrganizationBlock';
 import React, { useState } from 'react';
 import styled from 'styled-components';
@@ -54,6 +54,7 @@ const UserDataContainer = styled.div`
 `;
 const UserOrganizationContainer = styled.div`
   margin-bottom: 3rem;
+  width: 100%;
 `;
 
 const RightWrapper = styled.div`
@@ -61,6 +62,7 @@ const RightWrapper = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  width: 40.4rem;
 `;
 const MenuButtons = styled.div`
   display: flex;

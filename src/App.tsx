@@ -12,9 +12,9 @@ import CreateOrganizationFirst from './screens/Organization/CreateOrganizationFi
 import CreateRecruitmentFirst from './screens/Recruitment/CreateRecruitmentFirst';
 import CreateOrganizationSecond from './screens/Organization/CreateOrganizationSecond';
 import Setting from 'screens/UserSetting/User/Setting';
-import ApplicationManagement from 'screens/applicationManagement/ApplicationManagement';
+import ApplicationManagement from 'screens/ApplicationManagement/ApplicationManagement';
 import MyProfile from 'screens/UserSetting/User/MyProfile';
-import OrganizationSetting from 'screens/UserSetting/organization/OrganizationSetting';
+import OrganizationSetting from 'screens/UserSetting/Organization/OrganizationSetting';
 import { AuthProvider } from 'contexts/AuthContext';
 import { ApprovedGroupsProvider } from 'contexts/GroupContext';
 import DefaultSetting from 'component/Setting/Organization/DefaultSetting';

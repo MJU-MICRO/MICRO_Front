@@ -36,6 +36,6 @@ const SideMenu = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-  width: 40.625rem;
+  width: 44.625rem;
   padding-bottom: 3rem;
 `;
