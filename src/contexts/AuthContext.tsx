@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 interface AuthContextProps {
   user: UserProps | null;
   login: (email: string, password: string) => void;
+  isAdmin: boolean;
   logout: () => void;
   getUserInfo: () => void;
   loginError: string | null;
@@ -27,6 +28,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserProps | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [loginError, setLoginError] = useState<string | null>(null);
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState<string | null>(
@@ -50,6 +52,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       localStorage.setItem('refreshToken', refreshToken);
       setAccessToken(accessToken);
       setRefreshToken(refreshToken);
+
+      // 관리자 여부 확인
+      try {
+        const adminResponse = await axios.get(
+          'https://nolmyong.com/api/admin/verify',
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
+            }
+          }
+        );
+
+        setIsAdmin(adminResponse.data.data); // 관리자 여부 설정
+      } catch (error) {
+        console.log('Admin verification error', error);
+        setIsAdmin(false);
+      }
+
       console.log('로그인 완료');
       if (localStorage.getItem('accessToken')) {
         axios
@@ -101,10 +121,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         if (error.response || error.response.status === 401) {
           // 만료된 액세스 토큰으로 인한 401 Unauthorized 에러
           // 리프레시 토큰으로 새로운 액세스 토큰 발급
-          console.log('refreshToken 재발급 요청');
+          console.log('getUserInfo refreshToken 재발급 요청');
           refreshAccessToken();
         } else {
-          console.log('api/user/my 요청 실패', error);
+          console.log('getUserInfo /api/user/my 요청 실패', error);
         }
       });
   };
@@ -183,7 +203,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setLoginError,
         accessToken,
         loading,
-        setLoading
+        setLoading,
+        isAdmin
       }}>
       {children}
     </AuthContext.Provider>

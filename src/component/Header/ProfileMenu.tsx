@@ -6,14 +6,14 @@ import myProfile from '../../assets/Header/myProfile.svg';
 import setting from '../../assets/Header/setting.svg';
 import organizationSetting from '../../assets/Header/organizationSetting.svg';
 import logoutImg from '../../assets/Header/Logout.svg';
-
+import Admin from '../../assets/Header/admin.svg';
 import Modal from 'component/Common/Modal';
 import { useApprovedGroups } from 'contexts/GroupContext';
 import { ApprovedGroup } from 'interfaces/ApprovedGroupProps';
 
 const ProfileMenu = () => {
   const [isOrganizationModalOpen, setIsOrganizationModalOpen] = useState(false);
-  const { user, logout } = useAuth();
+  const { user, logout, isAdmin } = useAuth();
 
   const logoutHandler = () => {
     logout();
@@ -100,6 +100,12 @@ const ProfileMenu = () => {
           <MenuImg src={logoutImg} alt='MenuImg' />
           <div>로그아웃</div>
         </Menu>
+        {isAdmin && (
+          <Menu className='admin'>
+            <MenuImg src={Admin} alt='MenuImg' />
+            <div>관리자 화면 전환</div>
+          </Menu>
+        )}
       </MenuContainer>
     </Container>
   );
@@ -133,12 +139,12 @@ const Menu = styled.div`
   font-size: 0.8125rem;
   font-style: normal;
   font-weight: 500;
-  line-height: normal;
   cursor: pointer;
-  border-radius: 0.5rem;
-  padding-top: 0.2rem;
-  padding-bottom: 0.2rem;
-  margin-bottom: 0.3rem;
+
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  padding-left: 0.3rem;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   width: 100%;
@@ -146,6 +152,11 @@ const Menu = styled.div`
   &:hover {
     background-color: rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease-in-out;
+  }
+
+  &.admin {
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
 `;
 const MenuImg = styled.img`
