@@ -114,7 +114,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
       })
       .then((response) => {
-        console.log('getUserAPI 요청');
         setUser(response.data.data);
       })
       .catch((error) => {
