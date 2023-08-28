@@ -27,8 +27,10 @@ const UserOrganizationBlock = () => {
         <>
           <GroupContainer>
             {userOrganizations.map((group, index) => (
-              <StyledLink to={`/organizationSetting/${group.id}`}>
-                <Group key={index}>
+              <StyledLink
+                to={`/organizationSetting/${group.id}`}
+                key={group.id}>
+                <Group key={group.id}>
                   <img src={img} alt='img' />
                   <GroupName>{group.groupName}</GroupName>
                 </Group>

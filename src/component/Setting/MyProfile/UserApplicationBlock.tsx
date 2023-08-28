@@ -32,9 +32,9 @@ const UserApplicationBlock = () => {
         <NoApplication> 지원한 단체가 없어요 😣 </NoApplication>
       ) : (
         // groups.map((group) => <GroupComponent key={group.id} group={group} />)
-        groups.map((group) => (
+        groups.map((group, index) => (
           <>
-            {group.answers} {group.passStatus}
+            <div key={group.id}>ㅎㅇ</div>
           </>
         ))
       )}

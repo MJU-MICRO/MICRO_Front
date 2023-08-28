@@ -348,6 +348,7 @@ export const ContentWrapper = styled.div`
   background-color: rgba(0, 0, 0, 0.08);
   padding: 0 1rem;
   margin-bottom: 0.3rem;
+  cursor: pointer;
 
   &:hover {
     background-color: white;
