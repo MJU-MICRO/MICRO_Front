@@ -136,6 +136,7 @@ const CreateRecruitmentSecond: React.FC = () => {
       characterLimit: characterNum
     };
     console.log(request);
+    console.log(photos);
     const formData = new FormData();
     const token = localStorage.getItem('accessToken');
     formData.append(
@@ -266,7 +267,6 @@ const CreateRecruitmentSecond: React.FC = () => {
       </Level>
       <Next>
         <Link to={'/recruitmentList'}>
-          <SaveButton onClick={save}>임시저장</SaveButton>
           <SubmitButton onClick={submit}>등록하기</SubmitButton>
         </Link>
       </Next>

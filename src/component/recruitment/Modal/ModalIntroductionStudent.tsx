@@ -19,6 +19,7 @@ import img from '../../../assets/img.svg';
 import { RecruitmentProps } from '../RecruitmentProps';
 import { OrganizationProps } from '../../Organization/OrganizationProps';
 import ModalIntroductionClub from './ModalIntroductionClub';
+import Default_img from '../../../assets/userDefaultImg.svg';
 
 const ModalIntroductionStudent = ({
   groupName,
@@ -37,10 +38,11 @@ const ModalIntroductionStudent = ({
   const daysRemaining = calculateDaysRemaining(recruitment.endDateTime);
   const formattedDays = formatRemainingDays(daysRemaining);
   const formattedActivePeriod = formatActivePeriod(recruitment.activePeriod);
+  const logoImageUrl = imageUrl || Default_img;
   return (
     <CardContainer>
       <UpWrapper>
-        <LogoImage src={img} alt='로고 이미지' />
+        <LogoImage src={logoImageUrl} alt='로고 이미지' />
         <CardInfo>
           <Wrapper>
             <SecondWrapper>

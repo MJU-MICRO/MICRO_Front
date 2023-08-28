@@ -3,22 +3,25 @@ import {
   CardContainer,
   LogoImage,
   CardInfo,
-  Status,
+  ActivePeriod,
   Details,
   InterestTag,
   Wrapper,
   UpWrapper,
   BorderLine,
-  Name
-} from './OrganizationCardStyles';
+  Large,
+  SecondWrapper,
+  OrganizationName
+} from './CardStyles';
+import { OrganizationProps } from '../Organization/OrganizationProps';
 import Default_img from '../../assets/userDefaultImg.svg';
-import { OrganizationProps } from './OrganizationProps';
 
-const ClubCard = ({
+const IntroductionClub = ({
   groupName,
-  relatedTag,
   imageUrl,
-  recruit,
+  establishedYear,
+  numOfMember,
+  relatedTag,
   campus,
   mediumCategory,
   introduction
@@ -30,23 +33,21 @@ const ClubCard = ({
         <LogoImage src={logoImageUrl} alt='로고 이미지' />
         <CardInfo>
           <Wrapper>
-            <Name>{groupName}</Name>
-            {recruit && <Status>모집중</Status>}
+            <SecondWrapper>
+              <OrganizationName>{groupName}</OrganizationName>
+              <Large>{mediumCategory}</Large>
+            </SecondWrapper>
           </Wrapper>
           <p>
-            {campus} · {mediumCategory}
+            {campus} · {establishedYear}년 개설 · 회원 수 {numOfMember}
           </p>
           {relatedTag.map((tag, index) => (
             <InterestTag key={index}>{tag}</InterestTag>
           ))}
+          <Details>{introduction}</Details>
         </CardInfo>
       </UpWrapper>
-      <BorderLine></BorderLine>
-      <Details>
-        <p>{introduction}</p>
-      </Details>
     </CardContainer>
   );
 };
-
-export default ClubCard;
+export default IntroductionClub;
