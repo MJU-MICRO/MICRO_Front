@@ -82,6 +82,7 @@ const ModalDescription = styled.div`
   font-size: 0.7375rem;
   font-family: 'GmarketSansLight';
   font-weight: 300;
+  margin-bottom: 1.5rem;
 `;
 
 const CloseButton = styled.button`

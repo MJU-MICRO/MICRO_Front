@@ -22,16 +22,15 @@ const OrganizationList = () => {
     string | null
   >(null);
   const [selectedCampus, setSelectedCampus] = useState<string | null>(null);
+
+  // 렌더링될 때 한 번만 데이터 가져오기
   useEffect(() => {
     axios
       .get('api/group')
       .then((response) => {
         if (response.data.data) {
           setSampleData2(response.data.data);
-          setClubData(sampleClubData);
-          setStudentCouncilData(sampleStudentCouncilData);
-          console.log(sampleClubData);
-          console.log(sampleStudentCouncilData);
+          console.log('api/group 호출 성공');
         } else {
           console.error(response.data.data);
         }
@@ -39,25 +38,35 @@ const OrganizationList = () => {
       .catch((error) => {
         console.error('Error fetching application history:', error);
       });
-  });
-
-  const sampleClubData: OrganizationProps[] = sampleData2.filter(
-    (item) =>
-      item.largeCategory === '동아리' ||
-      item.largeCategory === '소모임' ||
-      item.largeCategory === '학회'
-  );
-
-  const sampleStudentCouncilData: OrganizationProps[] = sampleData2.filter(
-    (item) => item.largeCategory === '학생단체'
-  );
-
-  useEffect(() => {
-    setClubData(sampleClubData);
-    console.log(clubData);
-    setStudentCouncilData(sampleStudentCouncilData);
-    console.log(studentCouncilData);
   }, []);
+
+  // sampleData2가 변경될 때마다 동아리 데이터 설정
+  useEffect(() => {
+    const sampleClubData: OrganizationProps[] = sampleData2.filter(
+      (item) =>
+        item.largeCategory === '동아리' ||
+        item.largeCategory === '소모임' ||
+        item.largeCategory === '학회'
+    );
+
+    setClubData(sampleClubData);
+  }, [sampleData2]);
+
+  // sampleData2가 변경될 때마다 학생회 데이터 설정
+  useEffect(() => {
+    const sampleStudentCouncilData: OrganizationProps[] = sampleData2.filter(
+      (item) => item.largeCategory === '학생단체'
+    );
+
+    setStudentCouncilData(sampleStudentCouncilData);
+  }, [sampleData2]);
+
+  // useEffect(() => {
+  //   setClubData(sampleClubData);
+  //   console.log(clubData);
+  //   setStudentCouncilData(sampleStudentCouncilData);
+  //   console.log(studentCouncilData);
+  // }, []);
 
   // 클럽 데이터 필터링
   const filteredClubData: OrganizationProps[] = clubData.filter((club) => {
