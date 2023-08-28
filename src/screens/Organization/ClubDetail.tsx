@@ -25,11 +25,15 @@ function ClubDetail() {
   const [clubData, setClubData] = useState<OrganizationProps | null>(null);
   const [recruitmentData, setRecruitmentData] =
     useState<RecruitmentProps | null>(null);
+  const [formattedStartDate, setFormattedStartDate] = useState<string | null>(
+    null
+  ); // Move them here
+  const [formattedEndDate, setFormattedEndDate] = useState<string | null>(null); // Move them here
   const toggleBookmark = async () => {
     const newBookmarkStatus = !isBookmarked;
     setIsBookmarked(newBookmarkStatus);
 
-    const token = localStorage.getItem('userToken'); // Retrieve the user's token from local storage or another source
+    const token = localStorage.getItem('userToken');
 
     try {
       if (newBookmarkStatus) {
@@ -69,6 +73,7 @@ function ClubDetail() {
       .then((response) => {
         if (response.data.data) {
           setClubData(response.data.data);
+          console.log(clubData?.imageUrl);
         } else {
           console.error(response.data.data);
         }
@@ -103,9 +108,22 @@ function ClubDetail() {
     );
 
     const latestRecruitment = sortedRecruitments[0];
-
     if (foundClub && latestRecruitment) {
       setRecruitmentData(latestRecruitment);
+
+      // Format and set the start date
+      const startDate = new Date(latestRecruitment.startDateTime);
+      const formattedStart = `${startDate.getFullYear()}-${
+        startDate.getMonth() + 1
+      }-${startDate.getDate()}`;
+      setFormattedStartDate(formattedStart);
+
+      // Format and set the end date
+      const endDate = new Date(latestRecruitment.endDateTime);
+      const formattedEnd = `${endDate.getFullYear()}-${
+        endDate.getMonth() + 1
+      }-${endDate.getDate()}`;
+      setFormattedEndDate(formattedEnd);
     } else {
       console.error(`Club with id ${id} not found.`);
     }
@@ -177,7 +195,7 @@ function ClubDetail() {
           <RecruitWrapper>
             <DateWrapper>
               <ArrowIcon1 src={downArrow} />
-              <RecruitDate>{recruitmentData?.startDateTime}</RecruitDate>
+              <RecruitDate>{formattedStartDate}</RecruitDate>
               <ArrowIcon2 src={UpArrow} />
             </DateWrapper>
             <CardContainer key={clubData.id} onClick={() => openModal()}>
@@ -205,8 +223,6 @@ function ClubDetail() {
         onClose={closeModal}
         selectedRecruitmentId={recruitmentData?.recruitmentId}
         selectedClubId={id}
-        recruitmentData={recruitmentData}
-        clubData={clubData}
       />
     </BackGround>
   );
