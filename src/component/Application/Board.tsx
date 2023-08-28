@@ -109,15 +109,9 @@ const Board: React.FC<BoardProps> = ({ recruitmentId }) => {
       isAttending: application.isAttending,
       isSubmit: application.isSubmit
     };
-    console.log(answer);
-    const formData = new FormData();
     const token = localStorage.getItem('accessToken');
-    formData.append(
-      'dto',
-      new Blob([JSON.stringify(dto)], { type: 'application/json' })
-    );
     axios
-      .post('api/application/initialSave', formData, {
+      .post('api/application/initialSave', dto, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -137,21 +131,17 @@ const Board: React.FC<BoardProps> = ({ recruitmentId }) => {
     updatedApplication.isSubmit = true;
     setApplication(updatedApplication);
     const dto = {
-      recruitmentId: recruitmentData?.recruitmentId,
+      recruitmentId: 0,
       answer: answer,
-      supportField: application.supportField,
+      grade: application.grade,
+      supportField: supportField,
       isAttending: application.isAttending,
       isSubmit: application.isSubmit
     };
     console.log(dto);
-    const formData = new FormData();
     const token = localStorage.getItem('accessToken');
-    formData.append(
-      'dto',
-      new Blob([JSON.stringify(dto)], { type: 'application/json' })
-    );
     axios
-      .post('api/application/initialSave', formData, {
+      .post('https://nolmyong.com/api/application/initialSave', dto, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -186,7 +176,9 @@ const Board: React.FC<BoardProps> = ({ recruitmentId }) => {
         setAnswer={setAnswer}
         characterLimit={characterLimit}
       />
-      <Buttons save={save} submit={submit} />
+      <Link to={'/organizationList'}>
+        <Buttons save={save} submit={submit} />
+      </Link>
     </BoardContainer>
   );
 };
