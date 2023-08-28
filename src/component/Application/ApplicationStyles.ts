@@ -215,10 +215,15 @@ export const TextareaWrapper = styled.div`
 `;
 
 export const TextareaText = styled.p`
-  font-size: 1rem;
-  font-weight: 500;
-  color: #000000;
   opacity: 100%;
+  color: rgba(0, 0, 0, 0.7);
+  font-family: Gmarket Sans TTF;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  font-family: 'GmarketSansMedium';
+  margin-bottom: 5px;
 `;
 
 export const TextareaFieldset = styled.fieldset`
@@ -231,11 +236,9 @@ export const TextareaFieldset = styled.fieldset`
 
 // Buttons
 export const ButtonsContainer = styled.div`
-  width: 50%;
-  height: auto;
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  align-items: left;
+  height: auto;
   justify-content: space-around;
   margin-bottom: 2rem;
 `;
