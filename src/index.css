@@ -105,3 +105,17 @@ body {
   margin: 0;
   padding: 0;
 }
+
+body::-webkit-scrollbar {
+  width: 8px; /* 스크롤바의 너비 */
+}
+
+body::-webkit-scrollbar-thumb {
+  height: 30%; /* 스크롤바의 길이 */
+  background: #06093022; /* 스크롤바의 색상 */
+  border-radius: 15px;
+}
+
+body::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0); /*스크롤바 뒷 배경 색상*/
+}

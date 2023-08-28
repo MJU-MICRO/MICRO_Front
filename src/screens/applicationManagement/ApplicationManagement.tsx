@@ -8,7 +8,7 @@ import CreceivedImg from '../../assets/Creceived.svg';
 import CtemporaryImg from '../../assets/Ctemporary.svg';
 import sent from '../../assets/sent.svg';
 import ReceivedApplication from 'component/ApplicationManagement/ReceivedApplication';
-import SentApplication from 'component/ApplicationManagement/SentApplication';
+import SentApplication from 'component/ApplicationManagement/SentApplication/SentApplication';
 import TemporaryApplication from 'component/ApplicationManagement/TemporaryApplication';
 
 const ApplicationManagement = () => {
