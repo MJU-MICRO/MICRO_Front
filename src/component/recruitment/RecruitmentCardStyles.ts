@@ -163,6 +163,7 @@ export const InterestTag = styled.span`
   font-weight: 300;
   line-height: normal;
   padding: 5.5px;
+  float: left;
 `;
 
 export const Wrapper = styled.div`
