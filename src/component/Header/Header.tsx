@@ -106,7 +106,9 @@ const Header = () => {
     />
   );
 
-  const postModalContent = <PostModalContent />;
+  const postModalContent = (
+    <PostModalContent openOrganizationModal={openOrganizationModal} />
+  );
 
   const organizationModalContent = (
     <>
