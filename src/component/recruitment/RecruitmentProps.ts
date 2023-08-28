@@ -11,7 +11,6 @@ export interface RecruitmentProps {
   endDateTime: string;
   activePeriod: string;
   activePlace: string;
-  question: string[];
   characterLimit: number[];
   captions: string[];
   recruitmentImageUrl: string[];

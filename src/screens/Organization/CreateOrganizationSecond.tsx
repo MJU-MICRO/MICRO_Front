@@ -103,9 +103,6 @@ function CreateOrganizationSecond() {
       smallCategory: organization.smallCategory,
       subCategory: organization.subCategory
     };
-    console.log(dto);
-    console.log(selectedFile);
-    console.log(localStorage.getItem('accessToken'));
     const formData = new FormData();
     const token = localStorage.getItem('accessToken');
     formData.append(
@@ -163,7 +160,6 @@ function CreateOrganizationSecond() {
         <img src={level_two_2} alt='Level Two' />
       </Level>
       <Next>
-        <SaveButton onClick={handleTempSave}>임시저장</SaveButton>
         <Link to={'/organizationList'}>
           <SubmitButton onClick={handleSubmit}>등록하기</SubmitButton>
         </Link>

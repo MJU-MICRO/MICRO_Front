@@ -13,6 +13,7 @@ import * as Styled from './HeaderStyles';
 import newPost from '../../assets/Header/newPost.svg';
 import ProfileMenu from './ProfileMenu';
 import logo from '../../assets/logo.svg';
+import MyOrganization from '../Setting/MyProfile/MyOrganization';
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPostModalOpen, setIsPostModalOpen] = useState(false);
@@ -21,17 +22,22 @@ const Header = () => {
   const [ApplicationHovered, setApplicationHovered] = useState(false);
   const [MessageHovered, setMessageHovered] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [isOrganizationContent, setIsOrganizationContent] = useState(false);
   const { user, login, loginError, getUserInfo, accessToken, loading } =
     useAuth();
 
   const openPostModal = () => {
     setIsPostModalOpen(true);
+    setIsOrganizationContent(false); // Set to false when opening the modal
   };
 
+  const openOrganizationModal = () => {
+    setIsPostModalOpen(true);
+    setIsOrganizationContent(true); // Set to true when opening the modal
+  };
   const closePostModal = () => {
     setIsPostModalOpen(false);
   };
-
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -81,24 +87,32 @@ const Header = () => {
   const postModalContent = (
     <>
       <Styled.PostModalContentWrapper>
-        <Styled.ContentWrapper>
+        <Styled.ContentWrapper onClick={openOrganizationModal}>
           <div>
             <Styled.PostImg src={recruitmentImg} alt='recruitment' />
             <Styled.PostText>모집 공고 올리기</Styled.PostText>
           </div>
           <Styled.LinkImg src={arrowRight} alt='arrowRight' />
         </Styled.ContentWrapper>
-        <Styled.ContentWrapper>
-          <div>
-            <Styled.PostImg src={organizationImg} alt='organization' />
-            <Styled.PostText>단체 등록하기</Styled.PostText>
-          </div>
-          <Styled.LinkImg src={arrowRight} alt='arrowRight' />
-        </Styled.ContentWrapper>
+        <Link to={'/CreateOrganizationFirst'}>
+          <Styled.ContentWrapper>
+            <div>
+              <Styled.PostImg src={organizationImg} alt='organization' />
+              <Styled.PostText>단체 등록하기</Styled.PostText>
+            </div>
+            <Styled.LinkImg src={arrowRight} alt='arrowRight' />
+          </Styled.ContentWrapper>
+        </Link>
       </Styled.PostModalContentWrapper>
     </>
   );
-
+  const organizationModalContent = (
+    <>
+      <Styled.PostModalContentWrapper>
+        <MyOrganization />
+      </Styled.PostModalContentWrapper>
+    </>
+  );
   const modalContent = (
     <>
       <Styled.ModalWrapper>
@@ -258,8 +272,12 @@ const Header = () => {
           closeModal={closePostModal}
           width={'30.1875rem'}
           height={'fit-content'}
-          header={'어떤 이야기를 나누고 싶나요?'}
-          children={postModalContent}
+          header={
+            isOrganizationContent ? '단체 선택' : '어떤 이야기를 나누고 싶나요?'
+          }
+          children={
+            isOrganizationContent ? organizationModalContent : postModalContent
+          }
           description={''}
         />
       )}

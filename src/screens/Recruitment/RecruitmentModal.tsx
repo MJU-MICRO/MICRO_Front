@@ -132,6 +132,11 @@ const RecruitmentModal = ({
         }-${endDate.getDate()}`;
         setFormattedEndDate(formattedEnd);
       }
+      const groupName = clubData?.groupName;
+      console.log(groupName);
+      if (groupName !== undefined) {
+        localStorage.setItem('groupName', groupName);
+      }
     }
   }, [selectedRecruitmentId, recruitmentDatalist]);
 
