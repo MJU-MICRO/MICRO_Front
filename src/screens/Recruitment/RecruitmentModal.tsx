@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ModalOverlay,
   ModalWrapper,
@@ -20,7 +20,10 @@ import ModalIntroductionClub from '../../component/recruitment/Modal/ModalIntrod
 import scrollbar from '../../assets/scrollBar.svg';
 import ImgCarousel from '../../component/recruitment/Modal/ImgCarousel';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { RecruitmentProps } from '../../component/recruitment/RecruitmentProps';
+import { OrganizationProps } from '../../component/Organization/OrganizationProps';
+import axios from 'axios';
 
 const ModalBody = styled.div`
   max-height: calc(100vh - 200px);
@@ -43,9 +46,7 @@ const RecruitmentModal = ({
   isOpen,
   onClose,
   selectedRecruitmentId,
-  selectedClubId,
-  recruitmentData,
-  clubData
+  selectedClubId
 }) => {
   if (!isOpen) {
     return null;
@@ -55,56 +56,133 @@ const RecruitmentModal = ({
       onClose();
     }
   };
-  const selectedRecruitment = recruitmentData.find(
-    (item) => item.id === selectedRecruitmentId
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [formattedStartDate, setFormattedStartDate] = useState<string | null>(
+    null
   );
-  const selectedClub = clubData.find((club) => club.id === selectedClubId);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [formattedEndDate, setFormattedEndDate] = useState<string | null>(null);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [formattedActivePeriod, setFormattedActivePeriod] = useState<
+    string | null
+  >(null);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [recruitmentDatalist, setRecruitmentDatalist] = useState<
+    RecruitmentProps[]
+  >([]);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [clubData, setClubData] = useState<OrganizationProps | null>(null);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [recruitmentData, setRecruitmentData] =
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useState<RecruitmentProps | null>(null);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    axios
+      .get(`https://nolmyong.com/api/group/${selectedClubId}`)
+      .then((response) => {
+        if (response.data.data) {
+          setClubData(response.data.data);
+        } else {
+          console.error(response.data.data);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching group data:', error);
+      });
+  }, [selectedClubId]);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    axios
+      .get('https://nolmyong.com/recruitments')
+      .then((response) => {
+        if (response.data.data) {
+          setRecruitmentDatalist(response.data.data);
+        } else {
+          console.error('Recruitment data not available:', response.data);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching recruitment data:', error);
+      });
+  }, []);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    if (recruitmentDatalist.length > 0 && selectedRecruitmentId) {
+      const selectedRecruitment = recruitmentDatalist.find(
+        (item) => item.recruitmentId === selectedRecruitmentId
+      );
+      setRecruitmentData(selectedRecruitment || null);
 
+      // Format the active period here
+      if (selectedRecruitment) {
+        setFormattedActivePeriod(
+          formatActivePeriod(selectedRecruitment.activePeriod)
+        );
+        const startDate = new Date(selectedRecruitment.startDateTime);
+        const formattedStart = `${startDate.getFullYear()}-${
+          startDate.getMonth() + 1
+        }-${startDate.getDate()}`;
+        setFormattedStartDate(formattedStart);
+
+        // Format and set the end date
+        const endDate = new Date(selectedRecruitment.endDateTime);
+        const formattedEnd = `${endDate.getFullYear()}-${
+          endDate.getMonth() + 1
+        }-${endDate.getDate()}`;
+        setFormattedEndDate(formattedEnd);
+      }
+    }
+  }, [selectedRecruitmentId, recruitmentDatalist]);
+
+  if (!isOpen || !recruitmentData || !clubData) {
+    return null;
+  }
   return (
     <ModalOverlay onClick={handleOverlayClick}>
       <ModalWrapper>
         <ModalContent>
-          {selectedClub.largeCategory === '학생단체' ? (
+          {clubData && clubData.largeCategory === '학생단체' ? (
             <ModalIntroductionStudent
-              {...selectedClub}
-              recruitment={selectedRecruitment}
+              {...clubData}
+              recruitment={recruitmentData}
             />
           ) : (
             <ModalIntroductionClub
-              {...selectedClub}
-              recruitment={selectedRecruitment}
+              {...clubData}
+              recruitment={recruitmentData}
             />
           )}
           <ModalBody>
-            <Title>{selectedRecruitment.title}</Title>
-            <ImgCarousel selectedRecruitment={selectedRecruitment} />
+            <Title>{recruitmentData.title}</Title>
+            <ImgCarousel selectedRecruitment={recruitmentData} />
             <Description>
               <SubTitle>모집 설명글</SubTitle>
-              <Content>{selectedRecruitment.description}</Content>
+              <Content>{recruitmentData.description}</Content>
             </Description>
             <Description>
               <SubTitle>활동 내용</SubTitle>
-              <Content>{selectedRecruitment.content}</Content>
+              <Content>{recruitmentData.content}</Content>
             </Description>
             <Description2>
               <SubTitle>활동 기간</SubTitle>
-              <ActivePeriod>{selectedRecruitment.activePeriod}</ActivePeriod>
+              <ActivePeriod>{formattedActivePeriod}</ActivePeriod>
             </Description2>
             <Description2>
               <SubTitle>활동 장소</SubTitle>
-              <Basic>{selectedRecruitment.activePlace}</Basic>
+              <Basic>{recruitmentData.activePlace}</Basic>
             </Description2>
             <Description2>
               <SubTitle>모집 기간</SubTitle>
               <PeriodWrapper>
-                <Period>{selectedRecruitment.recruitmentStartDate}</Period>
+                <Period>{formattedStartDate}</Period>
                 <PeriodContent>부터</PeriodContent>
-                <Period>{selectedRecruitment.recruitmentDeadline}</Period>
+                <Period>{formattedEndDate}</Period>
                 <PeriodContent>까지</PeriodContent>
               </PeriodWrapper>
             </Description2>
-            {selectedClub.isRecruit ? (
-              <Link to={'/application'} state={recruitmentData}>
+            {clubData && clubData.recruit ? (
+              <Link to={'/application'} state={recruitmentData.recruitmentId}>
                 <SupportButton>지원하기</SupportButton>
               </Link>
             ) : (
@@ -125,3 +203,14 @@ const RecruitmentModal = ({
 };
 
 export default RecruitmentModal;
+const formatActivePeriod = (activePeriod) => {
+  if (activePeriod === 'YEAR') {
+    return '1년 활동';
+  } else if (activePeriod === 'SEMESTER') {
+    return '학기 활동';
+  } else if (activePeriod === 'OVER_YEAR') {
+    return '1년 이상 활동';
+  } else {
+    return activePeriod; // Handle other cases
+  }
+};

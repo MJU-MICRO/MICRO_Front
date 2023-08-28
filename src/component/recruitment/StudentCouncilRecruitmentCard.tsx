@@ -97,7 +97,7 @@ const formatActivePeriod = (activePeriod) => {
   } else if (activePeriod === 'SEMESTER') {
     return '학기 활동';
   } else if (activePeriod === 'OVER_YEAR') {
-    return '1년 이상 활동';
+    return '1년 이상';
   } else {
     return activePeriod; // Handle other cases
   }

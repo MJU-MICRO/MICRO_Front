@@ -2,7 +2,7 @@ export interface User {
   name: string;
   studentId: string;
   major: string;
-  phone: string;
+  phoneNumber: string;
 }
 
 export interface Application {
@@ -22,20 +22,16 @@ export interface TextareaContainerProps {
   setQuestions: React.Dispatch<React.SetStateAction<string[]>>;
   answer: string[];
   setAnswer: React.Dispatch<React.SetStateAction<string[]>>;
+  characterLimit: number[];
 }
 
 export interface BasicInfoProps {
   user: User;
-  setUser: React.Dispatch<React.SetStateAction<User>>;
   application: Application;
-  setApplication: React.Dispatch<React.SetStateAction<Application>>;
-  supportField: string;
-  setSupportField: React.Dispatch<React.SetStateAction<string>>;
-  isAttending: boolean;
-  setIsAttending: React.Dispatch<React.SetStateAction<boolean>>;
-  isSubmit: boolean;
-  setIsSubmit: React.Dispatch<React.SetStateAction<boolean>>;
+  setApplication: (application: any) => void;
+  setSupportField: (field: string) => void;
   fields: string[];
+  setIsAttending: (isAttending: boolean) => void;
 }
 
 export interface ButtonsProps {

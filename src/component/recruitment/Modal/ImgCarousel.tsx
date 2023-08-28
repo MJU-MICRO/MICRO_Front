@@ -3,9 +3,7 @@ import styled from 'styled-components';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { RecruitmentImageProps } from './RecruitmentImageProps';
 import img from '../../../assets/image_2.svg';
-import axios from 'axios';
 interface CarouselItemProps {
   marginLeft: string;
 }
@@ -44,7 +42,7 @@ const ImgCarousel = ({ selectedRecruitment }) => {
             className={centerIndex === index ? 'centered' : ''}
             marginLeft={getMarginLeft()}>
             <ImageWrapper className={centerIndex === index ? 'centered' : ''}>
-              <Image src={imageUrl} alt={`Image ${index}`} />
+              <Image src={img} alt={`Image ${index}`} />
               <Caption>{captionlist[index]}</Caption>
             </ImageWrapper>
           </CarouselItem>

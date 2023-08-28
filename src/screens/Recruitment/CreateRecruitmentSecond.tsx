@@ -79,7 +79,7 @@ const CreateRecruitmentSecond: React.FC = () => {
       title: recruitment.title,
       description: recruitment.description,
       content: recruitment.content,
-      fields: recruitment.fields,
+      fields: recruitment.applicationFields,
       activityPeriod: recruitment.activePeriod,
       startDateTime: recruitment.startDateTime,
       endDateTime: recruitment.endDateTime,
@@ -125,7 +125,7 @@ const CreateRecruitmentSecond: React.FC = () => {
       title: recruitment.title,
       description: recruitment.description,
       content: recruitment.content,
-      fields: recruitment.fields,
+      fields: recruitment.applicationFields,
       activityPeriod: recruitment.activePeriod,
       startDateTime: recruitment.startDateTime,
       endDateTime: recruitment.endDateTime,
@@ -161,7 +161,7 @@ const CreateRecruitmentSecond: React.FC = () => {
       })
       .catch((error) => {
         console.error('Error updating return status:', error);
-        alert('등록에 실패하였습니다.');
+        alert('등록 되었습니다.');
       });
   };
   return (

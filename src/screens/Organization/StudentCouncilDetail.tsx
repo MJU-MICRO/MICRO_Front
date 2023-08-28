@@ -23,6 +23,10 @@ function StudentCouncilDetail() {
   const [recruitmentDatalist, setRecruitmentDatalist] = useState<
     RecruitmentProps[]
   >([]);
+  const [formattedStartDate, setFormattedStartDate] = useState<string | null>(
+    null
+  ); // Move them here
+  const [formattedEndDate, setFormattedEndDate] = useState<string | null>(null);
   const [studentCouncilData, setStudentCouncilData] =
     useState<OrganizationProps | null>(null);
   const [recruitmentData, setRecruitmentData] =
@@ -108,6 +112,20 @@ function StudentCouncilDetail() {
 
     if (foundClub && latestRecruitment) {
       setRecruitmentData(latestRecruitment);
+
+      // Format and set the start date
+      const startDate = new Date(latestRecruitment.startDateTime);
+      const formattedStart = `${startDate.getFullYear()}-${
+        startDate.getMonth() + 1
+      }-${startDate.getDate()}`;
+      setFormattedStartDate(formattedStart);
+
+      // Format and set the end date
+      const endDate = new Date(latestRecruitment.endDateTime);
+      const formattedEnd = `${endDate.getFullYear()}-${
+        endDate.getMonth() + 1
+      }-${endDate.getDate()}`;
+      setFormattedEndDate(formattedEnd);
     } else {
       console.error(`Club with id ${id} not found.`);
     }
@@ -183,7 +201,7 @@ function StudentCouncilDetail() {
           <RecruitWrapper>
             <DateWrapper>
               <ArrowIcon1 src={downArrow} />
-              <RecruitDate>{recruitmentData?.startDateTime}</RecruitDate>
+              <RecruitDate>{formattedStartDate}</RecruitDate>
               <ArrowIcon2 src={UpArrow} />
             </DateWrapper>
             <CardContainer
@@ -213,8 +231,6 @@ function StudentCouncilDetail() {
         onClose={closeModal}
         selectedRecruitmentId={recruitmentData?.recruitmentId}
         selectedClubId={id}
-        recruitmentData={recruitmentData}
-        clubData={studentCouncilData}
       />
     </BackGround>
   );
