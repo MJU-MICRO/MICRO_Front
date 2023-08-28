@@ -6,7 +6,7 @@ export interface RecruitmentProps {
   title: string;
   content: string;
   description: string;
-  fields: string[];
+  applicationFields: string[];
   startDateTime: string;
   endDateTime: string;
   activePeriod: string;

@@ -161,8 +161,6 @@ const RecruitmentList = () => {
           onClose={closeModal}
           selectedRecruitmentId={selectedRecruitmentId}
           selectedClubId={selectedClubId}
-          recruitmentData={recruitmentData}
-          clubData={filteredClubData}
         />
       </Content>
     </Wrapper>
