@@ -128,16 +128,16 @@ const TemporaryApplication = () => {
                   division={'temporaryApplication'}
                 />
               </div>
-              {modalOpen && (
-                <TemporaryApplicationModal
-                  isOpen={modalOpen}
-                  onClose={closeModal}
-                  applicationRecruitment={applications}
-                  userInfo={user}
-                  group={group}
-                />
-              )}
             </div>
+            {modalOpen && (
+              <TemporaryApplicationModal
+                isOpen={modalOpen}
+                onClose={closeModal}
+                applicationRecruitment={applications}
+                userInfo={user}
+                group={group}
+              />
+            )}
           </>
         ))
       )}

@@ -3,7 +3,7 @@ import { ButtonsContainer } from './ApplicationStyles';
 import { ButtonsProps } from './ApplicationProps';
 import styled from 'styled-components';
 
-const Buttons: React.FC<ButtonsProps> = ({ save, submit }) => {
+const Buttons = ({ save, submit }: ButtonsProps) => {
   return (
     <ButtonsContainer>
       <SaveButton onClick={save}>임시저장</SaveButton>
