@@ -8,6 +8,7 @@ import '../../App.css';
 import plus_Icon from '../../assets/plus-Icon.svg';
 import { OrganizationProps } from '../../component/Organization/OrganizationProps';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 const OrganizationList = () => {
   const [clubData, setClubData] = useState<OrganizationProps[]>([]);
   const [studentCouncilData, setStudentCouncilData] = useState<
@@ -134,14 +135,30 @@ const OrganizationList = () => {
           <p>놀명뭐하니 학우들이 소속해 있는 다양한 단체들을 만나보세요!</p>
         </Introduction>
         <CardList>
-          <CreateOrganization>
-            <Link to={'/CreateOrganizationFirst'}>
+          {localStorage.getItem('accessToken') ? (
+            <CreateOrganization>
+              <Link to={'/CreateOrganizationFirst'}>
+                <img src={plus_Icon} className='plus_Icon' alt='plus' />
+                <div>우리 단체 등록하기</div>
+                <p>단체 페이지를 생성하여</p>
+                <p> 놀명뭐하니 학우들과 소통해보세요!</p>
+              </Link>
+            </CreateOrganization>
+          ) : (
+            <CreateOrganization
+              onClick={() => {
+                Swal.fire({
+                  text: '로그인 후 이용해주세요.',
+                  icon: 'error',
+                  confirmButtonText: '닫기'
+                });
+              }}>
               <img src={plus_Icon} className='plus_Icon' alt='plus' />
               <div>우리 단체 등록하기</div>
               <p>단체 페이지를 생성하여</p>
               <p> 놀명뭐하니 학우들과 소통해보세요!</p>
-            </Link>
-          </CreateOrganization>
+            </CreateOrganization>
+          )}
           {filteredClubData.map((club) => (
             <CardContainer key={club.id}>
               <Link to={`/club/${club.id}`}>

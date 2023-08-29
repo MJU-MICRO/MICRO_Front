@@ -13,6 +13,7 @@ import axios from 'axios';
 import Modal from '../../component/Common/Modal';
 import * as Styled from '../../component/Header/HeaderStyles';
 import MyOrganization from '../../component/Setting/MyProfile/MyOrganization';
+import Swal from 'sweetalert2';
 
 const RecruitmentList = () => {
   const [recruitmentData, setRecruitmentData] = useState<RecruitmentProps[]>(
@@ -133,12 +134,28 @@ const RecruitmentList = () => {
           <p>관심 주제 별로 모집 공고를 찾아보세요!</p>
         </Introduction>
         <CardList>
-          <ApplyCard onClick={openOrganizationModal}>
-            <img src={plus_Icon} className='plus_Icon' alt='plus' />
-            <div>우리 단체 모집 공고 등록하기</div>
-            <p>단체를 등록하고 놀명뭐하니 학우들을 대상으로</p>
-            <p>편리하게 모집공고를 등록하고 관리해보세요!</p>
-          </ApplyCard>
+          {localStorage.getItem('accessToken') ? (
+            <ApplyCard onClick={openOrganizationModal}>
+              <img src={plus_Icon} className='plus_Icon' alt='plus' />
+              <div>우리 단체 모집 공고 등록하기</div>
+              <p>단체를 등록하고 놀명뭐하니 학우들을 대상으로</p>
+              <p>편리하게 모집공고를 등록하고 관리해보세요!</p>
+            </ApplyCard>
+          ) : (
+            <ApplyCard
+              onClick={() => {
+                Swal.fire({
+                  text: '로그인 후 이용해주세요.',
+                  icon: 'error',
+                  confirmButtonText: '닫기'
+                });
+              }}>
+              <img src={plus_Icon} className='plus_Icon' alt='plus' />
+              <div>우리 단체 모집 공고 등록하기</div>
+              <p>단체를 등록하고 놀명뭐하니 학우들을 대상으로</p>
+              <p>편리하게 모집공고를 등록하고 관리해보세요!</p>
+            </ApplyCard>
+          )}
           {filteredClubData.map((club) => {
             const matchingRecruitment = recruitmentData.find(
               (recruitment) => recruitment.groupId === club.id

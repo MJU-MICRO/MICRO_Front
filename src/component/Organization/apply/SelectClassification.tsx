@@ -324,7 +324,9 @@ function SelectClassification({ onChange }: SelectClassificationProps) {
           <SelectClass
             key={index}
             value={selectedOptions[selectedOptionKey]}
-            onChange={(option) => handleSelectChange(selectedOptionKey, option)}
+            onChange={(option) =>
+              handleSelectChange(selectedOptionKey, option as OptionType | null)
+            }
             options={dynamicOptionValues.map((option) => ({
               value: option,
               label: option

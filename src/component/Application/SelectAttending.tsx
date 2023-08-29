@@ -26,7 +26,7 @@ function SelectAttending({ onChange }: SelectMemberCountProps) {
     <StyledSelect
       options={countOptions}
       value={
-        selectedCount
+        selectedCount !== null
           ? {
               value: selectedCount ? '재학중' : '휴학중',
               label: selectedCount ? '재학중' : '휴학중'

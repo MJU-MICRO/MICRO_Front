@@ -24,7 +24,7 @@ import SelectMajor from '../../component/Organization/apply/SelectMajor';
 import Preview from '../../component/Organization/apply/Preview';
 import { OrganizationProps } from '../../component/Organization/OrganizationProps';
 import axios from 'axios';
-
+import Swal from 'sweetalert2';
 function CreateOrganizationFirst() {
   const [organization, setOrganization] = useState<OrganizationProps>({
     id: 0,
@@ -148,13 +148,18 @@ function CreateOrganizationFirst() {
       organization.mediumCategory &&
       organization.smallCategory &&
       organization.subCategory &&
-      organization.relatedTag.length > 0
+      organization.relatedTag.length > 0 &&
+      organization.relationMajor.length > 0
     );
   }
   const handleNextButtonClick = () => {
     if (areRequiredFieldsFilled(organization)) {
     } else {
-      alert('필수 항목을 모두 입력해주세요.');
+      Swal.fire({
+        text: '필수 항목을 모두 입력해주세요.',
+        icon: 'error',
+        confirmButtonText: '닫기'
+      });
     }
   };
   return (
@@ -205,7 +210,9 @@ function CreateOrganizationFirst() {
           selectedTags={selectedTags}
           onChange={handleSelectedTagsChange}
         />
-        <SmallTitle>관련 학과 (최대 3개)</SmallTitle>
+        <SmallTitle>
+          관련 학과<BasicInfoAsterisk>*</BasicInfoAsterisk> (최대 3개)
+        </SmallTitle>
         <SelectMajor
           selectedMajors={selectedMajors}
           onChange={handleSelectedMajorsChange}
@@ -221,7 +228,9 @@ function CreateOrganizationFirst() {
       </Level>
       <Next>
         <Link to='/CreateOrganizationSecond' state={organization}>
-          <NextButton onClick={handleNextButtonClick}>
+          <NextButton
+            onClick={handleNextButtonClick}
+            disabled={!areRequiredFieldsFilled(organization)}>
             <div>추가 정보</div> <img src={arrow} />
           </NextButton>
         </Link>
@@ -286,5 +295,14 @@ const NextButton = styled.button`
     line-height: 40px;
     text-align: center;
     margin-left: 12px;
+  }
+   &:disabled {
+    color: #ffffff;
+    background-color: #b0b0b0;
+    border: 1px solid #b0b0b0;
+    cursor: not-allowed;
+    img {
+      filter: grayscale(100%);
+    }
   }
 `;
