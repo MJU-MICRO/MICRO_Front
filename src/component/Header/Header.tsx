@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import Search from './Search';
 import application from '../../assets/Header/application.svg';
-import message from '../../assets/Header/message.svg';
+import message from '../../assets/Header/message1.svg';
 import Modal from 'component/Common/Modal';
 import { useAuth } from 'contexts/AuthContext';
 import * as Styled from './HeaderStyles';
