@@ -3,15 +3,23 @@ import ClubRecruitmentCard from 'component/recruitment/ClubRecruitmentCard';
 import { useAuth } from 'contexts/AuthContext';
 import { useApprovedGroups } from 'contexts/GroupContext';
 import { ApprovedGroup } from 'interfaces/ApprovedGroupProps';
+import img from '../../../assets/img.svg';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { RecruitmentProps } from '../recruitment/RecruitmentProps';
+import styled, { css } from 'styled-components';
+import { RecruitmentProps } from '../../recruitment/RecruitmentProps';
+import GroupRecruitment from './GroupRecruitment';
+
+interface GroupProps {
+  isselected: boolean;
+}
 
 const ReceivedApplication = () => {
   const { user } = useAuth();
   const approvedGroups = useApprovedGroups();
-
+  const [selectedGroup, setSelectedGroup] = useState<ApprovedGroup | null>(
+    null
+  );
   const userOrganizations = approvedGroups.filter(
     (group: ApprovedGroup) => group.presidentId === user?.id
   );
@@ -22,14 +30,23 @@ const ReceivedApplication = () => {
       <Des>단체 선택</Des>
       <GroupWrapper>
         {userOrganizations.map((group) => (
-          <Group key={group.id}>
-            <img src={group.logoImageUrl} alt={group.groupName} />
+          <Group
+            key={group.id}
+            onClick={() => setSelectedGroup(group)}
+            isselected={selectedGroup === group}>
+            <img src={img} alt={group.groupName} />
             <Name>{group.groupName}</Name>
             <Division>{group.subCategory}</Division>
           </Group>
         ))}
       </GroupWrapper>
       <Line />
+      {selectedGroup && (
+        <GroupRecruitmentWrapper>
+          <Des>모집 공고 선택</Des>
+          <GroupRecruitment groupId={selectedGroup.id} />
+        </GroupRecruitmentWrapper>
+      )}
     </Container>
   );
 };
@@ -39,6 +56,7 @@ export default ReceivedApplication;
 const Container = styled.div`
   width: 100%;
 `;
+
 const Header = styled.div`
   color: rgba(0, 0, 0, 0.7);
   font-family: Gmarket Sans TTF;
@@ -47,25 +65,26 @@ const Header = styled.div`
   font-weight: 500;
   line-height: normal;
 `;
+
 const Des = styled.div`
   color: rgba(0, 0, 0, 0.8);
-
   font-family: Gmarket Sans TTF;
   font-size: 1.125rem;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
   margin-top: 2rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 `;
+
 const GroupWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  padding: 1rem;
 `;
-const Group = styled.div`
+
+const Group = styled.div<GroupProps>`
   cursor: pointer;
   img {
     width: 7.5rem;
@@ -77,12 +96,23 @@ const Group = styled.div`
   align-items: center;
   justify-content: center;
   margin-right: 1.5rem;
+  border-radius: 10px;
+  padding: 1rem;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease-in-out;
+  }
+
+  ${({ isselected }) =>
+    isselected &&
+    css`
+      box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+    `}
 `;
 
 const Name = styled.div`
   color: rgba(0, 0, 0, 0.8);
-  leading-trim: both;
-  text-edge: cap;
   font-family: Gmarket Sans TTF;
   font-size: 1.125rem;
   font-style: normal;
@@ -95,8 +125,6 @@ const Name = styled.div`
 const Division = styled.div`
   color: rgba(0, 0, 0, 0.7);
   text-align: center;
-  leading-trim: both;
-  text-edge: cap;
   font-family: Gmarket Sans TTF;
   font-size: 0.75rem;
   font-style: normal;
@@ -110,3 +138,5 @@ const Line = styled.div`
   height: 0.01875rem;
   background: rgba(0, 0, 0, 0.2);
 `;
+
+const GroupRecruitmentWrapper = styled.div``;

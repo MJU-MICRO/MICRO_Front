@@ -103,16 +103,19 @@ const SentApplication = () => {
   console.log(combinedData);
   return (
     <div>
-      <Header>
-        {combinedData.map(({ group, applications }) => (
+      <Header> 보낸 지원서 </Header>
+      {combinedData.length === 0 ? (
+        <NoDataContainer>보낸 지원서가 없어요 📭</NoDataContainer>
+      ) : (
+        combinedData.map(({ group, applications }) => (
           <GroupApplicationComponent
             key={group.id}
             group={group}
             applications={applications}
             onUpdate={handleGroupApplicationUpdate}
           />
-        ))}
-      </Header>
+        ))
+      )}
     </div>
   );
 };
@@ -123,6 +126,20 @@ const Header = styled.div`
   color: rgba(0, 0, 0, 0.7);
   font-family: Gmarket Sans TTF;
   font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+`;
+
+const NoDataContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10rem;
+  color: rgba(0, 0, 0, 0.7);
+  font-family: Gmarket Sans TTF;
+  font-size: 1.125rem;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
