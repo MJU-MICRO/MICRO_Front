@@ -12,7 +12,7 @@ import StudentCouncilDetail from './screens/Organization/StudentCouncilDetail';
 import CreateOrganizationFirst from './screens/Organization/CreateOrganizationFirst';
 import CreateRecruitmentFirst from './screens/Recruitment/CreateRecruitmentFirst';
 import CreateOrganizationSecond from './screens/Organization/CreateOrganizationSecond';
-import Setting from './screens/UserSetting/User/Setting';
+import Setting from './screens/UserSetting/User/UserSetting';
 import ApplicationManagement from './screens/applicationManagement/ApplicationManagement';
 import MyProfile from './screens/UserSetting/User/MyProfile';
 import OrganizationSetting from './screens/UserSetting/organization/OrganizationSetting';
