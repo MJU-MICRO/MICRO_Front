@@ -12,6 +12,7 @@ import {
 } from '../../component/Organization/apply/ApplyCommonStyle';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 function CreateOrganizationSecond() {
   const [activityTitles, setActivityTitles] = useState(['', '', '']);
@@ -123,11 +124,20 @@ function CreateOrganizationSecond() {
       )
       .then((response) => {
         console.log(response);
-        alert('등록 되었습니다.');
+        Swal.fire({
+          text: '단체 등록에 성공했습니다.',
+          icon: 'success',
+          confirmButtonText: '닫기'
+        });
       })
       .catch((error) => {
+        console.log(error);
         console.error('Error updating return status:', error);
-        alert('등록에 실패하였습니다.');
+        Swal.fire({
+          text: '단체 등록에 실패했습니다.',
+          icon: 'error',
+          confirmButtonText: '닫기'
+        });
       });
   };
   return (

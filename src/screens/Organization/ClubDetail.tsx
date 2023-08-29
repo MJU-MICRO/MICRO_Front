@@ -13,6 +13,7 @@ import UpArrow from '../../assets/UpArrow.svg';
 import FillHeart from '../../assets/FillHeart.svg';
 import defaultHeart from '../../assets/defaultHeart.svg';
 import Default_img from '../../assets/userDefaultImg.svg';
+import Swal from 'sweetalert2';
 
 function ClubDetail() {
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -31,10 +32,19 @@ function ClubDetail() {
   ); // Move them here
   const [formattedEndDate, setFormattedEndDate] = useState<string | null>(null); // Move them here
   const toggleBookmark = async () => {
+    const token = localStorage.getItem('accessToken');
+
+    if (!token) {
+      Swal.fire({
+        text: '로그인 먼저 진행해주세요.',
+        icon: 'error',
+        confirmButtonText: '닫기'
+      });
+      return; // Stop further execution
+    }
+
     const newBookmarkStatus = !isBookmarked;
     setIsBookmarked(newBookmarkStatus);
-
-    const token = localStorage.getItem('accessToken');
 
     try {
       if (newBookmarkStatus) {

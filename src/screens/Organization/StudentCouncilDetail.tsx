@@ -13,6 +13,7 @@ import UpArrow from '../../assets/UpArrow.svg';
 import defaultHeart from '../../assets/defaultHeart.svg';
 import FillHeart from '../../assets/FillHeart.svg';
 import Default_img from '../../assets/userDefaultImg.svg';
+import Swal from 'sweetalert2';
 function StudentCouncilDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -34,10 +35,19 @@ function StudentCouncilDetail() {
     useState<RecruitmentProps | null>(null);
   const logoImageUrl = studentCouncilData?.imageUrl || Default_img;
   const toggleBookmark = async () => {
+    const token = localStorage.getItem('accessToken');
+
+    if (!token) {
+      Swal.fire({
+        text: '로그인 먼저 진행해주세요.',
+        icon: 'error',
+        confirmButtonText: '닫기'
+      });
+      return; // Stop further execution
+    }
+
     const newBookmarkStatus = !isBookmarked;
     setIsBookmarked(newBookmarkStatus);
-
-    const token = localStorage.getItem('accessToken'); // Retrieve the user's token from local storage or another source
 
     try {
       if (newBookmarkStatus) {

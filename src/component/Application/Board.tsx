@@ -8,6 +8,7 @@ import { RecruitmentProps } from '../recruitment/RecruitmentProps';
 import axios from 'axios';
 import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
 
 interface BoardProps {
   recruitmentId: number;
@@ -118,11 +119,19 @@ const Board: React.FC<BoardProps> = ({ recruitmentId }) => {
       })
       .then((response) => {
         console.log(response);
-        alert('등록 되었습니다.');
+        Swal.fire({
+          text: '임시저장에 성공하였습니다.',
+          icon: 'success',
+          confirmButtonText: '닫기'
+        });
       })
       .catch((error) => {
         console.error('Error updating return status:', error);
-        alert('등록에 실패하였습니다.');
+        Swal.fire({
+          text: '임시저장에 실패하였습니다.',
+          icon: 'error',
+          confirmButtonText: '닫기'
+        });
       });
   };
 
@@ -148,11 +157,19 @@ const Board: React.FC<BoardProps> = ({ recruitmentId }) => {
       })
       .then((response) => {
         console.log(response);
-        alert('등록 되었습니다.');
+        Swal.fire({
+          text: '제출이 완료되었습니다.',
+          icon: 'success',
+          confirmButtonText: '닫기'
+        });
       })
       .catch((error) => {
         console.error('Error updating return status:', error);
-        alert('등록에 실패하였습니다.');
+        Swal.fire({
+          text: '제출에 실패하였습니다.',
+          icon: 'error',
+          confirmButtonText: '닫기'
+        });
       });
   };
   return (
