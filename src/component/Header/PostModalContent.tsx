@@ -1,6 +1,6 @@
 import React from 'react';
 import * as Styled from './HeaderStyles';
-import recruitmentImg from '../../assets/Header/recruitmentImg.svg';
+import recruitmentImg from '../../assets/Header/recruitmentImg1.svg';
 import arrowRight from '../../assets/Header/arrow-right.svg';
 import organizationImg from '../../assets/Header/organizationImg.svg';
 import { Link } from 'react-router-dom';
