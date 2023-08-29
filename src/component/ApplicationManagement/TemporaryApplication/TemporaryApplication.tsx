@@ -28,15 +28,10 @@ const TemporaryApplication = () => {
   >([]);
 
   const [filteredGroups, setFilteredGroups] = useState<GroupDetail[]>([]);
-  // 모달 노출 여부
+
   const [modalOpen, setModalOpen] = useState(false);
-  // 선택한 신청서 정보 저장
-  const [selectedApplication, setSelectedApplication] = useState(null);
 
-  const [selectedRecruitment, setSelectedRecruitment] = useState(null);
-
-  const openModal = (application) => {
-    setSelectedRecruitment(application.recruitment); // 선택한 모집 공고 정보 저장
+  const openModal = () => {
     setModalOpen(true); // 모달 열기
   };
 
@@ -112,6 +107,7 @@ const TemporaryApplication = () => {
   const handleGroupApplicationUpdate = () => {
     getUserApplicationList();
   };
+  console.log(combinedData);
 
   return (
     <div>
@@ -120,27 +116,29 @@ const TemporaryApplication = () => {
         <NoDataContainer>작성 중인 지원서가 없어요 📭</NoDataContainer>
       ) : (
         combinedData.map(({ group, applications }) => (
-          <div key={group.id}>
-            <div onClick={() => openModal(applications[0])}>
-              <GroupApplicationComponent
-                key={group.id}
-                group={group}
-                applications={applications}
-                onUpdate={handleGroupApplicationUpdate}
-                division={'tempApplication'}
-              />
+          <>
+            <div key={group.id}>
+              <div onClick={() => openModal()}>
+                <GroupApplicationComponent
+                  key={group.id}
+                  group={group}
+                  applications={applications}
+                  onUpdate={handleGroupApplicationUpdate}
+                  division={'tempApplication'}
+                />
+              </div>
             </div>
-          </div>
+            {modalOpen && (
+              <TemporaryApplicationModal
+                isOpen={modalOpen}
+                onClose={closeModal}
+                applicationRecruitment={applications}
+                userInfo={user}
+                group={group}
+              />
+            )}
+          </>
         ))
-      )}
-      {selectedRecruitment && ( // 선택한 모집 공고가 있을 때만 모달 렌더링
-        <TemporaryApplicationModal
-          isOpen={modalOpen}
-          onClose={closeModal}
-          recruitmentApplication={selectedRecruitment}
-          userInfo={user}
-          group={undefined}
-        />
       )}
     </div>
   );

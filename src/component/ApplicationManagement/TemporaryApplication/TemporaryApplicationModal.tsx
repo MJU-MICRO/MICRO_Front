@@ -1,5 +1,5 @@
-import { Application } from 'component/Application/ApplicationProps';
-import BasicInfo from 'component/Application/BasicInfo';
+import { UserSentApplicationProps } from '../../../interfaces/UserSentApplicationProps';
+import BasicInfo from '../ApplicationCommon/BasicInfo';
 import TextareaContainer from 'component/Application/TextareaContainer';
 import { RecruitmentProps } from 'component/recruitment/RecruitmentProps';
 import React, { useEffect, useState } from 'react';
@@ -9,50 +9,138 @@ import {
   BoardTitle,
   BoardText
 } from '../../Application/ApplicationStyles';
-import ApplicationModal from '../ApplicationModal';
+import ApplicationModal from '../ApplicationCommon/ApplicationModal';
+import Buttons from 'component/Application/Buttons';
+import axios from 'axios';
 
 const TemporaryApplicationModal = ({
   isOpen,
   onClose,
   userInfo,
-  recruitmentApplication,
+  applicationRecruitment,
   group
 }) => {
-  const [fields, setFields] = useState<string[]>([]);
-  const [questions, setQuestions] = useState<string[]>([]);
-  const [answer, setAnswer] = useState<string[]>([]);
-  const [characterLimit, setCharacterLimit] = useState<number[]>([]);
-  const [supportField, setSupportField] = useState<string>('');
-  const [recruitmentData, setRecruitmentData] =
+  const selectedApplication = applicationRecruitment[0].application;
+  const selectedRecruitment = applicationRecruitment[0].recruitment;
+
+  const [fields, setFields] = useState<string[]>(
+    selectedRecruitment.applicationFields
+      ? selectedRecruitment.applicationFields
+      : []
+  );
+  const [questions, setQuestions] = useState<string[]>(
+    selectedRecruitment.questions || []
+  );
+  const [answer, setAnswer] = useState<string[]>(
+    selectedApplication.answers || []
+  );
+  const [characterLimit, setCharacterLimit] = useState<number[]>(
+    selectedRecruitment.characterLimit || []
+  );
+  const [supportField, setSupportField] = useState<string>(
+    selectedApplication.supportField || ''
+  );
+  const [recruitementData, setRecruitementData] =
     useState<RecruitmentProps | null>(null);
-  const [application, setApplication] = useState<Application>({
-    answer: [],
-    supportField: '',
-    grade: '1',
-    isAttending: true,
+  const [application, setApplication] = useState<UserSentApplicationProps>({
+    id: selectedApplication.id,
+    userId: selectedApplication.userId,
+    recruitmentId: selectedApplication.recruitmentId,
+    answer: selectedApplication.answers || [''],
+    supportField: selectedApplication.supportField || '',
+    grade: selectedApplication.grade || '1',
+    isAttending:
+      selectedApplication.isAttending !== undefined
+        ? selectedApplication.isAttending
+        : true,
     isSubmit: false
   });
-  const [isAttending, setIsAttending] = useState<boolean>(true);
-  const [isSubmit, setIsSubmit] = useState<boolean>(false);
+  const [isAttending, setIsAttending] = useState<boolean>(
+    selectedApplication.isAttending || ''
+  );
 
   useEffect(() => {
-    // const applicationData = recruitmentApplication[0].applications || {};
+    setFields(selectedRecruitment.applicationFields || []);
+    setQuestions(selectedRecruitment.questions || []);
+    setAnswer(selectedApplication.answers || []);
+    setCharacterLimit(selectedRecruitment.characterLimit || []);
+    setSupportField(selectedApplication.supportField || '');
+    setRecruitementData(selectedRecruitment);
+    setIsAttending(
+      selectedApplication.isAttending !== undefined
+        ? selectedApplication.isAttending
+        : true
+    );
+    console.log('모달창 거 ', applicationRecruitment);
+    console.log('모달창 거 ', applicationRecruitment[0].application);
+    console.log('대답..', selectedApplication.answers);
+    console.log('나와라 학년..', selectedApplication.grade);
+  }, [applicationRecruitment, selectedApplication.isSubmit]);
 
-    // setSupportField(applicationData.supportField || '');
-    // setApplication({
-    //   answer: applicationData.answer || [],
-    //   supportField: applicationData.supportField || '',
-    //   grade: applicationData.grade || '1',
-    //   isAttending: applicationData.isAttending || true,
-    //   isSubmit: applicationData.isSubmit || false
-    // });
+  const save = () => {
+    const updatedApplication = { ...application };
+    const applicationId = updatedApplication.id;
+    updatedApplication.isSubmit = false;
+    setApplication(updatedApplication);
+    const dto = {
+      recruitmentId: selectedRecruitment.recruitmentId,
+      answer: answer,
+      grade: application.grade,
+      supportField: supportField,
+      isAttending: application.isAttending,
+      isSubmit: application.isSubmit
+    };
+    const token = localStorage.getItem('accessToken');
+    axios
+      .put(`/api/application/update/${applicationId}`, dto, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then((response) => {
+        console.log(response);
+        alert('등록 되었습니다.');
+      })
+      .catch((error) => {
+        console.log('Error updating return status:', error);
+        alert('등록에 실패하였습니다.');
+      });
+  };
 
-    // setRecruitmentData(recruitmentApplication[0].recruitment);
-    // setIsAttending(applicationData.isAttending || true);
-    // setIsSubmit(applicationData.isSubmit || false);
+  const submit = () => {
+    const updatedApplication = { ...application };
+    const applicationId = updatedApplication.id;
+    updatedApplication.isSubmit = true;
+    setApplication(updatedApplication);
+    const dto = {
+      recruitmentId: 0,
+      answer: answer,
+      grade: application.grade,
+      supportField: supportField,
+      isAttending: application.isAttending,
+      isSubmit: true
+    };
 
-    console.log('하', recruitmentApplication);
-  }, [recruitmentApplication, group]);
+    const token = localStorage.getItem('accessToken');
+    axios
+      .put(
+        `https://nolmyong.com/api/application/submit/${applicationId}`,
+        dto,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        alert('등록 되었습니다.');
+      })
+      .catch((error) => {
+        console.error('Error updating return status:', error);
+        alert('등록에 실패하였습니다.');
+      });
+  };
 
   return (
     <ApplicationModal isOpen={isOpen} onClose={onClose}>
@@ -64,11 +152,18 @@ const TemporaryApplicationModal = ({
           </BoardText>
           <BasicInfo
             user={userInfo}
-            application={application}
+            application={selectedApplication}
             setApplication={setApplication}
             setSupportField={setSupportField}
             setIsAttending={setIsAttending}
             fields={fields}
+            isAttending={isAttending}
+            grade={selectedApplication.grade ? selectedApplication.grade : ''}
+            userSelectedField={
+              selectedApplication.supportField
+                ? selectedApplication.supportField
+                : ''
+            }
           />
           <TextareaContainer
             questions={questions}
@@ -78,6 +173,7 @@ const TemporaryApplicationModal = ({
             characterLimit={characterLimit}
           />
         </BoardContainer>
+        <Buttons save={save} submit={submit} />
       </ModalContent>
     </ApplicationModal>
   );
