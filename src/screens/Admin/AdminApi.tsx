@@ -33,13 +33,13 @@ export const deleteGroup = (groupId) => {
 };
 
 export const registerAdmin = (email) => {
-  return instance.patch(`api/admin/register`, { email });
+  return instance.patch('api/admin/register', { email });
 };
 
 export const revokeAdmin = (email) => {
-  return instance.patch(`api/admin/revoke`, { email });
+  return instance.patch('api/admin/revoke', { email });
 };
 
 export const deleteUser = (email) => {
-  return instance.delete(`api/admin/user/delete`, { data: { email } });
+  return instance.delete('api/admin/user/delete', { data: { email } });
 };

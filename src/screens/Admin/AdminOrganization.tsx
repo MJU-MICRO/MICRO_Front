@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import Logo from '../../assets/Admin/AdminLogo.png';
 import DefaultImg from '../../assets/userDefaultImg.svg';
 import GrabageIcon from '../../assets/Admin/garbage.svg';
-import { NavLink } from 'react-router-dom';
+import { NavLink, NavLinkProps } from 'react-router-dom';
 import {
   getMyData,
   getAdminGroupData,
@@ -16,11 +16,33 @@ import {
   getAdminData
 } from './AdminApi';
 import axios from 'axios';
-
+interface GroupData {
+  id: number;
+  groupName: string;
+  presidentId: number;
+  logoImageUrl: string;
+  establishedYear: number;
+  numOfMember: string;
+  introduction: string;
+  relationMajor: string[];
+  relatedTag: string[];
+  activityTitle: string[];
+  activityContent: string[];
+  campus: string;
+  largeCategory: string;
+  mediumCategory: string;
+  smallCategory: string;
+  subCategory: string;
+  recruit: boolean;
+  approve: boolean;
+}
 const AdminOrganization = () => {
   const [selectedTab, setSelectedTab] = useState(0);
-  const [groupData, setGroupData] = useState([]);
-  const [myData, setMyData] = useState([]);
+  const [groupData, setGroupData] = useState<GroupData[]>([]);
+  const [{ name, profileImageUrl }, setMyData] = useState({
+    name: '',
+    profileImageUrl: ''
+  });
   const [userData, setUserData] = useState([]);
   const [adminData, setAdminData] = useState([]);
   const [showApprovedGroups, setShowApprovedGroups] = useState(true);
@@ -83,7 +105,6 @@ const AdminOrganization = () => {
         <>
           <LinkContainer>
             <StyledNavLink
-              exact
               to='/admin'
               onClick={() => setShowApprovedGroups(true)}
               isActive={showApprovedGroups}>
@@ -91,7 +112,6 @@ const AdminOrganization = () => {
             </StyledNavLink>
             <SpaceBetweenLinks />
             <StyledNavLink
-              exact
               to='/admin'
               onClick={() => setShowApprovedGroups(false)}
               isActive={!showApprovedGroups}>
@@ -109,36 +129,38 @@ const AdminOrganization = () => {
                 </tr>
               </thead>
               <tbody>
-                {groupData.map((row) => (
-                  <TableRow key={row.id}>
-                    <TableCell>{row.groupName}</TableCell>
-                    <TableCell>{row.subCategory}</TableCell>
-                    <TableCell>{row.campus}</TableCell>
-                    <TableCell>
-                      <ActionButtons>
-                        {row.approve ? (
-                          <>
-                            <RejectButton
-                              onClick={() =>
-                                handleActionWithReload(approveGroup, row.id)
-                              }>
-                              거부
-                            </RejectButton>
-                          </>
-                        ) : (
-                          <>
-                            <ApproveButton
-                              onClick={() =>
-                                handleActionWithReload(approveGroup, row.id)
-                              }>
-                              승인
-                            </ApproveButton>
-                          </>
-                        )}
-                      </ActionButtons>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {groupData.map(
+                  ({ approve, campus, groupName, id, subCategory }) => (
+                    <TableRow key={id}>
+                      <TableCell>{groupName}</TableCell>
+                      <TableCell>{subCategory}</TableCell>
+                      <TableCell>{campus}</TableCell>
+                      <TableCell>
+                        <ActionButtons>
+                          {approve ? (
+                            <>
+                              <RejectButton
+                                onClick={() =>
+                                  handleActionWithReload(approveGroup, id)
+                                }>
+                                거부
+                              </RejectButton>
+                            </>
+                          ) : (
+                            <>
+                              <ApproveButton
+                                onClick={() =>
+                                  handleActionWithReload(approveGroup, id)
+                                }>
+                                승인
+                              </ApproveButton>
+                            </>
+                          )}
+                        </ActionButtons>
+                      </TableCell>
+                    </TableRow>
+                  )
+                )}
               </tbody>
             </TableContainer>
           ) : (
@@ -152,23 +174,25 @@ const AdminOrganization = () => {
                 </tr>
               </thead>
               <tbody>
-                {approvedGroups.map((row) => (
-                  <TableRow key={row.id}>
-                    <TableCell>{row.groupName}</TableCell>
-                    <TableCell>{row.subCategory}</TableCell>
-                    <TableCell>{row.campus}</TableCell>
-                    <TableCell>
-                      <ActionButtons>
-                        <IconButton
-                          onClick={() =>
-                            handleConfirmActionWithReload(deleteGroup, row.id)
-                          }>
-                          <Icon src={GrabageIcon} alt='Delete' />
-                        </IconButton>
-                      </ActionButtons>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {approvedGroups.map(
+                  ({ campus, groupName, id, subCategory }) => (
+                    <TableRow key={id}>
+                      <TableCell>{groupName}</TableCell>
+                      <TableCell>{subCategory}</TableCell>
+                      <TableCell>{campus}</TableCell>
+                      <TableCell>
+                        <ActionButtons>
+                          <IconButton
+                            onClick={() =>
+                              handleConfirmActionWithReload(deleteGroup, id)
+                            }>
+                            <Icon src={GrabageIcon} alt='Delete' />
+                          </IconButton>
+                        </ActionButtons>
+                      </TableCell>
+                    </TableRow>
+                  )
+                )}
               </tbody>
             </TableContainer>
           )}
@@ -198,30 +222,32 @@ const AdminOrganization = () => {
               </tr>
             </thead>
             <tbody>
-              {userData.map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell>{row.name}</TableCell>
-                  <TableCell>{row.registrationDate}</TableCell>
-                  <TableCell>{row.phoneNumber}</TableCell>
-                  <TableCell>{row.email}</TableCell>
-                  <TableCell>
-                    <ActionButtons>
-                      <ApproveButton
-                        onClick={() =>
-                          handleActionWithReload(registerAdmin, row.email)
-                        }>
-                        관리자 등록
-                      </ApproveButton>
-                      <RejectButton
-                        onClick={() =>
-                          handleConfirmActionWithReload(deleteUser, row.email)
-                        }>
-                        계정 삭제
-                      </RejectButton>
-                    </ActionButtons>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {userData.map(
+                ({ email, id, name, phoneNumber, registrationDate }) => (
+                  <TableRow key={id}>
+                    <TableCell>{name}</TableCell>
+                    <TableCell>{registrationDate}</TableCell>
+                    <TableCell>{phoneNumber}</TableCell>
+                    <TableCell>{email}</TableCell>
+                    <TableCell>
+                      <ActionButtons>
+                        <ApproveButton
+                          onClick={() =>
+                            handleActionWithReload(registerAdmin, email)
+                          }>
+                          관리자 등록
+                        </ApproveButton>
+                        <RejectButton
+                          onClick={() =>
+                            handleConfirmActionWithReload(deleteUser, email)
+                          }>
+                          계정 삭제
+                        </RejectButton>
+                      </ActionButtons>
+                    </TableCell>
+                  </TableRow>
+                )
+              )}
             </tbody>
           </TableContainer>
         </>
@@ -242,34 +268,36 @@ const AdminOrganization = () => {
               </tr>
             </thead>
             <tbody>
-              {adminData.map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell>{row.name}</TableCell>
-                  <TableCell>{row.registrationDate}</TableCell>
-                  <TableCell>{row.phoneNumber}</TableCell>
-                  <TableCell>{row.email}</TableCell>
-                  <TableCell>
-                    <ActionButtons>
-                      <ApproveButton
-                        onClick={() =>
-                          handleActionWithReload(revokeAdmin, row.email)
-                        }
-                        style={{
-                          backgroundColor: '#7145941A',
-                          color: '#714594'
-                        }}>
-                        관리자 해지
-                      </ApproveButton>
-                      <RejectButton
-                        onClick={() =>
-                          handleConfirmActionWithReload(deleteUser, row.email)
-                        }>
-                        계정 삭제
-                      </RejectButton>
-                    </ActionButtons>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {adminData.map(
+                ({ email, id, name, phoneNumber, registrationDate }) => (
+                  <TableRow key={id}>
+                    <TableCell>{name}</TableCell>
+                    <TableCell>{registrationDate}</TableCell>
+                    <TableCell>{phoneNumber}</TableCell>
+                    <TableCell>{email}</TableCell>
+                    <TableCell>
+                      <ActionButtons>
+                        <ApproveButton
+                          onClick={() =>
+                            handleActionWithReload(revokeAdmin, email)
+                          }
+                          style={{
+                            backgroundColor: '#7145941A',
+                            color: '#714594'
+                          }}>
+                          관리자 해지
+                        </ApproveButton>
+                        <RejectButton
+                          onClick={() =>
+                            handleConfirmActionWithReload(deleteUser, email)
+                          }>
+                          계정 삭제
+                        </RejectButton>
+                      </ActionButtons>
+                    </TableCell>
+                  </TableRow>
+                )
+              )}
             </tbody>
           </TableContainer>
         </>
@@ -285,13 +313,13 @@ const AdminOrganization = () => {
       <HorizontalContainer>
         <LeftTab>
           <ProfileCircle>
-            {myData.profileImageUrl ? (
-              <ProfileImage src={myData.profileImageUrl} alt='Profile' />
+            {profileImageUrl ? (
+              <ProfileImage src={profileImageUrl} alt='Profile' />
             ) : (
               <ProfileImage src={DefaultImg} alt='Default Image' />
             )}
           </ProfileCircle>
-          <UserName>{myData.name}</UserName>
+          <UserName>{name}</UserName>
           <TabContainer>
             {[0, 2, 3].map((tabIndex) => (
               <Tab
@@ -379,7 +407,7 @@ const TabContainer = styled.div`
   position: sticky;
 `;
 
-const Tab = styled.div`
+const Tab = styled.div<TabProps>`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -392,8 +420,14 @@ const Tab = styled.div`
     props.isSelected ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 0.03)'};
   color: ${(props) => (props.isSelected ? 'rgba(0, 0, 0, 1)' : 'white')};
 `;
+interface TabProps {
+  isSelected: boolean;
+}
 
-const TabLabel = styled.div`
+interface SubTitleProps {
+  isSelected: boolean;
+}
+const TabLabel = styled.div<TabProps>`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -429,10 +463,15 @@ const NavLinkStyle = css`
   color: rgba(0, 143, 213, 0.8);
   border-bottom: 0.16rem solid #008fd5;
 `;
+interface StyledNavLinkProps extends NavLinkProps {
+  isActive: boolean;
+  activeClassName?: string; // Add this line
+}
 
-const StyledNavLink = styled(NavLink).attrs({
-  activeClassName: 'active-link'
-})`
+const StyledNavLink = styled(NavLink).attrs<StyledNavLinkProps>((props) => ({
+  activeClassName: 'active-link',
+  isActive: props.isActive
+}))`
   color: ${(props) => (props.isActive ? '#000000' : 'rgba(0, 0, 0, 0.3)')};
   font-size: 20px;
   font-style: normal;
@@ -461,7 +500,7 @@ const SpaceBetweenTab = styled.div`
   width: 100px;
 `;
 
-const SubTitle = styled.div`
+const SubTitle = styled.div<SubTitleProps>`
   color: ${(props) => (props.isSelected ? 'rgba(0, 0, 0, 1)' : 'white')};
   font-size: 14px;
   font-weight: 500;

@@ -23,6 +23,7 @@ import Application from 'screens/Application/Application';
 import AdminOrganization from 'screens/Admin/AdminOrganization';
 
 function App() {
+  // eslint-disable-next-line no-restricted-globals
   const shouldHideHeader = location.pathname === '/admin';
 
   return (
