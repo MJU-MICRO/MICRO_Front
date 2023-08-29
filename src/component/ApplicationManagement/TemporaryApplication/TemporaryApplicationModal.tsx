@@ -4,11 +4,7 @@ import TextareaContainer from 'component/Application/TextareaContainer';
 import { RecruitmentProps } from 'component/recruitment/RecruitmentProps';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import {
-  BoardContainer,
-  BoardTitle,
-  BoardText
-} from '../../Application/ApplicationStyles';
+
 import ApplicationModal from '../ApplicationCommon/ApplicationModal';
 import Buttons from 'component/Application/Buttons';
 import axios from 'axios';
@@ -22,6 +18,7 @@ const TemporaryApplicationModal = ({
 }) => {
   const selectedApplication = applicationRecruitment[0].application;
   const selectedRecruitment = applicationRecruitment[0].recruitment;
+  console.log('tpffprxl', selectedApplication);
 
   const [fields, setFields] = useState<string[]>(
     selectedRecruitment.applicationFields
@@ -98,7 +95,7 @@ const TemporaryApplicationModal = ({
         }
       })
       .then((response) => {
-        console.log(response);
+        console.log(response.data);
         alert('등록 되었습니다.');
       })
       .catch((error) => {
@@ -181,3 +178,43 @@ const TemporaryApplicationModal = ({
 const ModalContent = styled.div``;
 
 export default TemporaryApplicationModal;
+
+const BoardContainer = styled.div`
+  position: relative;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  height: min-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 0.938rem;
+  background-color: #ffffff;
+  margin-bottom: 3rem;
+`;
+
+const BoardTitle = styled.div`
+  width: 38rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #000000;
+  opacity: 100%;
+  margin-top: 2.3rem;
+`;
+
+const BoardText = styled.div`
+  width: 38rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 300;
+  margin-top: 0.5rem;
+`;

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import img from '../../assets/img.svg';
-import DotButton from './SentApplication/DotButton';
+import DotButton from './DotButton';
 
 interface StatusProps {
   daysleft: number;
@@ -70,11 +70,16 @@ const GroupApplicationComponent = ({
         </RecruitWrapper>
 
         <ApplicationWrapper>
-          <PassStatus>
-            {application.passStatus === null
-              ? '평가중'
-              : application.passStatus}
-          </PassStatus>
+          {division === 'temporaryApplication' ? (
+            ' '
+          ) : application.passStatus === null ? (
+            <PassStatus>평가중</PassStatus>
+          ) : application.passStatus ? (
+            <PassStatus className='pass'>합격</PassStatus>
+          ) : (
+            <PassStatus className='noPass'>불합격</PassStatus>
+          )}
+
           <ContentWrapper>
             <Title>지원 분야</Title>
             <Content>{application.supportField}</Content>
@@ -170,6 +175,15 @@ const PassStatus = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &.pass {
+    background: rgba(49, 175, 229, 0.05);
+    color: #1bacea;
+  }
+  &.noPass {
+    background: rgba(206, 182, 220, 0.167);
+    color: rgba(163, 49, 229, 0.8);
+  }
 `;
 
 const ApplicationWrapper = styled.div`

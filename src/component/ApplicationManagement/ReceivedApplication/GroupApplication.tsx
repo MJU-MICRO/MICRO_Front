@@ -2,12 +2,14 @@ import axios from 'axios';
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
-const GroupApplication = ({ recruitmentId }) => {
+const GroupApplication = ({ recruitmentId, groupId }) => {
   useEffect(() => {
+    console.log(recruitmentId);
+    console.log(groupId);
     const getGroupRecruitments = () => {
       axios
         .get(
-          `https://nolmyong.com/api/president/application/list?recruitmentId=${recruitmentId}`
+          `https://nolmyong.com/api/president/application/list?recruitmentId=${recruitmentId}?groupId=${groupId}`
         )
         .then((response) => {
           console.log('이거안대면 망함', response.data.data);

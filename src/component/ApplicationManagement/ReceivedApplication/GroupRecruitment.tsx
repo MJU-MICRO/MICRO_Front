@@ -80,7 +80,10 @@ const GroupRecruitment = ({ groupId }) => {
         <NoDataWrapper>등록된 모집 공고가 없어요 😎</NoDataWrapper>
       )}
       {selectedRecruitmentId !== null && recruitments.length > 0 && (
-        <GroupApplication recruitmentId={selectedRecruitmentId} />
+        <GroupApplication
+          recruitmentId={selectedRecruitmentId}
+          groupId={groupId}
+        />
       )}
     </>
   );

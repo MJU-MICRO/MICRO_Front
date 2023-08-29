@@ -11,7 +11,7 @@ const ApplicationModal = ({ isOpen, onClose, children }) => {
           <CloseButtonImg src={close} alt='close ' />
         </CloseButton>
         <ModalContent>{children}</ModalContent>
-      </ModalWrapper>
+      </ModalWrapper>{' '}
     </ModalOverlay>
   );
 };
@@ -24,21 +24,40 @@ const ModalOverlay = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(3px);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999;
+  z-index: 99999;
 `;
 
 const ModalWrapper = styled.div`
   background-color: white;
-  padding: 4rem 2rem 2rem 2rem;
+  padding-top: 3rem;
   border-radius: 20px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+  max-width: calc(100vw - 4rem);
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
   position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: #06093022 transparent;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #06093022;
+    border-radius: 15px;
+    border: transparent;
+  }
 
   display: flex;
   flex-direction: column;

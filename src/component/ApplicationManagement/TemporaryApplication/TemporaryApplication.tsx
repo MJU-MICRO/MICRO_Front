@@ -5,6 +5,7 @@ import { RecruitmentsProps } from 'interfaces/RecruitmentsProps';
 import { UserSentApplicationProps } from 'interfaces/UserSentApplicationProps';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import DotButton from '../DotButton';
 import GroupApplicationComponent from '../GroupApplicationComponent';
 import { fetchGroups } from '../Util/GroupUtil';
 import { fetchFilteredRecruitments } from '../Util/RecruitmentUtil';
@@ -32,11 +33,11 @@ const TemporaryApplication = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const openModal = () => {
-    setModalOpen(true); // 모달 열기
+    setModalOpen(true);
   };
 
   const closeModal = () => {
-    setModalOpen(false); // 모달을 닫습니다.
+    setModalOpen(false);
   };
 
   // 사용자 임시 저장된 지원서 목록 가져오기
@@ -124,19 +125,19 @@ const TemporaryApplication = () => {
                   group={group}
                   applications={applications}
                   onUpdate={handleGroupApplicationUpdate}
-                  division={'tempApplication'}
+                  division={'temporaryApplication'}
                 />
               </div>
+              {modalOpen && (
+                <TemporaryApplicationModal
+                  isOpen={modalOpen}
+                  onClose={closeModal}
+                  applicationRecruitment={applications}
+                  userInfo={user}
+                  group={group}
+                />
+              )}
             </div>
-            {modalOpen && (
-              <TemporaryApplicationModal
-                isOpen={modalOpen}
-                onClose={closeModal}
-                applicationRecruitment={applications}
-                userInfo={user}
-                group={group}
-              />
-            )}
           </>
         ))
       )}
