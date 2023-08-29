@@ -100,12 +100,14 @@ const ProfileMenu = () => {
           <MenuImg src={logoutImg} alt='MenuImg' />
           <div>로그아웃</div>
         </Menu>
-        {isAdmin && (
-          <Menu className='admin'>
-            <MenuImg src={Admin} alt='MenuImg' />
-            <div>관리자 화면 전환</div>
-          </Menu>
-        )}
+        <NavLink to='/admin'>
+          {isAdmin && (
+            <Menu>
+              <MenuImg src={Admin} alt='MenuImg' />
+              <div>관리자 화면 전환</div>
+            </Menu>
+          )}
+        </NavLink>
       </MenuContainer>
     </Container>
   );
