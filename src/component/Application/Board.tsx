@@ -102,7 +102,7 @@ const Board: React.FC<BoardProps> = ({ recruitmentId }) => {
     updatedApplication.isSubmit = false;
     setApplication(updatedApplication);
     const dto = {
-      recruitmentId: recruitmentData?.recruitmentId,
+      recruitmentId: recruitmentId,
       answer: answer,
       grade: application.grade,
       supportField: supportField,
@@ -131,7 +131,7 @@ const Board: React.FC<BoardProps> = ({ recruitmentId }) => {
     updatedApplication.isSubmit = true;
     setApplication(updatedApplication);
     const dto = {
-      recruitmentId: 0,
+      recruitmentId: recruitmentId,
       answer: answer,
       grade: application.grade,
       supportField: supportField,
@@ -176,9 +176,9 @@ const Board: React.FC<BoardProps> = ({ recruitmentId }) => {
         setAnswer={setAnswer}
         characterLimit={characterLimit}
       />
-      <Link to={'/organizationList'}>
+      <StyledLink to={'/recruitmentList'}>
         <Buttons save={save} submit={submit} />
-      </Link>
+      </StyledLink>
     </BoardContainer>
   );
 };
