@@ -6,7 +6,7 @@ import dotImg from '../../../assets/dot.svg';
 import axios from 'axios';
 import { useAuth } from 'contexts/AuthContext';
 
-const DotButton = ({ applicationId, onUpdate }) => {
+const DotButton = ({ applicationId, onUpdate, division }) => {
   const [showButtonContainer, setShowButtonContainer] = useState(false);
   const buttonRef = useRef<HTMLDivElement | null>(null);
   const { accessToken } = useAuth();
@@ -60,7 +60,11 @@ const DotButton = ({ applicationId, onUpdate }) => {
       {showButtonContainer && (
         <ButtonContainer onClick={handleDeleteApplication}>
           <img src={deleteBtn} alt='deleteBtn' />
-          <Name>보낸 지원서에서 삭제하기 </Name>
+          <Name>
+            {division === 'sentApplication'
+              ? '보낸 지원서에서 삭제하기'
+              : '임시 저장된 지원서에서 삭제하기'}
+          </Name>
         </ButtonContainer>
       )}
     </Container>

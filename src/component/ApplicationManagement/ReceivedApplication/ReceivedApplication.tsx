@@ -79,9 +79,7 @@ const Des = styled.div`
 
 const GroupWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
+  flex-wrap: nowrap;
 `;
 
 const Group = styled.div<GroupProps>`
@@ -134,9 +132,11 @@ const Division = styled.div`
 
 const Line = styled.div`
   margin: 2rem 0;
-  width: 36.625rem;
+  width: 100%;
   height: 0.01875rem;
   background: rgba(0, 0, 0, 0.2);
 `;
 
-const GroupRecruitmentWrapper = styled.div``;
+const GroupRecruitmentWrapper = styled.div`
+  width: 100%;
+`;

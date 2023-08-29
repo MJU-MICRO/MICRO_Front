@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import StatusBlock from '../StatusBlock';
 import DotButton from './DotButton';
-import { RecruitmentData } from 'interfaces/RecruitmentData';
+import { RecruitmentsProps } from 'interfaces/RecruitmentsProps';
 
 interface PostProps {
-  recruitmentData: RecruitmentData[];
+  recruitmentData: RecruitmentsProps[];
 }
 const Post = ({ recruitmentData }: PostProps) => {
   return (

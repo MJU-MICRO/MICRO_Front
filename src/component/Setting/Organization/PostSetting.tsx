@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { RecruitmentData } from 'interfaces/RecruitmentData';
+
+import { RecruitmentsProps } from 'interfaces/RecruitmentsProps';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Post from './Post';
@@ -8,14 +9,16 @@ interface DefaultSettingProps {
   groupId: number;
 }
 const OrganizationPostSetting = ({ groupId }: DefaultSettingProps) => {
-  const [recruitmentData, setRecruitmentData] = useState<RecruitmentData[]>([]);
+  const [recruitmentData, setRecruitmentData] = useState<RecruitmentsProps[]>(
+    []
+  );
 
   useEffect(() => {
     const fetchRecruitmentData = async () => {
       try {
         const response = await axios.get('https://nolmyong.com/recruitments');
         const matchingRecruitments = response.data.data.filter(
-          (recruitment: RecruitmentData) => recruitment.groupId === groupId
+          (recruitment: RecruitmentsProps) => recruitment.groupId === groupId
         );
         setRecruitmentData(matchingRecruitments);
       } catch (error) {

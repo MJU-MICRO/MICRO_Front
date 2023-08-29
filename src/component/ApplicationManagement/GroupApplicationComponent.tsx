@@ -1,13 +1,18 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import img from '../../../assets/img.svg';
-import DotButton from './DotButton';
+import img from '../../assets/img.svg';
+import DotButton from './SentApplication/DotButton';
 
 interface StatusProps {
   daysleft: number;
 }
 
-const GroupApplicationComponent = ({ group, applications, onUpdate }) => {
+const GroupApplicationComponent = ({
+  group,
+  applications,
+  onUpdate,
+  division
+}) => {
   const recruitment = applications[0].recruitment;
   const application = applications[0].application;
   const today = new Date();
@@ -25,6 +30,7 @@ const GroupApplicationComponent = ({ group, applications, onUpdate }) => {
       <DotButton
         applicationId={application.id}
         onUpdate={handleDeleteAndUpdate}
+        division={division}
       />
       <Container>
         <GroupWrapper>

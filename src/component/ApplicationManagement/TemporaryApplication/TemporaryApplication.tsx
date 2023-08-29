@@ -1,16 +1,14 @@
 import axios from 'axios';
-import ClubRecruitmentCard from 'component/recruitment/ClubRecruitmentCard';
-import GroupComponent from 'component/Setting/MyProfile/GroupComponent';
 import { useAuth } from 'contexts/AuthContext';
 import { GroupDetail } from 'interfaces/GroupDetailProps';
 import { RecruitmentsProps } from 'interfaces/RecruitmentsProps';
 import { UserSentApplicationProps } from 'interfaces/UserSentApplicationProps';
-
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import GroupApplicationComponent from '../GroupApplicationComponent';
 import { fetchGroups } from '../Util/GroupUtil';
 import { fetchFilteredRecruitments } from '../Util/RecruitmentUtil';
-import GroupApplicationComponent from '../GroupApplicationComponent';
+import TemporaryApplicationModal from './TemporaryApplicationModal';
 
 interface GroupApplicationData {
   group: GroupDetail;
@@ -20,20 +18,36 @@ interface GroupApplicationData {
   }[];
 }
 
-const SentApplication = () => {
-  const { accessToken } = useAuth();
+const TemporaryApplication = () => {
+  const { accessToken, user } = useAuth();
   const [applicationList, setApplicationList] = useState<
     UserSentApplicationProps[]
   >([]);
   const [filteredRecruitments, setFilteredRecruitments] = useState<
     RecruitmentsProps[]
   >([]);
-  const [filteredGroups, setFilteredGroups] = useState<GroupDetail[]>([]);
 
-  // 사용자 지원서 목록 가져오기
+  const [filteredGroups, setFilteredGroups] = useState<GroupDetail[]>([]);
+  // 모달 노출 여부
+  const [modalOpen, setModalOpen] = useState(false);
+  // 선택한 신청서 정보 저장
+  const [selectedApplication, setSelectedApplication] = useState(null);
+
+  const [selectedRecruitment, setSelectedRecruitment] = useState(null);
+
+  const openModal = (application) => {
+    setSelectedRecruitment(application.recruitment); // 선택한 모집 공고 정보 저장
+    setModalOpen(true); // 모달 열기
+  };
+
+  const closeModal = () => {
+    setModalOpen(false); // 모달을 닫습니다.
+  };
+
+  // 사용자 임시 저장된 지원서 목록 가져오기
   const getUserApplicationList = () => {
     axios
-      .get('https://nolmyong.com/api/application/userList', {
+      .get('https://nolmyong.com/api/application/tempList', {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -43,10 +57,9 @@ const SentApplication = () => {
         setApplicationList(applicationData);
       })
       .catch((error) => {
-        console.log('application/userList 호출 실패 ', error);
+        console.log('/application/tempList 호출 실패 ', error);
       });
   };
-
   useEffect(() => {
     getUserApplicationList();
   }, []);
@@ -100,29 +113,40 @@ const SentApplication = () => {
     getUserApplicationList();
   };
 
-  console.log(combinedData);
   return (
     <div>
-      <Header> 보낸 지원서 </Header>
+      <Header> 작성 중인 지원서 </Header>
       {combinedData.length === 0 ? (
-        <NoDataContainer>보낸 지원서가 없어요 📭</NoDataContainer>
+        <NoDataContainer>작성 중인 지원서가 없어요 📭</NoDataContainer>
       ) : (
         combinedData.map(({ group, applications }) => (
-          <GroupApplicationComponent
-            key={group.id}
-            group={group}
-            applications={applications}
-            onUpdate={handleGroupApplicationUpdate}
-            division='sentApplication'
-          />
+          <div key={group.id}>
+            <div onClick={() => openModal(applications[0])}>
+              <GroupApplicationComponent
+                key={group.id}
+                group={group}
+                applications={applications}
+                onUpdate={handleGroupApplicationUpdate}
+                division={'tempApplication'}
+              />
+            </div>
+          </div>
         ))
+      )}
+      {selectedRecruitment && ( // 선택한 모집 공고가 있을 때만 모달 렌더링
+        <TemporaryApplicationModal
+          isOpen={modalOpen}
+          onClose={closeModal}
+          recruitmentApplication={selectedRecruitment}
+          userInfo={user}
+          group={undefined}
+        />
       )}
     </div>
   );
 };
 
-export default SentApplication;
-
+export default TemporaryApplication;
 const Header = styled.div`
   color: rgba(0, 0, 0, 0.7);
   font-family: Gmarket Sans TTF;
