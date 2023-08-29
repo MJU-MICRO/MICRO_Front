@@ -20,6 +20,7 @@ import { ApprovedGroupsProvider } from 'contexts/GroupContext';
 import DefaultSetting from 'component/Setting/Organization/DefaultSetting';
 import CreateRecruitmentSecond from './screens/Recruitment/CreateRecruitmentSecond';
 import Application from 'screens/Application/Application';
+import ScrollToTop from 'component/Common/ScrollToTop';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
       <AuthProvider>
         <ApprovedGroupsProvider>
           <Header />
+          <ScrollToTop />
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/application' element={<Application />} />
