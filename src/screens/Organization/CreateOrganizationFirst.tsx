@@ -44,7 +44,7 @@ function CreateOrganizationFirst() {
     smallCategory: '',
     subCategory: '',
     presidentId: 0,
-    isApprove: false
+    approve: false
   });
   const handleInputChange = (field: keyof OrganizationProps, value: any) => {
     setOrganization((prevOrganization) => ({

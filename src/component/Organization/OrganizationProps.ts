@@ -10,7 +10,7 @@ export interface OrganizationProps {
   activityTitle: string[];
   activityContent: string[];
   recruit: boolean;
-  isApprove: boolean;
+  approve: boolean;
   campus: string;
   largeCategory: string;
   mediumCategory: string;

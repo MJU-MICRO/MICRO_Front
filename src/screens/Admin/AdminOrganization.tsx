@@ -80,7 +80,6 @@ const AdminOrganization = () => {
       console.error('Error fetching data:', error);
     }
   };
-
   useEffect(() => {
     fetchData(getMyData, setMyData);
   }, []);

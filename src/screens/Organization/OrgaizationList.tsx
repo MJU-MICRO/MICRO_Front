@@ -31,7 +31,11 @@ const OrganizationList = () => {
       .then((response) => {
         if (response.data.data) {
           setSampleData2(response.data.data);
-          console.log('api/group 호출 성공');
+          console.log(sampleData2);
+          setClubData(sampleClubData);
+          setStudentCouncilData(sampleStudentCouncilData);
+          console.log(sampleClubData);
+          console.log(sampleStudentCouncilData);
         } else {
           console.error(response.data.data);
         }
