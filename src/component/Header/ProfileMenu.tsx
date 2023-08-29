@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import myProfile from '../../assets/Header/myProfile.svg';
 import setting from '../../assets/Header/setting.svg';
 import organizationSetting from '../../assets/Header/organizationSetting.svg';
-import logoutImg from '../../assets/Header/Logout.svg';
+import logoutImg from '../../assets/Header/Logout1.svg';
 import Admin from '../../assets/Header/admin.svg';
 import Modal from 'component/Common/Modal';
 import { useApprovedGroups } from 'contexts/GroupContext';
