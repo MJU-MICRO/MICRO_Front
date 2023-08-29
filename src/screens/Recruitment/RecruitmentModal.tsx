@@ -24,6 +24,7 @@ import { Link, useParams } from 'react-router-dom';
 import { RecruitmentProps } from '../../component/recruitment/RecruitmentProps';
 import { OrganizationProps } from '../../component/Organization/OrganizationProps';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const ModalBody = styled.div`
   max-height: calc(100vh - 200px);
@@ -143,6 +144,21 @@ const RecruitmentModal = ({
   if (!isOpen || !recruitmentData || !clubData) {
     return null;
   }
+  const handleSupportClick = () => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      Swal.fire({
+        text: '로그인 먼저 진행해주세요.',
+        icon: 'error',
+        confirmButtonText: '닫기'
+      });
+    } else {
+      // Redirect to the support page or perform any other action
+      // Here, I'm assuming you're using react-router-dom
+      // You can adjust the URL and navigation logic as needed
+      window.location.href = `/application?state=${recruitmentData.recruitmentId}`;
+    }
+  };
   return (
     <ModalOverlay onClick={handleOverlayClick}>
       <ModalWrapper>
@@ -187,9 +203,9 @@ const RecruitmentModal = ({
               </PeriodWrapper>
             </Description2>
             {clubData && clubData.recruit ? (
-              <Link to={'/application'} state={recruitmentData.recruitmentId}>
-                <SupportButton>지원하기</SupportButton>
-              </Link>
+              <SupportButton onClick={handleSupportClick}>
+                지원하기
+              </SupportButton>
             ) : (
               <SupportButton
                 style={{

@@ -24,6 +24,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { OrganizationProps } from '../../component/Organization/OrganizationProps';
 import axios from 'axios';
 import { RecruitmentProps } from '../../component/recruitment/RecruitmentProps';
+import Swal from 'sweetalert2';
 
 type QuestionType = 'long' | 'short' | 'checkbox';
 
@@ -158,11 +159,19 @@ const CreateRecruitmentSecond: React.FC = () => {
       )
       .then((response) => {
         console.log(response);
-        alert('등록 되었습니다.');
+        Swal.fire({
+          text: '모집공고가 등록되었습니다.',
+          icon: 'success',
+          confirmButtonText: '닫기'
+        });
       })
       .catch((error) => {
         console.error('Error updating return status:', error);
-        alert('등록 되었습니다.');
+        Swal.fire({
+          text: '모집공고 등록에 실패했습니다.',
+          icon: 'error',
+          confirmButtonText: '닫기'
+        });
       });
   };
   return (
