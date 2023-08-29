@@ -12,15 +12,15 @@ import StudentCouncilDetail from './screens/Organization/StudentCouncilDetail';
 import CreateOrganizationFirst from './screens/Organization/CreateOrganizationFirst';
 import CreateRecruitmentFirst from './screens/Recruitment/CreateRecruitmentFirst';
 import CreateOrganizationSecond from './screens/Organization/CreateOrganizationSecond';
-import Setting from 'screens/UserSetting/User/Setting';
-import ApplicationManagement from 'screens/applicationManagement/ApplicationManagement';
-import MyProfile from 'screens/UserSetting/User/MyProfile';
-import OrganizationSetting from 'screens/UserSetting/organization/OrganizationSetting';
-import { AuthProvider } from 'contexts/AuthContext';
-import { ApprovedGroupsProvider } from 'contexts/GroupContext';
+import Setting from './screens/UserSetting/User/Setting';
+import ApplicationManagement from './screens/applicationManagement/ApplicationManagement';
+import MyProfile from './screens/UserSetting/User/MyProfile';
+import OrganizationSetting from './screens/UserSetting/organization/OrganizationSetting';
+import { AuthProvider } from './contexts/AuthContext';
+import { ApprovedGroupsProvider } from './contexts/GroupContext';
 import CreateRecruitmentSecond from './screens/Recruitment/CreateRecruitmentSecond';
-import Application from 'screens/Application/Application';
-import AdminOrganization from 'screens/Admin/AdminOrganization';
+import Application from './screens/Application/Application';
+import AdminOrganization from './screens/Admin/AdminOrganization';
 
 function App() {
   // eslint-disable-next-line no-restricted-globals
