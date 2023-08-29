@@ -7,7 +7,7 @@ import message from '../../assets/Header/message.svg';
 import Modal from 'component/Common/Modal';
 import { useAuth } from 'contexts/AuthContext';
 import * as Styled from './HeaderStyles';
-import newPost from '../../assets/Header/newPost.svg';
+import newPost from '../../assets/Header/newPost1.svg';
 import ProfileMenu from './ProfileMenu';
 import logo from '../../assets/logo.svg';
 import LoginModalContent from './LoginModalContent';
