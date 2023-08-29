@@ -29,6 +29,7 @@ const OrganizationList = () => {
       .then((response) => {
         if (response.data.data) {
           setSampleData2(response.data.data);
+          console.log(sampleData2);
           setClubData(sampleClubData);
           setStudentCouncilData(sampleStudentCouncilData);
           console.log(sampleClubData);
