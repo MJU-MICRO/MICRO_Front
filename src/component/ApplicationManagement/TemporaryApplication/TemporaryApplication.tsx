@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { useAuth } from 'contexts/AuthContext';
-import { GroupDetail } from 'interfaces/GroupDetailProps';
-import { RecruitmentsProps } from 'interfaces/RecruitmentsProps';
-import { UserSentApplicationProps } from 'interfaces/UserSentApplicationProps';
+import { useAuth } from '../../../contexts/AuthContext';
+import { GroupDetail } from '../../../interfaces/GroupDetailProps';
+import { RecruitmentsProps } from '../../../interfaces/RecruitmentsProps';
+import { UserSentApplicationProps } from '../../../interfaces/UserSentApplicationProps';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import DotButton from '../DotButton';

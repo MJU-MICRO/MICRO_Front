@@ -1,17 +1,15 @@
 import axios from 'axios';
-import ClubRecruitmentCard from 'component/recruitment/ClubRecruitmentCard';
-import GroupComponent from 'component/Setting/MyProfile/GroupComponent';
-import { useAuth } from 'contexts/AuthContext';
-import { GroupDetail } from 'interfaces/GroupDetailProps';
-import { RecruitmentsProps } from 'interfaces/RecruitmentsProps';
-import { UserSentApplicationProps } from 'interfaces/UserSentApplicationProps';
+
+import { useAuth } from '../../../contexts/AuthContext';
+import { GroupDetail } from '../../../interfaces/GroupDetailProps';
+import { RecruitmentsProps } from '../../../interfaces/RecruitmentsProps';
+import { UserSentApplicationProps } from '../../../interfaces/UserSentApplicationProps';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { fetchGroups } from '../Util/GroupUtil';
 import { fetchFilteredRecruitments } from '../Util/RecruitmentUtil';
 import GroupApplicationComponent from '../GroupApplicationComponent';
-import DotButton from '../DotButton';
 import SentApplicationModal from './SentApplicationModal';
 
 interface GroupApplicationData {

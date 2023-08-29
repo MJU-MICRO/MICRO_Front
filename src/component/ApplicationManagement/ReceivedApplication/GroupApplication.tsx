@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useAuth } from 'contexts/AuthContext';
+import { useAuth } from '../../../contexts/AuthContext';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ReceivedApplicationModal from './ReceivedApplicationModal';

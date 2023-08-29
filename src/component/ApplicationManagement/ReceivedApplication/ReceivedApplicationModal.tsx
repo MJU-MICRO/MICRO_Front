@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { useAuth } from 'contexts/AuthContext';
-import { RecruitmentsProps } from 'interfaces/RecruitmentsProps';
+import { useAuth } from '../../../contexts/AuthContext';
+import { RecruitmentsProps } from '../../../interfaces/RecruitmentsProps';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import styled from 'styled-components';

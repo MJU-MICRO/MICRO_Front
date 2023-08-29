@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import statusChangeImg from '../../assets/statusChagneImg.svg';
+
+import axios from 'axios';
+import { useAuth } from '../../contexts/AuthContext';
+
 import deleteBtn from '../../assets/deleteBtn.svg';
 import dotImg from '../../assets/dot.svg';
-import axios from 'axios';
-import { useAuth } from 'contexts/AuthContext';
 
 const DotButton = ({ applicationId, division, onDelete }) => {
   const [showButtonContainer, setShowButtonContainer] = useState(false);

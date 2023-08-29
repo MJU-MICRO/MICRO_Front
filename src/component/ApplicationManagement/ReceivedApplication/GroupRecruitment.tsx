@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { RecruitmentsProps } from 'interfaces/RecruitmentsProps';
+import { RecruitmentsProps } from '../../../interfaces/RecruitmentsProps';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import GroupApplication from './GroupApplication';

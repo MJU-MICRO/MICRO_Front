@@ -1,12 +1,12 @@
 import { UserSentApplicationProps } from '../../../interfaces/UserSentApplicationProps';
 import BasicInfo from '../ApplicationCommon/BasicInfo';
-import TextareaContainer from 'component/Application/TextareaContainer';
-import { RecruitmentProps } from 'component/recruitment/RecruitmentProps';
+import TextareaContainer from '../../../component/Application/TextareaContainer';
+import { RecruitmentProps } from '../../../component/recruitment/RecruitmentProps';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import ApplicationModal from '../ApplicationCommon/ApplicationModal';
-import Buttons from 'component/Application/Buttons';
+import Buttons from '../../../component/Application/Buttons';
 import axios from 'axios';
 
 const TemporaryApplicationModal = ({
