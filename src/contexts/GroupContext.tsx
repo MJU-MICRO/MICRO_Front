@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import { ApprovedGroup } from 'interfaces/ApprovedProps';
+import { ApprovedGroup } from 'interfaces/ApprovedGroupProps';
 
 const ApprovedGroupsContext = createContext<ApprovedGroup[]>([]);
 

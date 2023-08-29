@@ -5,7 +5,7 @@ import check_box from '../../assets/check-box.svg';
 import level_one from '../../assets/level-one.svg';
 import level_two from '../../assets/level-two.svg';
 import arrow from '../../assets/arrow.svg';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import img from '../../assets/img.svg';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useDropzone } from 'react-dropzone';
@@ -40,20 +40,38 @@ import {
   ImageContainer
 } from '../../component/CreateRecruitment/CreateRecruitmentStyles';
 import { RecruitmentProps } from '../../component/recruitment/RecruitmentProps';
+import { OrganizationProps } from '../../component/Organization/OrganizationProps';
+import IntroductionStudent from '../../component/CreateRecruitment/IntroductionStudent';
+import IntroductionClub from '../../component/CreateRecruitment/IntroductionClub';
 
 const CreateRecruitmentFirst: React.FC = () => {
+  const id = localStorage.getItem('groupId');
+  const [clubData, setClubData] = useState<OrganizationProps | undefined>();
+  useEffect(() => {
+    axios
+      .get(`https://nolmyong.com/api/group/${id}`)
+      .then((response) => {
+        if (response.data.data) {
+          setClubData(response.data.data);
+        } else {
+          console.error(response.data.data);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching group data:', error);
+      });
+  }, [id]);
   const [recruitment, setRecruitment] = useState<RecruitmentProps>({
     recruitmentId: 0,
     groupId: 0,
     title: '',
     content: '',
     description: '',
-    fields: [],
+    applicationFields: [],
     startDateTime: '',
     endDateTime: '',
     activePeriod: '',
     activePlace: '',
-    question: [],
     characterLimit: [],
     captions: [],
     recruitmentImageUrl: [],
@@ -78,26 +96,6 @@ const CreateRecruitmentFirst: React.FC = () => {
     updatedCaptions[index] = value;
     setCaptions(updatedCaptions);
   };
-  // Group 정보
-  const [groupData, setGroupData] = useState({
-    logoImageUrl: img,
-    groupName: '과일 러버',
-    groupCategory: '소모임',
-    groupCategories: ['디자인/사진/영상', '체육/헬스', 'IT/공학'],
-    groupIntroduce:
-      '안녕하세요, 저희는 과일 러버 소모임 과일 러버단입니다. 저희의 과일 사랑은 무한합니다. 사실 저는 수박만 좋아합니다. 다른 거를 좋아하기 위한 소모임입니다.'
-  });
-
-  useEffect(() => {
-    axios
-      .get('')
-      .then((response) => {
-        setGroupData(response.data);
-      })
-      .catch((error) => {
-        console.error('데이터 요청 실패:', error);
-      });
-  }, []);
 
   // 제목
   const [recruitmentTitle, setRecruitmentTitle] = useState<string>('');
@@ -149,6 +147,8 @@ const CreateRecruitmentFirst: React.FC = () => {
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setActiveContent(event.target.value);
+    console.log(activeContent);
+    handleInputChange('content', activeContent);
   };
 
   // 활동 기간
@@ -156,8 +156,6 @@ const CreateRecruitmentFirst: React.FC = () => {
 
   const handleActivePeriodClick = (period: string) => {
     setSelectedPeriod(period);
-
-    // 선택한 기간에 따라 값을 설정하여 서버로 전송
     let activePeriodValue: string;
     if (period === '한 학기') {
       activePeriodValue = 'SEMESTER';
@@ -168,6 +166,7 @@ const CreateRecruitmentFirst: React.FC = () => {
     } else {
       activePeriodValue = ''; // 기본값 설정
     }
+    console.log(activePeriodValue);
     handleInputChange('activePeriod', activePeriodValue);
   };
 
@@ -177,15 +176,17 @@ const CreateRecruitmentFirst: React.FC = () => {
   const [activePlace, setActivePlace] = useState<string>('');
   const handleStartDateChange = (date: Date | null) => {
     setStartDate(date);
+    console.log(startDate);
   };
   const handleActivePlaceChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setActivePlace(event.target.value);
-    handleInputChange('title', recruitmentTitle);
+    console.log(activePlace);
   };
   const handleEndDateChange = (date: Date | null) => {
     setEndDate(date);
+    console.log(endDate);
   };
 
   // 사진첨부
@@ -215,15 +216,22 @@ const CreateRecruitmentFirst: React.FC = () => {
   };
 
   // 임시저장
-  const handleSaveButtonClick = async () => {
-    handleInputChange('title', recruitmentTitle);
-    handleInputChange('fields', recruitmentFields);
-    handleInputChange('content', activeContent);
-    handleInputChange('description', description);
-    handleInputChange('startDateTime', startDate);
-    handleInputChange('endDateTime', endDate);
-    handleInputChange('activePlace', activePlace);
-    handleInputChange('captions', captions);
+  const handleSaveButtonClick = () => {
+    const updatedRecruitment: RecruitmentProps = {
+      ...recruitment,
+      groupId: Number(id),
+      title: recruitmentTitle,
+      applicationFields: recruitmentFields,
+      content: activeContent,
+      description: description,
+      startDateTime: startDate ? startDate.toISOString() : '',
+      endDateTime: endDate ? endDate.toISOString() : '',
+      activePlace: activePlace,
+      captions: captions
+    };
+
+    setRecruitment(updatedRecruitment);
+    console.log(updatedRecruitment);
   };
 
   return (
@@ -257,24 +265,18 @@ const CreateRecruitmentFirst: React.FC = () => {
             </BasicNoticeText>
           </TextContainer>
           <GroupContainer>
-            <LogoImage src={groupData.logoImageUrl} alt='로고 이미지' />
-            <InfoContainer>
-              <TextContainer>
-                <GroupName>{groupData.groupName}</GroupName>
-                <GroupLargeCategory>
-                  {groupData.groupCategory}
-                </GroupLargeCategory>
-                <CategoriesContainer>
-                  {groupData.groupCategories.map((category, index) => (
-                    <GroupCategories key={index}>{category}</GroupCategories>
-                  ))}
-                </CategoriesContainer>
-                <GroupIntroduce>{groupData.groupIntroduce}</GroupIntroduce>
-              </TextContainer>
-            </InfoContainer>
+            {clubData ? (
+              clubData.largeCategory === '학생단체' ? (
+                <IntroductionStudent {...clubData} />
+              ) : (
+                <IntroductionClub {...clubData} />
+              )
+            ) : (
+              // clubData가 null인 경우에 대한 처리
+              <div>Loading...</div>
+            )}
           </GroupContainer>
         </RecruitmentContainer>
-        {/* Form 시작 */}
         <FormContainer onSubmit={handleFormSubmit}>
           {/* 제목 */}
           <RecruitmentContainer>

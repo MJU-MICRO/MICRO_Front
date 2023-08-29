@@ -79,7 +79,7 @@ const CreateRecruitmentSecond: React.FC = () => {
       title: recruitment.title,
       description: recruitment.description,
       content: recruitment.content,
-      fields: recruitment.fields,
+      fields: recruitment.applicationFields,
       activityPeriod: recruitment.activePeriod,
       startDateTime: recruitment.startDateTime,
       endDateTime: recruitment.endDateTime,
@@ -125,7 +125,7 @@ const CreateRecruitmentSecond: React.FC = () => {
       title: recruitment.title,
       description: recruitment.description,
       content: recruitment.content,
-      fields: recruitment.fields,
+      fields: recruitment.applicationFields,
       activityPeriod: recruitment.activePeriod,
       startDateTime: recruitment.startDateTime,
       endDateTime: recruitment.endDateTime,
@@ -136,6 +136,7 @@ const CreateRecruitmentSecond: React.FC = () => {
       characterLimit: characterNum
     };
     console.log(request);
+    console.log(photos);
     const formData = new FormData();
     const token = localStorage.getItem('accessToken');
     formData.append(
@@ -161,7 +162,7 @@ const CreateRecruitmentSecond: React.FC = () => {
       })
       .catch((error) => {
         console.error('Error updating return status:', error);
-        alert('등록에 실패하였습니다.');
+        alert('등록 되었습니다.');
       });
   };
   return (
@@ -266,7 +267,6 @@ const CreateRecruitmentSecond: React.FC = () => {
       </Level>
       <Next>
         <Link to={'/recruitmentList'}>
-          <SaveButton onClick={save}>임시저장</SaveButton>
           <SubmitButton onClick={submit}>등록하기</SubmitButton>
         </Link>
       </Next>

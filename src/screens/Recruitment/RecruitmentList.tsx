@@ -10,11 +10,21 @@ import StudentCouncilRecruitmentCard from '../../component/recruitment/StudentCo
 import ClubRecruitmentCard from '../../component/recruitment/ClubRecruitmentCard';
 import RecruitmentModal from './RecruitmentModal';
 import axios from 'axios';
+import Modal from '../../component/Common/Modal';
+import * as Styled from '../../component/Header/HeaderStyles';
+import MyOrganization from '../../component/Setting/MyProfile/MyOrganization';
 
 const RecruitmentList = () => {
   const [recruitmentData, setRecruitmentData] = useState<RecruitmentProps[]>(
     []
   );
+  const [isOrganizationContent, setIsOrganizationContent] = useState(false);
+  const closeOrganizationModal = () => {
+    setIsOrganizationContent(false);
+  };
+  const openOrganizationModal = () => {
+    setIsOrganizationContent(true);
+  };
   const [organizationData, setOrganizationData] = useState<OrganizationProps[]>(
     []
   );
@@ -98,7 +108,13 @@ const RecruitmentList = () => {
       );
     }
   );
-
+  const organizationModalContent = (
+    <>
+      <Styled.PostModalContentWrapper>
+        <MyOrganization />
+      </Styled.PostModalContentWrapper>
+    </>
+  );
   return (
     <Wrapper>
       <Sidebar
@@ -117,13 +133,11 @@ const RecruitmentList = () => {
           <p>관심 주제 별로 모집 공고를 찾아보세요!</p>
         </Introduction>
         <CardList>
-          <ApplyCard>
-            <Link to={'/createRecruitmentFirst'}>
-              <img src={plus_Icon} className='plus_Icon' alt='plus' />
-              <div>우리 단체 모집 공고 등록하기</div>
-              <p>단체를 등록하고 놀명뭐하니 학우들을 대상으로</p>
-              <p>편리하게 모집공고를 등록하고 관리해보세요!</p>
-            </Link>
+          <ApplyCard onClick={openOrganizationModal}>
+            <img src={plus_Icon} className='plus_Icon' alt='plus' />
+            <div>우리 단체 모집 공고 등록하기</div>
+            <p>단체를 등록하고 놀명뭐하니 학우들을 대상으로</p>
+            <p>편리하게 모집공고를 등록하고 관리해보세요!</p>
           </ApplyCard>
           {filteredClubData.map((club) => {
             const matchingRecruitment = recruitmentData.find(
@@ -161,9 +175,17 @@ const RecruitmentList = () => {
           onClose={closeModal}
           selectedRecruitmentId={selectedRecruitmentId}
           selectedClubId={selectedClubId}
-          recruitmentData={recruitmentData}
-          clubData={filteredClubData}
         />
+        {isOrganizationContent && (
+          <Modal
+            closeModal={closeOrganizationModal}
+            width={'30.1875rem'}
+            height={'fit-content'}
+            header={'단체 선택'}
+            children={organizationModalContent}
+            description={''}
+          />
+        )}
       </Content>
     </Wrapper>
   );

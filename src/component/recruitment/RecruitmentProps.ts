@@ -6,12 +6,11 @@ export interface RecruitmentProps {
   title: string;
   content: string;
   description: string;
-  fields: string[];
+  applicationFields: string[];
   startDateTime: string;
   endDateTime: string;
   activePeriod: string;
   activePlace: string;
-  question: string[];
   characterLimit: number[];
   captions: string[];
   recruitmentImageUrl: string[];

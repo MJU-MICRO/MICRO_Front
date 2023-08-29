@@ -12,6 +12,7 @@ import downArrow from '../../assets/downArrow.svg';
 import UpArrow from '../../assets/UpArrow.svg';
 import FillHeart from '../../assets/FillHeart.svg';
 import defaultHeart from '../../assets/defaultHeart.svg';
+import Default_img from '../../assets/userDefaultImg.svg';
 
 function ClubDetail() {
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -25,16 +26,20 @@ function ClubDetail() {
   const [clubData, setClubData] = useState<OrganizationProps | null>(null);
   const [recruitmentData, setRecruitmentData] =
     useState<RecruitmentProps | null>(null);
+  const [formattedStartDate, setFormattedStartDate] = useState<string | null>(
+    null
+  ); // Move them here
+  const [formattedEndDate, setFormattedEndDate] = useState<string | null>(null); // Move them here
   const toggleBookmark = async () => {
     const newBookmarkStatus = !isBookmarked;
     setIsBookmarked(newBookmarkStatus);
 
-    const token = localStorage.getItem('userToken'); // Retrieve the user's token from local storage or another source
+    const token = localStorage.getItem('accessToken');
 
     try {
       if (newBookmarkStatus) {
         // Bookmark the group
-        await axios.post(
+        await axios.put(
           `/api/bookmark/${id}`,
           {},
           { headers: { Authorization: `Bearer ${token}` } }
@@ -42,9 +47,13 @@ function ClubDetail() {
         console.log('북마크 등록');
       } else {
         // Unbookmark the group
-        await axios.delete(`/api/bookmark/${id}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        await axios.put(
+          `/api/bookmark/${id}`,
+          {},
+          {
+            headers: { Authorization: `Bearer ${token}` }
+          }
+        );
         console.log('북마크 해제');
       }
     } catch (error) {
@@ -69,6 +78,7 @@ function ClubDetail() {
       .then((response) => {
         if (response.data.data) {
           setClubData(response.data.data);
+          console.log(clubData?.imageUrl);
         } else {
           console.error(response.data.data);
         }
@@ -89,7 +99,7 @@ function ClubDetail() {
         console.error('Error fetching recruitment data:', error);
       });
   }, []);
-
+  const logoImageUrl = clubData?.imageUrl || Default_img;
   useEffect(() => {
     const foundClub = clubDatalist.find((club) => club.id === id);
 
@@ -101,11 +111,24 @@ function ClubDetail() {
         new Date(b.startDateTime).getTime() -
         new Date(a.startDateTime).getTime()
     );
-
+    const logoImageUrl = clubData?.imageUrl || Default_img;
     const latestRecruitment = sortedRecruitments[0];
-
     if (foundClub && latestRecruitment) {
       setRecruitmentData(latestRecruitment);
+
+      // Format and set the start date
+      const startDate = new Date(latestRecruitment.startDateTime);
+      const formattedStart = `${startDate.getFullYear()}-${
+        startDate.getMonth() + 1
+      }-${startDate.getDate()}`;
+      setFormattedStartDate(formattedStart);
+
+      // Format and set the end date
+      const endDate = new Date(latestRecruitment.endDateTime);
+      const formattedEnd = `${endDate.getFullYear()}-${
+        endDate.getMonth() + 1
+      }-${endDate.getDate()}`;
+      setFormattedEndDate(formattedEnd);
     } else {
       console.error(`Club with id ${id} not found.`);
     }
@@ -130,7 +153,7 @@ function ClubDetail() {
             alt='Bookmark'
             onClick={toggleBookmark}
           />
-          <Logo src={img} alt='로고 이미지' />
+          <Logo src={logoImageUrl} alt='로고 이미지' />
           <h3>{clubData.groupName}</h3>
           <Classification>{clubData.mediumCategory}</Classification>
           <Details> {clubData.introduction} </Details>
@@ -177,7 +200,7 @@ function ClubDetail() {
           <RecruitWrapper>
             <DateWrapper>
               <ArrowIcon1 src={downArrow} />
-              <RecruitDate>{recruitmentData?.startDateTime}</RecruitDate>
+              <RecruitDate>{formattedStartDate}</RecruitDate>
               <ArrowIcon2 src={UpArrow} />
             </DateWrapper>
             <CardContainer key={clubData.id} onClick={() => openModal()}>
@@ -205,8 +228,6 @@ function ClubDetail() {
         onClose={closeModal}
         selectedRecruitmentId={recruitmentData?.recruitmentId}
         selectedClubId={id}
-        recruitmentData={recruitmentData}
-        clubData={clubData}
       />
     </BackGround>
   );

@@ -3,29 +3,31 @@ import {
   CardContainer,
   LogoImage,
   CardInfo,
-  Status,
+  ActivePeriod,
   Details,
   InterestTag,
   Wrapper,
   UpWrapper,
   BorderLine,
-  Name
-} from './OrganizationCardStyles';
-import img from '../../assets/img.svg';
-import { OrganizationProps } from './OrganizationProps';
+  Large,
+  SecondWrapper,
+  OrganizationName
+} from './CardStyles';
+import { OrganizationProps } from '../Organization/OrganizationProps';
 import Default_img from '../../assets/userDefaultImg.svg';
 
-function StudentCouncilCard({
+const ModalIntroductionStudent = ({
   groupName,
-  recruit,
-  campus,
   imageUrl,
+  establishedYear,
+  numOfMember,
+  campus,
   largeCategory,
   mediumCategory,
   smallCategory,
   subCategory,
   introduction
-}: OrganizationProps) {
+}: OrganizationProps) => {
   const logoImageUrl = imageUrl || Default_img;
   return (
     <CardContainer>
@@ -33,25 +35,23 @@ function StudentCouncilCard({
         <LogoImage src={logoImageUrl} alt='로고 이미지' />
         <CardInfo>
           <Wrapper>
-            <Name>{groupName}</Name>
-            {recruit && <Status>모집중</Status>}
+            <SecondWrapper>
+              <OrganizationName>{groupName}</OrganizationName>
+              <Large>{largeCategory}</Large>
+            </SecondWrapper>
           </Wrapper>
           <p>
-            {campus} · {largeCategory}
+            {campus} · {establishedYear}년 개설 · 회원 수 {numOfMember}
           </p>
           <InterestTag>{mediumCategory}</InterestTag>
           {smallCategory != '' && subCategory == '' && (
             <InterestTag>{smallCategory}</InterestTag>
           )}
           {subCategory != '' && <InterestTag>{subCategory}</InterestTag>}
+          <Details>{introduction}</Details>
         </CardInfo>
       </UpWrapper>
-      <BorderLine></BorderLine>
-      <Details>
-        <p>{introduction}</p>
-      </Details>
     </CardContainer>
   );
-}
-
-export default StudentCouncilCard;
+};
+export default ModalIntroductionStudent;

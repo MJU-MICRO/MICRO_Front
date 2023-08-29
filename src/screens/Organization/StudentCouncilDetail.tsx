@@ -12,6 +12,7 @@ import downArrow from '../../assets/downArrow.svg';
 import UpArrow from '../../assets/UpArrow.svg';
 import defaultHeart from '../../assets/defaultHeart.svg';
 import FillHeart from '../../assets/FillHeart.svg';
+import Default_img from '../../assets/userDefaultImg.svg';
 function StudentCouncilDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -23,15 +24,20 @@ function StudentCouncilDetail() {
   const [recruitmentDatalist, setRecruitmentDatalist] = useState<
     RecruitmentProps[]
   >([]);
+  const [formattedStartDate, setFormattedStartDate] = useState<string | null>(
+    null
+  ); // Move them here
+  const [formattedEndDate, setFormattedEndDate] = useState<string | null>(null);
   const [studentCouncilData, setStudentCouncilData] =
     useState<OrganizationProps | null>(null);
   const [recruitmentData, setRecruitmentData] =
     useState<RecruitmentProps | null>(null);
+  const logoImageUrl = studentCouncilData?.imageUrl || Default_img;
   const toggleBookmark = async () => {
     const newBookmarkStatus = !isBookmarked;
     setIsBookmarked(newBookmarkStatus);
 
-    const token = localStorage.getItem('userToken'); // Retrieve the user's token from local storage or another source
+    const token = localStorage.getItem('accessToken'); // Retrieve the user's token from local storage or another source
 
     try {
       if (newBookmarkStatus) {
@@ -44,9 +50,13 @@ function StudentCouncilDetail() {
         console.log('북마크 등록');
       } else {
         // Unbookmark the group
-        await axios.put(`/api/bookmark/${id}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        await axios.put(
+          `/api/bookmark/${id}`,
+          {},
+          {
+            headers: { Authorization: `Bearer ${token}` }
+          }
+        );
         console.log('북마크 해제');
       }
     } catch (error) {
@@ -108,6 +118,20 @@ function StudentCouncilDetail() {
 
     if (foundClub && latestRecruitment) {
       setRecruitmentData(latestRecruitment);
+
+      // Format and set the start date
+      const startDate = new Date(latestRecruitment.startDateTime);
+      const formattedStart = `${startDate.getFullYear()}-${
+        startDate.getMonth() + 1
+      }-${startDate.getDate()}`;
+      setFormattedStartDate(formattedStart);
+
+      // Format and set the end date
+      const endDate = new Date(latestRecruitment.endDateTime);
+      const formattedEnd = `${endDate.getFullYear()}-${
+        endDate.getMonth() + 1
+      }-${endDate.getDate()}`;
+      setFormattedEndDate(formattedEnd);
     } else {
       console.error(`Club with id ${id} not found.`);
     }
@@ -133,7 +157,7 @@ function StudentCouncilDetail() {
             alt='Bookmark'
             onClick={toggleBookmark}
           />
-          <Logo src={img} alt='로고 이미지' />
+          <Logo src={logoImageUrl} alt='로고 이미지' />
           <h3>{studentCouncilData.groupName}</h3>
           <Classification>{studentCouncilData.largeCategory}</Classification>
           <Details> {studentCouncilData.introduction} </Details>
@@ -183,7 +207,7 @@ function StudentCouncilDetail() {
           <RecruitWrapper>
             <DateWrapper>
               <ArrowIcon1 src={downArrow} />
-              <RecruitDate>{recruitmentData?.startDateTime}</RecruitDate>
+              <RecruitDate>{formattedStartDate}</RecruitDate>
               <ArrowIcon2 src={UpArrow} />
             </DateWrapper>
             <CardContainer
@@ -213,8 +237,6 @@ function StudentCouncilDetail() {
         onClose={closeModal}
         selectedRecruitmentId={recruitmentData?.recruitmentId}
         selectedClubId={id}
-        recruitmentData={recruitmentData}
-        clubData={studentCouncilData}
       />
     </BackGround>
   );

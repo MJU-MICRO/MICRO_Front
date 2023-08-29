@@ -10,11 +10,11 @@ export const CardContainer = styled.div`
 
 export const LogoImage = styled.img`
   border-radius: 10px;
-  height: 79px;
-  width: 86px;
+  width: 139px;
+  height: 135px;
   margin-top: 22px;
   margin-left: 17px;
-  margin-right: 11px;
+  margin-right: 40px;
 `;
 
 export const CardInfo = styled.div`
@@ -108,9 +108,7 @@ export const Details = styled.div`
   font-family: 'GmarketSansLight';
   line-height: auto;
   color: #000000;
-  margin-left: 17px;
   margin-right: 13px;
-  margin-bottom: 41px;
   margin-top: 17px;
 `;
 
@@ -163,13 +161,13 @@ export const InterestTag = styled.span`
   font-weight: 300;
   line-height: normal;
   padding: 5.5px;
-  float: left;
 `;
 
 export const Wrapper = styled.div`
   display: flex;
   justify-content: flex-start;
-  width: 460px;
+  width: 600px;
+  margin-top: 5px;
 `;
 
 export const UpWrapper = styled.div`
@@ -179,9 +177,9 @@ export const UpWrapper = styled.div`
 
 export const BorderLine = styled.hr`
   stroke-width: 2px;
-  width: 555px;
+  width: 755px;
   flex-shrink: 0;
-  margin-left: 17px;
+  margin-left: 20px;
   margin-right: 8px;
   margin-top: 20px;
   color: #dbdbdf;

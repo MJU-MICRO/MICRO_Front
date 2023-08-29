@@ -148,8 +148,7 @@ function CreateOrganizationFirst() {
       organization.mediumCategory &&
       organization.smallCategory &&
       organization.subCategory &&
-      organization.relatedTag.length > 0 &&
-      organization.imageUrl
+      organization.relatedTag.length > 0
     );
   }
   const handleNextButtonClick = () => {

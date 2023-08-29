@@ -6,13 +6,13 @@ import { useLocation } from 'react-router-dom';
 
 function Application() {
   const location = useLocation();
-  const recruitmentData = location.state;
+  const recruitmentId = location.state;
   return (
     <div>
       <Header />
       <ApplicationContainer>
         <Notice />
-        <Board recruitmentData={recruitmentData} />
+        <Board recruitmentId={recruitmentId} />
       </ApplicationContainer>
     </div>
   );
