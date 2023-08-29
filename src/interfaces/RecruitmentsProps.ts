@@ -10,7 +10,7 @@ export interface RecruitmentsProps {
   recruitmentImageUrl: string[];
   captions: string[];
   activePlace: string;
-  questions: string[];
+  questions?: string[];
   characterLimit: number[];
   groupId: number;
   submit: boolean;

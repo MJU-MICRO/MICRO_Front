@@ -28,16 +28,19 @@ const ReceivedApplication = () => {
     <Container>
       <Header>받은 지원서</Header>
       <Des>단체 선택</Des>
+      {userOrganizations.length === 0 && <NoData>나의 단체가 없어요 😉</NoData>}
       <GroupWrapper>
         {userOrganizations.map((group) => (
-          <Group
-            key={group.id}
-            onClick={() => setSelectedGroup(group)}
-            isselected={selectedGroup === group}>
-            <img src={img} alt={group.groupName} />
-            <Name>{group.groupName}</Name>
-            <Division>{group.subCategory}</Division>
-          </Group>
+          <>
+            <Group
+              key={group.id}
+              onClick={() => setSelectedGroup(group)}
+              isselected={selectedGroup === group}>
+              <img src={group.logoImageUrl} alt={group.groupName} />
+              <Name>{group.groupName}</Name>
+              <Division>{group.subCategory}</Division>
+            </Group>
+          </>
         ))}
       </GroupWrapper>
       <Line />
@@ -55,6 +58,19 @@ export default ReceivedApplication;
 
 const Container = styled.div`
   width: 100%;
+`;
+const NoData = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10rem;
+  color: rgba(0, 0, 0, 0.7);
+  font-family: Gmarket Sans TTF;
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 `;
 
 const Header = styled.div`
@@ -88,6 +104,7 @@ const Group = styled.div<GroupProps>`
     width: 7.5rem;
     height: 6.64631rem;
     border-radius: 0.625rem;
+    object-fit: contain;
   }
   display: flex;
   flex-direction: column;
@@ -116,7 +133,7 @@ const Name = styled.div`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   margin-bottom: 0.5rem;
 `;
 

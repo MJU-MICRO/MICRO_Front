@@ -11,6 +11,8 @@ import styled from 'styled-components';
 import { fetchGroups } from '../Util/GroupUtil';
 import { fetchFilteredRecruitments } from '../Util/RecruitmentUtil';
 import GroupApplicationComponent from '../GroupApplicationComponent';
+import DotButton from '../DotButton';
+import SentApplicationModal from './SentApplicationModal';
 
 interface GroupApplicationData {
   group: GroupDetail;
@@ -29,6 +31,15 @@ const SentApplication = () => {
     RecruitmentsProps[]
   >([]);
   const [filteredGroups, setFilteredGroups] = useState<GroupDetail[]>([]);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   // 사용자 지원서 목록 가져오기
   const getUserApplicationList = () => {
@@ -95,33 +106,54 @@ const SentApplication = () => {
       applications: groupApplications
     };
   });
+  const [selectedApplications, setSelectedApplications] = useState<
+    UserSentApplicationProps | undefined
+  >(undefined);
 
-  const handleGroupApplicationUpdate = () => {
-    getUserApplicationList();
+  const handleGroupRecruitmentClick = (
+    applicationData: UserSentApplicationProps | undefined
+  ) => {
+    if (applicationData) {
+      setSelectedApplications(applicationData);
+      openModal();
+    }
   };
 
-  console.log(combinedData);
   return (
-    <div>
+    <Container>
       <Header> 보낸 지원서 </Header>
       {combinedData.length === 0 ? (
         <NoDataContainer>보낸 지원서가 없어요 📭</NoDataContainer>
       ) : (
         combinedData.map(({ group, applications }) => (
-          <GroupApplicationComponent
+          <GroupRecruitmentContainer
             key={group.id}
-            group={group}
-            applications={applications}
-            onUpdate={handleGroupApplicationUpdate}
-            division='sentApplication'
-          />
+            onClick={() =>
+              handleGroupRecruitmentClick(applications[0].application)
+            }>
+            <GroupApplicationComponent
+              key={group.id}
+              group={group}
+              applications={applications}
+              division='sentApplication'
+            />
+          </GroupRecruitmentContainer>
         ))
       )}
-    </div>
+      {modalOpen && (
+        <SentApplicationModal
+          isOpen={modalOpen}
+          onClose={closeModal}
+          applications={selectedApplications}
+        />
+      )}
+    </Container>
   );
 };
 
 export default SentApplication;
+
+const Container = styled.div``;
 
 const Header = styled.div`
   color: rgba(0, 0, 0, 0.7);
@@ -130,6 +162,11 @@ const Header = styled.div`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  margin-bottom: 3rem;
+`;
+
+const GroupRecruitmentContainer = styled.div`
+  padding: 0rem 0rem 2rem 0rem;
 `;
 
 const NoDataContainer = styled.div`

@@ -105,10 +105,25 @@ const TemporaryApplication = () => {
     };
   });
 
-  const handleGroupApplicationUpdate = () => {
-    getUserApplicationList();
+  const handleDeleteApplication = (applicationData) => {
+    const applicationId = applicationData.application?.id;
+    if (applicationId) {
+      axios
+        .delete(`/api/application/delete/${applicationId}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        })
+        .then((response) => {
+          console.log('지원서 삭제 요청 성공');
+          getUserApplicationList();
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error('delete/${applicationId} 요청 실패', error);
+        });
+    }
   };
-  console.log(combinedData);
 
   return (
     <div>
@@ -119,12 +134,16 @@ const TemporaryApplication = () => {
         combinedData.map(({ group, applications }) => (
           <>
             <div key={group.id}>
+              <DotButton
+                applicationId={applications[0].application?.id}
+                division={'temp'}
+                onDelete={() => handleDeleteApplication(applications[0])}
+              />
               <div onClick={() => openModal()}>
                 <GroupApplicationComponent
                   key={group.id}
                   group={group}
                   applications={applications}
-                  onUpdate={handleGroupApplicationUpdate}
                   division={'temporaryApplication'}
                 />
               </div>
@@ -153,6 +172,7 @@ const Header = styled.div`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  margin-bottom: 3rem;
 `;
 
 const NoDataContainer = styled.div`

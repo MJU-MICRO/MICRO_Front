@@ -42,6 +42,7 @@ const GroupRecruitment = ({ groupId }) => {
       prevId === recruitmentId ? null : recruitmentId
     );
   };
+
   return (
     <>
       {recruitments.length > 0 ? (

@@ -10,7 +10,7 @@ interface StatusProps {
 const GroupApplicationComponent = ({
   group,
   applications,
-  onUpdate,
+
   division
 }) => {
   const recruitment = applications[0].recruitment;
@@ -21,17 +21,8 @@ const GroupApplicationComponent = ({
     (endDateTime.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
   );
 
-  const handleDeleteAndUpdate = (deletedApplicationId) => {
-    onUpdate(deletedApplicationId);
-  };
-
   return (
     <>
-      <DotButton
-        applicationId={application.id}
-        onUpdate={handleDeleteAndUpdate}
-        division={division}
-      />
       <Container>
         <GroupWrapper>
           <ImgWrapper>

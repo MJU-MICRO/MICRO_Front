@@ -6,7 +6,7 @@ import dotImg from '../../assets/dot.svg';
 import axios from 'axios';
 import { useAuth } from 'contexts/AuthContext';
 
-const DotButton = ({ applicationId, onUpdate, division }) => {
+const DotButton = ({ applicationId, division, onDelete }) => {
   const [showButtonContainer, setShowButtonContainer] = useState(false);
   const buttonRef = useRef<HTMLDivElement | null>(null);
   const { accessToken } = useAuth();
@@ -33,7 +33,7 @@ const DotButton = ({ applicationId, onUpdate, division }) => {
       })
       .then((response) => {
         console.log('지원서 삭제 요청 성공');
-        onUpdate(applicationId);
+        onDelete();
       })
       .catch((error) => {
         console.error('delete/${applicationId} 요청 실패', error);
