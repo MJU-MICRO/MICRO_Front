@@ -4,7 +4,6 @@
   "private": true,
   "proxy": "https://nolmyong.com",
   "dependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
@@ -53,6 +52,7 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.2",
     "@types/dropzone": "^5.7.4",
     "@types/react-datepicker": "^4.15.0",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
