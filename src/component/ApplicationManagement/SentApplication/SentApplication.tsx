@@ -1,15 +1,17 @@
 import axios from 'axios';
-import GroupApplicationComponent from 'component/ApplicationManagement/GroupApplicationComponent';
-import { fetchGroups } from 'component/ApplicationManagement/Util/GroupUtil';
-import { fetchFilteredRecruitments } from 'component/ApplicationManagement/Util/RecruitmentUtil';
-import { useAuth } from 'contexts/AuthContext';
-import AppliedGroupProps from 'interfaces/AppliedGroupProps';
-import { GroupDetail } from 'interfaces/GroupDetailProps';
-import { RecruitmentsProps } from 'interfaces/RecruitmentsProps';
-import { UserSentApplicationProps } from 'interfaces/UserSentApplicationProps';
+
+import { useAuth } from '../../../contexts/AuthContext';
+import { GroupDetail } from '../../../interfaces/GroupDetailProps';
+import { RecruitmentsProps } from '../../../interfaces/RecruitmentsProps';
+import { UserSentApplicationProps } from '../../../interfaces/UserSentApplicationProps';
+
 import React, { useEffect, useState } from 'react';
-import { styled } from 'styled-components';
-import GroupComponent from './GroupComponent';
+import styled from 'styled-components';
+import { fetchGroups } from '../Util/GroupUtil';
+import { fetchFilteredRecruitments } from '../Util/RecruitmentUtil';
+import GroupApplicationComponent from '../GroupApplicationComponent';
+import SentApplicationModal from './SentApplicationModal';
+
 interface GroupApplicationData {
   group: GroupDetail;
   applications: {
@@ -17,7 +19,8 @@ interface GroupApplicationData {
     application: UserSentApplicationProps | undefined;
   }[];
 }
-const UserApplicationBlock = () => {
+
+const SentApplication = () => {
   const { accessToken } = useAuth();
   const [applicationList, setApplicationList] = useState<
     UserSentApplicationProps[]
@@ -26,6 +29,15 @@ const UserApplicationBlock = () => {
     RecruitmentsProps[]
   >([]);
   const [filteredGroups, setFilteredGroups] = useState<GroupDetail[]>([]);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   // 사용자 지원서 목록 가져오기
   const getUserApplicationList = () => {
@@ -92,14 +104,31 @@ const UserApplicationBlock = () => {
       applications: groupApplications
     };
   });
+  const [selectedApplications, setSelectedApplications] = useState<
+    UserSentApplicationProps | undefined
+  >(undefined);
+
+  const handleGroupRecruitmentClick = (
+    applicationData: UserSentApplicationProps | undefined
+  ) => {
+    if (applicationData) {
+      setSelectedApplications(applicationData);
+      openModal();
+    }
+  };
 
   return (
-    <>
+    <Container>
+      <Header> 보낸 지원서 </Header>
       {combinedData.length === 0 ? (
-        <NoApplication> 지원한 단체가 없어요 😣 </NoApplication>
+        <NoDataContainer>보낸 지원서가 없어요 📭</NoDataContainer>
       ) : (
         combinedData.map(({ group, applications }) => (
-          <GroupRecruitmentContainer>
+          <GroupRecruitmentContainer
+            key={group.id}
+            onClick={() =>
+              handleGroupRecruitmentClick(applications[0].application)
+            }>
             <GroupApplicationComponent
               key={group.id}
               group={group}
@@ -109,22 +138,45 @@ const UserApplicationBlock = () => {
           </GroupRecruitmentContainer>
         ))
       )}
-    </>
+      {modalOpen && (
+        <SentApplicationModal
+          isOpen={modalOpen}
+          onClose={closeModal}
+          applications={selectedApplications}
+        />
+      )}
+    </Container>
   );
 };
 
-export default UserApplicationBlock;
+export default SentApplication;
 
-const NoApplication = styled.div`
+const Container = styled.div``;
+
+const Header = styled.div`
+  color: rgba(0, 0, 0, 0.7);
+  font-family: Gmarket Sans TTF;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-bottom: 3rem;
+`;
+
+const GroupRecruitmentContainer = styled.div`
+  padding: 0rem 0rem 2rem 0rem;
+`;
+
+const NoDataContainer = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 0.9rem;
   margin-top: 10rem;
-`;
-const GroupRecruitmentContainer = styled.div`
-  width: 38rem;
-
-  box-sizing: border-box;
-  padding: 0rem 0rem 2rem 0rem;
+  color: rgba(0, 0, 0, 0.7);
+  font-family: Gmarket Sans TTF;
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 `;

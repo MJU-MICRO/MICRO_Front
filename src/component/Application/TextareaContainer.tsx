@@ -7,13 +7,13 @@ import {
 import { TextareaContainerProps } from './ApplicationProps';
 import styled from 'styled-components';
 
-const TextareaContainer: React.FC<TextareaContainerProps> = ({
+const TextareaContainer = ({
   questions,
   setQuestions,
   answer,
   setAnswer,
   characterLimit
-}) => {
+}: TextareaContainerProps) => {
   const handleChange = (index: number, value: string) => {
     const newAnswer = [...answer];
     newAnswer[index] = value;

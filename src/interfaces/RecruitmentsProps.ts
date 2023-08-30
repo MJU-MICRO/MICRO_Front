@@ -1,4 +1,4 @@
-export interface RecruitmentData {
+export interface RecruitmentsProps {
   recruitmentId: number;
   startDateTime: string;
   endDateTime: string;
@@ -6,11 +6,11 @@ export interface RecruitmentData {
   description: string;
   content: string;
   applicationFields: string[];
-  activePeriod: string;
+  activePeriod: 'SEMESTER' | 'YEAR';
   recruitmentImageUrl: string[];
   captions: string[];
   activePlace: string;
-  questions: string[];
+  questions?: string[];
   characterLimit: number[];
   groupId: number;
   submit: boolean;

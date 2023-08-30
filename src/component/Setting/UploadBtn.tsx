@@ -14,14 +14,14 @@ const UploadBtn = ({
   division
 }: UploadBtnProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState('');
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string>('');
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
       onImageUpload(selectedFile);
-      const imageUrl = URL.createObjectURL(selectedFile); // Get the URL of the selected image
-      setUploadedImageUrl(imageUrl); // Update the state with the image URL
+      const imageUrl = URL.createObjectURL(selectedFile);
+      setUploadedImageUrl(imageUrl); // 업로드한 이미지 URL을 상태에 저장
     }
   };
 

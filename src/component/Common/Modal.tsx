@@ -82,7 +82,7 @@ const ModalDescription = styled.div`
   font-size: 0.7375rem;
   font-family: 'GmarketSansLight';
   font-weight: 300;
-  margin-bottom: 1.55rem;
+  margin-bottom: 1.5rem;
 `;
 
 const CloseButton = styled.button`
@@ -97,6 +97,11 @@ const CloseButton = styled.button`
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.01);
+    transition: all 0.3s ease-in-out;
+  }
 `;
 
 const CloseButtonImg = styled.img`

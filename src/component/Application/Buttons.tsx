@@ -3,7 +3,7 @@ import { ButtonsContainer } from './ApplicationStyles';
 import { ButtonsProps } from './ApplicationProps';
 import styled from 'styled-components';
 
-const Buttons: React.FC<ButtonsProps> = ({ save, submit }) => {
+const Buttons = ({ save, submit }: ButtonsProps) => {
   return (
     <ButtonsContainer>
       <SaveButton onClick={save}>임시저장</SaveButton>
@@ -30,10 +30,12 @@ const SaveButton = styled.button`
   &:hover {
     background-color: #04b404;
     color: #ffffff;
+    transition: all 0.2s ease-in-out;
   }
 
   &:active {
     color: #358e48;
+    transition: all 0.2s ease-in-out;
   }
 
   cursor: pointer;
@@ -57,8 +59,10 @@ const SubmitButton = styled.button`
   &:hover {
     background-color: #0080ff;
     color: #ffffff;
+    transition: all 0.2s ease-in-out;
   }
   &:active {
     color: #008fd5;
+    transition: all 0.2s ease-in-out;
   }
 `;

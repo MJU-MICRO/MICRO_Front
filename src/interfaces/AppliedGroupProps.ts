@@ -2,7 +2,7 @@ export interface AppliedGroupProps {
   id: number;
   userId: number;
   recruitmentId: number;
-  answers: string[]; // answers는 string 배열로 가정합니다.
+  answers: string[];
   passStatus: boolean;
   grade: string;
   supportField: string;

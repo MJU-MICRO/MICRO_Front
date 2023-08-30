@@ -52,6 +52,7 @@ const Container = styled.div`
 const InfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 `;
 
 const ImgWrapper = styled.div`

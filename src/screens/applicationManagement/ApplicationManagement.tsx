@@ -7,9 +7,9 @@ import temporary from '../../assets/temporary.svg';
 import CreceivedImg from '../../assets/Creceived.svg';
 import CtemporaryImg from '../../assets/Ctemporary.svg';
 import sent from '../../assets/sent.svg';
-import ReceivedApplication from 'component/ApplicationManagement/ReceivedApplication';
-import SentApplication from 'component/ApplicationManagement/SentApplication';
-import TemporaryApplication from 'component/ApplicationManagement/TemporaryApplication';
+import ReceivedApplication from 'component/ApplicationManagement/ReceivedApplication/ReceivedApplication';
+import SentApplication from 'component/ApplicationManagement/SentApplication/SentApplication';
+import TemporaryApplication from 'component/ApplicationManagement/TemporaryApplication/TemporaryApplication';
 
 const ApplicationManagement = () => {
   const [selectedMenu, setSelectedMenu] = useState('sent');

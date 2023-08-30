@@ -81,7 +81,7 @@ const DefaultSetting = ({ groupId }) => {
         </ImgSettingHeader>
         <ImgSettingContent>
           <UploadBtn
-            defaultProfileImg={img}
+            defaultProfileImg={groupData?.logoImageUrl || img}
             onImageUpload={handleImageUpload}
             division=''
           />

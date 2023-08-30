@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import UserProps from '../interfaces/UserProps';
 import { useNavigate } from 'react-router-dom';
+import { access } from 'fs';
 
 interface AuthContextProps {
   user: UserProps | null;
@@ -186,6 +187,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (accessToken) {
       getUserInfo();
+      axios
+        .get('https://nolmyong.com/api/admin/verify', {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        })
+        .then((response) => {
+          setIsAdmin(response.data.data); // 관리자 여부 설정
+        })
+        .catch((error) => {
+          console.log('Admin verification error', error);
+          setIsAdmin(false);
+        });
     } else {
       setLoading(false);
     }
