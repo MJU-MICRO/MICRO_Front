@@ -32,7 +32,11 @@ const OrganizationPostSetting = ({ groupId }: DefaultSettingProps) => {
   return (
     <Container>
       <Header>단체 모집 게시글</Header>
-      <Post recruitmentData={recruitmentData} />
+      {recruitmentData.length === 0 ? (
+        <NoData>나의 단체 모집 게시글이 없어요 😥</NoData>
+      ) : (
+        <Post recruitmentData={recruitmentData} />
+      )}
     </Container>
   );
 };
@@ -51,3 +55,16 @@ const Header = styled.div`
   margin-bottom: 2rem;
 `;
 const Status = styled.div``;
+const NoData = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10rem;
+  color: rgba(0, 0, 0, 0.7);
+  font-family: Gmarket Sans TTF;
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+`;

@@ -3,7 +3,7 @@ import ClubRecruitmentCard from '../../../component/recruitment/ClubRecruitmentC
 import { useAuth } from '../../../contexts/AuthContext';
 import { useApprovedGroups } from '../../../contexts/GroupContext';
 import { ApprovedGroup } from '../../../interfaces/ApprovedGroupProps';
-
+import userDefaultImg from '../../../assets/userDefaultImg.svg';
 import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { RecruitmentProps } from '../../recruitment/RecruitmentProps';
@@ -35,7 +35,10 @@ const ReceivedApplication = () => {
               key={group.id}
               onClick={() => setSelectedGroup(group)}
               isselected={selectedGroup === group}>
-              <img src={group.logoImageUrl} alt={group.groupName} />
+              <img
+                src={group.logoImageUrl || userDefaultImg}
+                alt={group.groupName}
+              />
               <Name>{group.groupName}</Name>
               <Division>{group.subCategory}</Division>
             </Group>

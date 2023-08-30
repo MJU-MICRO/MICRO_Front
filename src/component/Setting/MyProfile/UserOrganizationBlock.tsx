@@ -31,7 +31,7 @@ const UserOrganizationBlock = () => {
                 to={`/organizationSetting/${group.id}`}
                 key={group.id}>
                 <Group key={group.id}>
-                  <img src={img} alt='img' />
+                  <img src={group.logoImageUrl} alt='img' />
                   <GroupName>{group.groupName}</GroupName>
                 </Group>
               </StyledLink>

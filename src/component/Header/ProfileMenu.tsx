@@ -50,8 +50,8 @@ const ProfileMenu = () => {
         <img
           src={
             matchingGroup.logoImageUrl
-              ? userDefaultImg
-              : matchingGroup?.logoImageUrl
+              ? matchingGroup?.logoImageUrl
+              : userDefaultImg
           }
           alt='logoImageUrl'
         />
@@ -214,6 +214,9 @@ const ModalContainer = styled.div`
   cursor: pointer;
   padding: 2rem 10rem;
   img {
+    width: 10rem;
+    height: 10rem;
+    object-fit: contain;
     margin-bottom: 2rem;
   }
   &:hover {
