@@ -12,7 +12,7 @@ import ProfileMenu from './ProfileMenu';
 import logo from '../../assets/logo.svg';
 import LoginModalContent from './LoginModalContent';
 import PostModalContent from './PostModalContent';
-
+import userDefaultImg from '../../assets/userDefaultImg.svg';
 import MyOrganization from '../Setting/MyProfile/MyOrganization';
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -197,7 +197,7 @@ const Header = () => {
                 </li>
                 <li>
                   <Styled.UserProfileImg
-                    src={user.profileImageUrl}
+                    src={user?.profileImageUrl || userDefaultImg}
                     alt='profile'
                     onClick={toggleProfileMenu}
                   />

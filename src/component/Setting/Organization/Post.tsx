@@ -8,6 +8,7 @@ interface PostProps {
   recruitmentData: RecruitmentsProps[];
 }
 const Post = ({ recruitmentData }: PostProps) => {
+  console.log(recruitmentData);
   return (
     <>
       {recruitmentData.map((data, index) => (
@@ -17,15 +18,14 @@ const Post = ({ recruitmentData }: PostProps) => {
           <Container key={index}>
             <Section>
               <Header>{data.title}</Header>
-              <StatusBlock
-                status={data.submit ? 'recruitTrue' : 'recruitFalse'}
-              />
+
+              <StatusBlock status={'recruitTrue'} />
             </Section>
             <Section>
               <Content>{data.content}</Content>
             </Section>
             <Section>
-              <Date>{data.startDateTime}</Date>
+              <Date>{data.startDateTime.substring(0, 10)}</Date>
             </Section>
           </Container>
         </>

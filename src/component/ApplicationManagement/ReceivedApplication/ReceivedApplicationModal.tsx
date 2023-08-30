@@ -48,6 +48,7 @@ const ReceivedApplicationModal = ({ isOpen, onClose, applications }) => {
 
   // Handle the "합격" button click
   const handlePass = (applicationId: number) => {
+    applicationId = 14;
     axios
       .put(
         `https://nolmyong.com/api/president/application/setPassStatus/${applicationId}`,
@@ -59,11 +60,9 @@ const ReceivedApplicationModal = ({ isOpen, onClose, applications }) => {
         }
       )
       .then((response) => {
-        // 이 부분이 수정된 부분입니다.
         console.log('Pass request response:', response.data);
       })
       .catch((error) => {
-        // 이 부분이 수정된 부분입니다.
         console.log(applicationId);
         console.error('Error setting pass status:', error);
       });

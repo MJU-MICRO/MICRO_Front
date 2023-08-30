@@ -10,6 +10,7 @@ import Admin from '../../assets/Header/admin.svg';
 import Modal from 'component/Common/Modal';
 import { useApprovedGroups } from 'contexts/GroupContext';
 import { ApprovedGroup } from 'interfaces/ApprovedGroupProps';
+import userDefaultImg from '../../assets/userDefaultImg.svg';
 
 const ProfileMenu = () => {
   const [isOrganizationModalOpen, setIsOrganizationModalOpen] = useState(false);
@@ -46,7 +47,14 @@ const ProfileMenu = () => {
 
     const children = matchingGroup ? (
       <ModalContainer onClick={handleContainerClick}>
-        <img src={matchingGroup?.logoImageUrl} alt='groupLogo' />
+        <img
+          src={
+            matchingGroup.logoImageUrl
+              ? userDefaultImg
+              : matchingGroup?.logoImageUrl
+          }
+          alt='logoImageUrl'
+        />
         <div>{matchingGroup?.groupName}</div>
       </ModalContainer>
     ) : (
@@ -202,11 +210,15 @@ const ModalContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: fit-content;
   cursor: pointer;
   padding: 2rem 10rem;
   img {
-    margin-top: 2rem;
     margin-bottom: 2rem;
+  }
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    transform: all 0.3s ease-in-out;
   }
 `;
 
