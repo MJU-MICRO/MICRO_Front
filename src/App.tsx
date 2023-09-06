@@ -13,9 +13,9 @@ import CreateOrganizationFirst from './screens/Organization/CreateOrganizationFi
 import CreateRecruitmentFirst from './screens/Recruitment/CreateRecruitmentFirst';
 import CreateOrganizationSecond from './screens/Organization/CreateOrganizationSecond';
 import Setting from './screens/UserSetting/User/UserSetting';
-import ApplicationManagement from './screens/ApplicationManagement/ApplicationManagement';
+import ApplicationManagement from './screens/applicationManagement/ApplicationManagement';
 import MyProfile from './screens/UserSetting/User/MyProfile';
-import OrganizationSetting from './screens/UserSetting/Organization/OrganizationSetting';
+import OrganizationSetting from './screens/UserSetting/organization/OrganizationSetting';
 import { AuthProvider } from './contexts/AuthContext';
 import { ApprovedGroupsProvider } from './contexts/GroupContext';
 import CreateRecruitmentSecond from './screens/Recruitment/CreateRecruitmentSecond';
