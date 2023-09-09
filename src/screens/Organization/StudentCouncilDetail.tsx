@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
-import img from '../../assets/img.svg';
 import { OrganizationProps } from '../../component/Organization/OrganizationProps';
-import StudentCouncilRecruitmentCard from '../../component/recruitment/StudentCouncilRecruitmentCard';
-import ClubRecruitmentCard from '../../component/recruitment/ClubRecruitmentCard';
 import { RecruitmentProps } from '../../component/recruitment/RecruitmentProps';
 import RecruitmentModal from '../Recruitment/RecruitmentModal';
 import downArrow from '../../assets/downArrow.svg';
@@ -14,6 +11,8 @@ import defaultHeart from '../../assets/defaultHeart.svg';
 import FillHeart from '../../assets/FillHeart.svg';
 import Default_img from '../../assets/userDefaultImg.svg';
 import Swal from 'sweetalert2';
+import ClubRecruitmentCard2 from '../../component/recruitment/ClubRecruitmentCard2';
+import StudentCouncilRecruitmentCard2 from '../../component/recruitment/StudentCouncilRecruitmentCard2';
 function StudentCouncilDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -225,12 +224,12 @@ function StudentCouncilDetail() {
               onClick={() => openModal()}>
               {recruitmentData ? (
                 studentCouncilData.largeCategory === '학생단체' ? (
-                  <StudentCouncilRecruitmentCard
+                  <StudentCouncilRecruitmentCard2
                     {...studentCouncilData}
                     recruitment={recruitmentData}
                   />
                 ) : (
-                  <ClubRecruitmentCard
+                  <ClubRecruitmentCard2
                     {...studentCouncilData}
                     recruitment={recruitmentData}
                   />

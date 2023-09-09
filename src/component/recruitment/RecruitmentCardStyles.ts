@@ -104,7 +104,7 @@ export const Title = styled.div`
 export const Details = styled.div`
   text-align: left;
   vertical-align: middle;
-  font-size: 14px;
+  font-size: 12px;
   font-family: 'GmarketSansLight';
   line-height: auto;
   color: #000000;
@@ -169,7 +169,7 @@ export const InterestTag = styled.span`
 export const Wrapper = styled.div`
   display: flex;
   justify-content: flex-start;
-  width: 460px;
+  width: 340px;
 `;
 
 export const UpWrapper = styled.div`
@@ -179,7 +179,7 @@ export const UpWrapper = styled.div`
 
 export const BorderLine = styled.hr`
   stroke-width: 2px;
-  width: 555px;
+  width: 430px;
   flex-shrink: 0;
   margin-left: 17px;
   margin-right: 8px;

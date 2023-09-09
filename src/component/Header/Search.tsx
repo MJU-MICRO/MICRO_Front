@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import searchIcon from '../../assets/search.svg';
 
 type searchType = {

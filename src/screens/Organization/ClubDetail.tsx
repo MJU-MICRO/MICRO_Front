@@ -5,8 +5,8 @@ import styled from 'styled-components';
 import img from '../../assets/img.svg';
 import { OrganizationProps } from '../../component/Organization/OrganizationProps';
 import { RecruitmentProps } from '../../component/recruitment/RecruitmentProps';
-import StudentCouncilRecruitmentCard from '../../component/recruitment/StudentCouncilRecruitmentCard';
-import ClubRecruitmentCard from '../../component/recruitment/ClubRecruitmentCard';
+import StudentCouncilRecruitmentCard2 from '../../component/recruitment/StudentCouncilRecruitmentCard2';
+import ClubRecruitmentCard2 from '../../component/recruitment/ClubRecruitmentCard2';
 import RecruitmentModal from '../Recruitment/RecruitmentModal';
 import downArrow from '../../assets/downArrow.svg';
 import UpArrow from '../../assets/UpArrow.svg';
@@ -216,12 +216,12 @@ function ClubDetail() {
             <CardContainer key={clubData.id} onClick={() => openModal()}>
               {recruitmentData ? (
                 clubData.largeCategory === '학생단체' ? (
-                  <StudentCouncilRecruitmentCard
+                  <StudentCouncilRecruitmentCard2
                     {...clubData}
                     recruitment={recruitmentData}
                   />
                 ) : (
-                  <ClubRecruitmentCard
+                  <ClubRecruitmentCard2
                     {...clubData}
                     recruitment={recruitmentData}
                   />

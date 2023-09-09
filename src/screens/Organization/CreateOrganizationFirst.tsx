@@ -11,7 +11,6 @@ import SelectMemberCount from '../../component/Organization/apply/SelectMemberCo
 import {
   BasicInfoAsterisk,
   BorderLine,
-  SaveButton,
   SmallTitle,
   Title,
   BasicInput,

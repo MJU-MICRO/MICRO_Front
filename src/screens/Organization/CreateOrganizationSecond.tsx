@@ -7,8 +7,7 @@ import {
   Title,
   SmallTitle,
   Next,
-  Level,
-  SaveButton
+  Level
 } from '../../component/Organization/apply/ApplyCommonStyle';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';

@@ -7,7 +7,6 @@ import {
   BasicInfoLabel,
   BasicInfoText,
   BasicInput,
-  BasicInfoSelect,
   BasicInfoAsterisk
 } from '../../Application/ApplicationStyles';
 

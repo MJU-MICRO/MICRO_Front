@@ -5,27 +5,19 @@ import check_box from '../../assets/check-box.svg';
 import level_one from '../../assets/level-one.svg';
 import level_two from '../../assets/level-two.svg';
 import arrow from '../../assets/arrow.svg';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import img from '../../assets/img.svg';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useDropzone } from 'react-dropzone';
 import {
   RecruitmentContainer,
-  LogoImage,
-  InfoContainer,
   TextContainer,
-  GroupName,
   BasicNoticeTitle,
   BasicNoticeText,
   RedAsterisk,
-  GroupLargeCategory,
-  GroupCategories,
-  CategoriesContainer,
   GroupContainer,
-  GroupIntroduce,
   FormContainer,
   TitleInput,
-  ContentInput,
   FieldContainer,
   ApplicationField,
   FieldInput,

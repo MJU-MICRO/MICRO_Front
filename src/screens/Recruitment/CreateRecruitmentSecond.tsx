@@ -6,7 +6,6 @@ import level_two_2 from '../../assets/level_two_2.svg';
 import recycleBin from '../../assets/recycleBin.svg';
 import box from '../../assets/box.svg';
 import {
-  RecruitmentContainer,
   RecruitmentContainer2,
   TextContainer,
   BasicNoticeTitle,
@@ -14,14 +13,10 @@ import {
   QustionContainer,
   InnerContainer,
   QuestionTitleInput,
-  QuestionSelect,
-  QuestionTitle,
-  RedAsterisk,
   QuestionAddBtn
 } from '../../component/CreateRecruitment/CreateRecruitmentStyles';
 import SelectCount from '../../component/Organization/apply/SelectCount';
 import { Link, useLocation } from 'react-router-dom';
-import { OrganizationProps } from '../../component/Organization/OrganizationProps';
 import axios from 'axios';
 import { RecruitmentProps } from '../../component/recruitment/RecruitmentProps';
 import Swal from 'sweetalert2';

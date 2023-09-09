@@ -3,13 +3,12 @@ import AuthoritySetting from 'component/Setting/Organization/AuthoritySetting';
 import DefaultSetting from 'component/Setting/Organization/DefaultSetting';
 import PostSetting from 'component/Setting/Organization/PostSetting';
 import React, { useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 const OrganizationSetting = () => {
   const [activeMenuItem, setActiveMenuItem] = useState('defaultSetting');
   const { groupId } = useParams();
-  const location = useLocation();
 
   const handleMenuItemClick = (menuItem: string) => {
     setActiveMenuItem(menuItem);

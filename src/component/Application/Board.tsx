@@ -10,11 +10,11 @@ import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
-interface BoardProps {
-  recruitmentId: number;
-}
-
-const Board: React.FC<BoardProps> = ({ recruitmentId }) => {
+const Board: React.FC = () => {
+  const recruitmentIdString = localStorage.getItem('recruitmentId');
+  const recruitmentId = recruitmentIdString
+    ? parseInt(recruitmentIdString, 10)
+    : null;
   const [user, setUser] = useState({
     name: '',
     studentId: '',
@@ -48,6 +48,7 @@ const Board: React.FC<BoardProps> = ({ recruitmentId }) => {
         console.log(response);
         if (response.data.data) {
           setRecruitmentDatalist(response.data.data);
+          console.log(recruitmentId);
         } else {
           console.error('Recruitment data not available:', response.data);
         }

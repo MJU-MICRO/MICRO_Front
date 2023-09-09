@@ -22,7 +22,6 @@ import CreateRecruitmentSecond from './screens/Recruitment/CreateRecruitmentSeco
 import Application from 'screens/Application/Application';
 import ScrollToTop from 'component/Common/ScrollToTop';
 import AdminOrganization from 'screens/Admin/AdminOrganization';
-import { useState } from 'react';
 
 const App = () => {
   return (

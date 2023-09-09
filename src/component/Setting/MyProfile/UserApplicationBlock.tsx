@@ -3,13 +3,11 @@ import GroupApplicationComponent from 'component/ApplicationManagement/GroupAppl
 import { fetchGroups } from 'component/ApplicationManagement/Util/GroupUtil';
 import { fetchFilteredRecruitments } from 'component/ApplicationManagement/Util/RecruitmentUtil';
 import { useAuth } from 'contexts/AuthContext';
-import AppliedGroupProps from 'interfaces/AppliedGroupProps';
 import { GroupDetail } from 'interfaces/GroupDetailProps';
 import { RecruitmentsProps } from 'interfaces/RecruitmentsProps';
 import { UserSentApplicationProps } from 'interfaces/UserSentApplicationProps';
 import React, { useEffect, useState } from 'react';
-import { styled } from 'styled-components';
-import GroupComponent from './GroupComponent';
+import styled from 'styled-components';
 interface GroupApplicationData {
   group: GroupDetail;
   applications: {

@@ -470,7 +470,7 @@ interface StyledNavLinkProps extends NavLinkProps {
 const StyledNavLink = styled(NavLink).attrs<StyledNavLinkProps>((props) => ({
   activeClassName: 'active-link',
   isActive: props.isActive
-}))`
+}))<StyledNavLinkProps>`
   color: ${(props) => (props.isActive ? '#000000' : 'rgba(0, 0, 0, 0.3)')};
   font-size: 20px;
   font-style: normal;

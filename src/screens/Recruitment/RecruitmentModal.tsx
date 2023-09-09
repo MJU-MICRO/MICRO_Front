@@ -20,7 +20,6 @@ import ModalIntroductionClub from '../../component/recruitment/Modal/ModalIntrod
 import scrollbar from '../../assets/scrollBar.svg';
 import ImgCarousel from '../../component/recruitment/Modal/ImgCarousel';
 import styled from 'styled-components';
-import { Link, useParams } from 'react-router-dom';
 import { RecruitmentProps } from '../../component/recruitment/RecruitmentProps';
 import { OrganizationProps } from '../../component/Organization/OrganizationProps';
 import axios from 'axios';
@@ -137,6 +136,11 @@ const RecruitmentModal = ({
       console.log(groupName);
       if (groupName !== undefined) {
         localStorage.setItem('groupName', groupName);
+        console.log(recruitmentData?.recruitmentId);
+        localStorage.setItem(
+          'recruitmentId',
+          recruitmentData?.recruitmentId?.toString() || ''
+        );
       }
     }
   }, [selectedRecruitmentId, recruitmentDatalist]);

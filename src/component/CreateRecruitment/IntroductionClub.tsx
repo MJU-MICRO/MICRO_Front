@@ -3,12 +3,10 @@ import {
   CardContainer,
   LogoImage,
   CardInfo,
-  ActivePeriod,
   Details,
   InterestTag,
   Wrapper,
   UpWrapper,
-  BorderLine,
   Large,
   SecondWrapper,
   OrganizationName

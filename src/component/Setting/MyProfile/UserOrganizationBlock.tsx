@@ -2,7 +2,7 @@ import { useAuth } from 'contexts/AuthContext';
 import { useApprovedGroups } from 'contexts/GroupContext';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import img from '../../../assets/img.svg';
 
 const UserOrganizationBlock = () => {

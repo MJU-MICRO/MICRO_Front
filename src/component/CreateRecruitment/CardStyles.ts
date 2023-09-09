@@ -104,12 +104,13 @@ export const Title = styled.div`
 export const Details = styled.div`
   text-align: left;
   vertical-align: middle;
-  font-size: 14px;
+  font-size: 13px;
   font-family: 'GmarketSansLight';
   line-height: auto;
   color: #000000;
   margin-right: 13px;
   margin-top: 17px;
+  width: 380px;
 `;
 
 interface StatusProps {

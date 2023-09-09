@@ -1,19 +1,18 @@
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../../component/SideBar';
-import { Link } from 'react-router-dom';
 import '../../App.css';
 import plus_Icon from '../../assets/plus-icon2.svg';
 import { OrganizationProps } from '../../component/Organization/OrganizationProps';
 import { RecruitmentProps } from '../../component/recruitment/RecruitmentProps';
-import StudentCouncilRecruitmentCard from '../../component/recruitment/StudentCouncilRecruitmentCard';
-import ClubRecruitmentCard from '../../component/recruitment/ClubRecruitmentCard';
 import RecruitmentModal from './RecruitmentModal';
 import axios from 'axios';
 import Modal from '../../component/Common/Modal';
 import * as Styled from '../../component/Header/HeaderStyles';
 import MyOrganization from '../../component/Setting/MyProfile/MyOrganization';
 import Swal from 'sweetalert2';
+import ClubRecruitmentCard2 from '../../component/recruitment/ClubRecruitmentCard2';
+import StudentCouncilRecruitmentCard2 from '../../component/recruitment/StudentCouncilRecruitmentCard2';
 
 const RecruitmentList = () => {
   const [recruitmentData, setRecruitmentData] = useState<RecruitmentProps[]>(
@@ -170,12 +169,12 @@ const RecruitmentList = () => {
                     openModal(matchingRecruitment.recruitmentId, club.id)
                   }>
                   {club.largeCategory === '학생단체' ? (
-                    <StudentCouncilRecruitmentCard
+                    <StudentCouncilRecruitmentCard2
                       {...club}
                       recruitment={matchingRecruitment}
                     />
                   ) : (
-                    <ClubRecruitmentCard
+                    <ClubRecruitmentCard2
                       {...club}
                       recruitment={matchingRecruitment}
                     />
